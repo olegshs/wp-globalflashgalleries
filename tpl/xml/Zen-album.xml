@@ -1,0 +1,5 @@
+
+		<album icon="{icon}" description="{description}">
+			<items>{items}
+			</items>
+		</album>

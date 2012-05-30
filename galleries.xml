@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<galleries>
+	<gallery name="3dSlideshow" src="3dSlideshow.swf">
+		<title>3D Slideshow</title>
+		<description>Create a 3D-slideshow. The original look of the gallery and its perfect 3D-transition effects will definetily attract the visitors of your website. This gallery is absolutely suitable for being placed inside the text as a promo board.</description>
+		<preview src="3dSlideshow.png" />
+		<demo href="http://flash-gallery.com/wordpress-plugin/3d-gallery/" />
+	</gallery>
+	<gallery name="3dWall" src="3dWall.swf">
+		<title>3D Wall Gallery</title>
+		<description>Using this gallery you have possibility to present your favourite photos in the non-standard way as though they have been placed on art gallery walls.</description>
+		<preview src="3dWall.png" />
+		<demo href="http://flash-gallery.com/wordpress-plugin/3d-wall-photo-gallery/" />
+	</gallery>
+	<gallery name="Art" src="Art.swf">
+		<title>Art Gallery</title>
+		<description>Art Photo Gallery organically blends with any design thanks to flexible appearance settings. You can publish any photos and images on your site in a matter of minutes using gallery.</description>
+		<preview src="Art.png" />
+		<demo href="http://flash-gallery.com/wordpress-plugin/art-photo-gallery/" />
+	</gallery>
+	<gallery name="Box" src="Box.swf">
+		<title>Box Gallery</title>
+		<description>A natural and compact way to present your photos online. Use the usable table structure of thumbnails for navigating through your online flash album.</description>
+		<preview src="Box.png" />
+		<demo href="http://flash-gallery.com/wordpress-plugin/box-photo-gallery/" />
+	</gallery>
+	<gallery name="Cubic" src="Cubic.swf">
+		<title>Cubic Gallery</title>
+		<description>Cubic Gallery with its extraordinary and refined design will bring an element of 3D to your website. Rotating cube will make viewing photos more interesting and exciting.</description>
+		<preview src="Cubic.png" />
+		<demo href="http://flash-gallery.com/wordpress-plugin/cubic-photo-gallery/" />
+	</gallery>
+	<gallery name="Line" src="Line.swf">
+		<title>Line Gallery</title>
+		<description>A simple and compact flash gallery. The best solution for displaying your products, portfolios and services along with links to the detailed information.</description>
+		<preview src="Line.png" />
+		<demo href="http://flash-gallery.com/wordpress-plugin/line-flash-gallery/" />
+	</gallery>
+	<gallery name="PhotoFlow" src="PhotoFlow.swf">
+		<title>PhotoFlow Gallery</title>
+		<description>Use the famous streamline photo flow effect on your website. This effect is well known because of the cover flow gallery switching from iTunes.</description>
+		<preview src="PhotoFlow.png" />
+		<demo href="http://flash-gallery.com/wordpress-plugin/photoflow-flash-gallery/" />
+	</gallery>
+	<gallery name="Promo" src="Promo.swf">
+		<title>Promo Gallery</title>
+		<description>Easy-to-use photo gallery intended for displaying a range of your products or sequential promo materials.</description>
+		<preview src="Promo.png" />
+		<demo href="http://flash-gallery.com/wordpress-plugin/promo-flash-gallery/" />
+	</gallery>
+	<gallery name="StackPhoto" src="StackPhoto.swf">
+		<title>Stack Gallery</title>
+		<description>Get natural looking tool emulating a set of photos for your website. No unnecessary options. Just take and use.</description>
+		<preview src="StackPhoto.png" />
+		<demo href="http://flash-gallery.com/wordpress-plugin/stack-photo-gallery/" />
+	</gallery>
+	<gallery name="Zen" src="Zen.swf">
+		<title>Zen Gallery</title>
+		<description>Zen Photo Gallery author's design and smart usability make it the most elegant way to present your media content.</description>
+		<preview src="Zen.png" />
+		<demo href="http://flash-gallery.com/wordpress-plugin/zen-flash-gallery/" />
+	</gallery>
+</galleries>

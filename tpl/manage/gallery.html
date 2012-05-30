@@ -1,0 +1,86 @@
+<div class="gallery postbox" id="gallery-{id}">
+	<div class="handlediv" title=""><br /></div>
+	<h3 class="hndle" style="cursor:pointer;"><span>{name}</span></h3>
+	<div class="inside" id="inside-gallery-{id}">
+		<div class="brief" style="background:#eee url({pluginURL}/img/galleries/{galleryInfo.preview}) no-repeat left 15px;">
+			<div class="controls">
+				<div class="publish"><input type="button" class="button-primary button" value="Publish" onclick="jQuery('#publishDialog-{id}').dialog('open'); return false;" /></div>
+				<div class="popup"><input type="button" class="button" value="Preview" onclick="{popupJS}" /></div>
+				<div class="options">{options}</div>
+				<div class="delete">{deleteGallery}</div>
+			</div>
+			
+			<div class="info">
+				<div>ID: <strong>{id}</strong></div>
+				<div>Type: <strong>{typeTitle}</strong></div>
+				<div>Author: <strong>{authorName}</strong></div>
+				<div>Created: <strong>{created}</strong></div>
+				<div>Modified: <strong>{modified}</strong></div>
+			</div>
+
+			<div class="show-pictures" style="font-size:16px;"><a href="{href}&amp;gallery_id={id}&amp;imgs=1#gallery-{id}" title="Upload, Edit, View">Pictures</a></div>
+		</div>
+		
+		<div class="full"{FALSE full} style="display:none;"{/FALSE}>
+			<div class="album">
+				<form class="arrange-pictures" action="{href}&amp;imgs=1#gallery-{id}" method="post"{FALSE moreThanOneItem} style="visibility:hidden;"{/FALSE}>
+					<input type="hidden" name="action" value="arrangeGallery" />
+					<input type="hidden" name="gallery_id" value="{id}" />
+					<label for="arrangeOrder-{id}">Arrange by Title</label>
+					<select id="arrangeOrder-{id}" name="order">
+						<option value="asc">A-Z</option>
+						<option value="desc">Z-A</option>
+					</select>
+					<input type="submit" class="button" value="OK" />
+				</form>
+			
+				<div class="images">
+					<div class="preview"><div class="image add before" style="background-image:url({pluginURL}/img/add-image.gif);">
+						<form class="uploadImage" id="uploadImageForm_{id}" action="{href}&amp;imgs=1#gallery-{id}" method="post" enctype="multipart/form-data" style="margin:1em 0; text-align:center;">
+							<input type="hidden" name="action" value="uploadImage" />
+							<input type="hidden" name="gallery_id" value="{id}" />
+							<input type="hidden" name="album_id" value="0" />
+							<input type="hidden" name="to" value="top" />
+							<input type="button" class="button" value="+ Upload Image" style="display:none;" />
+							<div>
+								<label for="uploadImage_{id}">Add Pictures</label><br />
+								<input type="file" class="inFile" id="uploadImage-{id}" name="image" title="Select Image File" />
+								<input type="submit" class="submit button" name="OK" value="Upload" />
+							</div>
+						</form>
+					</div></div>
+
+					<div class="items" style="position:relative;">{images}</div>
+{TRUE hasItems}
+					<div class="preview"><div class="image add after" style="background-image:url({pluginURL}/img/add-image-after.gif);">
+						<form class="uploadImage" id="uploadImageForm2_{id}" action="{href}&amp;imgs=1#gallery-{id}" method="post" enctype="multipart/form-data" style="margin:1em 0; text-align:center;">
+							<input type="hidden" name="action" value="uploadImage" />
+							<input type="hidden" name="gallery_id" value="{id}" />
+							<input type="hidden" name="album_id" value="0" />
+							<input type="hidden" name="to" value="bottom" />
+							<input type="button" class="button" value="+ Upload Image" style="display:none;" />
+							<div>
+								<label for="uploadImage_{id}">Add Pictures</label><br />
+								<input type="file" class="inFile" id="uploadImage-{id}" name="image" title="Select Image File" />
+								<input type="submit" class="submit button" name="OK" value="Upload" />
+							</div>
+						</form>
+					</div></div>
+{/TRUE}
+					<div class="clear"></div>
+				</div>
+			</div>
+		</div>
+
+		<div><a class="toggle button" href="{href}&amp;gallery_id={id}&amp;imgs=1#gallery-{id}" title="Show Pictures"><span></span></a></div>
+	</div>
+	<div class="publishDialog" id="publishDialog-{id}" style="display:none; padding:1.5em 1.1em 0;">
+		<label for="publishCode-{id}">Insert this code into the post:</label>
+		<textarea id="publishCode-{id}" cols="40" rows="3" readonly="readonly" style="display:block; width:95%; margin:0.33em 0;" onclick="this.select();">[flgallery id={id} /]</textarea>
+		<div style="margin:1em 0;"><a href="press-this.php?t={url_title}&amp;s=%5Bflgallery+id%3D{id}+%2F%5D" onclick="var i=0;window.open(this.href,'press-this','width=705,height=455,left='+(screen.availWidth-705)/2+',top='+(screen.availHeight-455)/2).onunload=function(){if(i++)jQuery('#publishDialog-{id}').dialog('close');};return false;">Add New Post</a></div>
+		<div style="font-size:11px; margin: 0.5em 0;">
+			To embed the gallery into PHP template:<br />
+			<code>&lt;?php echo do_shortcode("[flgallery id={id} /]"); ?&gt;</code>
+		</div>
+	</div>
+</div>

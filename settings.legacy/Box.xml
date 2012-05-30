@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<settings>
+	<group name="image">
+		<title>Image</title>
+		<description>Image settings</description>
+		<items>
+			<param name="scaleMode" default="fit">
+				<title>Scale Mode</title>
+				<description>Type of image scaling to the size of the visible area</description>
+				<input type="select">
+					<option value="fit">fit</option>
+					<option value="fill">fill</option>
+					<option value="noScale">noScale</option>
+				</input>
+			</param>
+		</items>
+	</group>
+	<group name="thumbnail">
+		<title>Thumbnail</title>
+		<description>Thumbnail settings</description>
+		<items>
+			<param name="width" default="120">
+				<title>Width</title>
+				<description>Thumbnail width</description>
+				<input type="int" />
+			</param>
+			<param name="height" default="100">
+				<title>Height</title>
+				<description>Thumbnail height</description>
+				<input type="int" />
+			</param>
+			<param name="alpha" default="80">
+				<title>Alpha</title>
+				<description>Thumbnail transparency</description>
+				<input type="slider" min="0" max="100" />
+			</param>
+		</items>
+	</group>
+	<group name="colorScheme">
+		<title>Color Scheme</title>
+		<description>Color scheme settings</description>
+		<items>
+			<param name="thumbsFrameColor" default="ffffff">
+				<title>Thumbs Frame</title>
+				<description>Thumbnail bar frame color</description>
+				<input type="color" />
+			</param>
+			<param name="imageBGColor" default="000000">
+				<title>Image Background</title>
+				<description>Background color of images</description>
+				<input type="color" />
+			</param>
+			<param name="thumbsArrowsColor" default="000000">
+				<title>Thumbs Arrows</title>
+				<description>Arrows color of thumbnails</description>
+				<input type="color" />
+			</param>
+			<param name="imageArrowsColor" default="ffffff">
+				<title>Image Arrows</title>
+				<description>Arrows color of images</description>
+				<input type="color" />
+			</param>
+			<param name="useShadow" default="true">
+				<title>Use Shadow</title>
+				<description>Show/hide shadow</description>
+				<input type="checkbox" value="true|false" />
+			</param>
+		</items>
+	</group>
+	<group name="imageCaption">
+		<title>Image Caption</title>
+		<description>Image caption settings</description>
+		<items>
+			<param name="visibleMode" default="onRollOver">
+				<title>Visible Mode</title>
+				<description>Defines when to show an image caption</description>
+				<input type="select">
+					<option value="always">always</option>
+					<option value="onRollOver">onRollOver</option>
+					<option value="never">never</option>
+				</input>
+			</param>
+			<param name="position" default="bottom">
+				<title>Position</title>
+				<description>Position of image captions</description>
+				<input type="select">
+					<option value="top">top</option>
+					<option value="bottom">bottom</option>
+				</input>
+			</param>
+			<param name="fontName" default="Verdana">
+				<title>Font Name</title>
+				<description>Font of image captions</description>
+				<input type="font" />
+			</param>
+			<param name="fontSize" default="12">
+				<title>Font Size</title>
+				<description>Font size of image captions</description>
+				<input type="int" />
+			</param>
+			<param name="color" default="ffffff">
+				<title>Color</title>
+				<description>Color of image captions</description>
+				<input type="color" />
+			</param>
+			<param name="bgColor" default="000000">
+				<title>Background Color</title>
+				<description>Background color of captions</description>
+				<input type="color" />
+			</param>
+			<param name="bgAlpha" default="40">
+				<title>Background Alpha</title>
+				<description>Background transparency of captions</description>
+				<input type="slider" min="0" max="100" />
+			</param>
+		</items>
+	</group>
+	<group name="thumbCaption">
+		<title>Thumbnail Caption</title>
+		<description>Thumbnail caption settings</description>
+		<items>
+			<param name="visibleMode" default="never">
+				<title>Visible Mode</title>
+				<description>Defines when to show an image caption</description>
+				<input type="select">
+					<option value="onRollOver">onRollOver</option>
+					<option value="never">never</option>
+				</input>
+			</param>
+			<param name="fontName" default="Arial">
+				<title>Font Name</title>
+				<description>Font of image captions</description>
+				<input type="font" />
+			</param>
+			<param name="fontSize" default="9">
+				<title>Font Size</title>
+				<description>Font size of image captions</description>
+				<input type="int" />
+			</param>
+			<param name="color" default="ffffff">
+				<title>Color</title>
+				<description>Color of image captions</description>
+				<input type="color" />
+			</param>
+			<param name="bgColor" default="000000">
+				<title>Background Color</title>
+				<description>Background color of captions</description>
+				<input type="color" />
+			</param>
+			<param name="bgAlpha" default="70">
+				<title>Background Alpha</title>
+				<description>Background transparency of captions</description>
+				<input type="slider" min="0" max="100" />
+			</param>
+		</items>
+	</group>
+	<group name="sounds">
+		<title>Sounds</title>
+		<description>Sound settings</description>
+		<items>
+			<param name="onRollOver" default="">
+				<title>On Roll Over</title>
+				<description>Sound heard when the mouse pointer is rolled over a thumbnail</description>
+				<input type="sound" />
+			</param>
+			<param name="onClick" default="">
+				<title>On Click</title>
+				<description>Thumbnail click sound</description>
+				<input type="sound" />
+			</param>
+		</items>
+	</group>
+	<param name="flickr" default="">
+		<title>flickr</title>
+		<description>Using images from flickr.com</description>
+		<input type="text" />
+	</param>
+	<group name="picasa">
+		<title>picasa</title>
+		<description>Using images from picasa.com</description>
+		<items>
+			<param name="user" default="">
+				<title>User</title>
+				<description>Login</description>
+				<input type="text" />
+			</param>
+			<param name="albumID" default="">
+				<title>Album ID</title>
+				<description></description>
+				<input type="text" />
+			</param>
+		</items>
+	</group>
+</settings>

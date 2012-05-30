@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<gallery>
+	<galleryName>3D Gallery</galleryName>
+	<settings>
+		<slideshowDelay>{slideshowDelay}</slideshowDelay>
+		<cameraZoom>{cameraZoom}</cameraZoom>
+		<position
+			xAngle="{position.xAngle}"
+			yAngle="{position.yAngle}"
+		/>
+		<transition
+			effect="{transition.effect}"
+			duration="{transition.duration}"
+			columns="{transition.columns}"
+			lines="{transition.lines}"
+			withDelay="{transition.withDelay}"
+			rotationDirection="{transition.rotationDirection}"
+		/>
+		<plate
+			color="0x{plate.color}"
+			sideColor="0x{plate.sideColor}"
+			sideThickness="{plate.sideThickness}"
+			useShadow="{plate.useShadow}"
+			shadowAlpha="{plate.shadowAlpha}"
+		/>
+		<caption
+			fontName="{caption.fontName}"
+			fontSize="{caption.fontSize}"
+			textColor="0x{caption.textColor}"
+			bgColor="0x{caption.bgColor}"
+			bgAlpha="{caption.bgAlpha}"
+			frameColor="0x{caption.frameColor}"
+			frameAlpha="{caption.frameAlpha}"
+		/>
+		<picasa
+			user="{picasa.user}"
+			albumID="{picasa.albumID}"
+		/>
+		<flickr
+			userID="{flickr.userID}"
+			photosetID="{flickr.photosetID}"
+			tags="{flickr.tags}"
+		/>
+		<loader>{loader}</loader>
+	</settings>
+	<items>{items}
+	</items>
+</gallery>

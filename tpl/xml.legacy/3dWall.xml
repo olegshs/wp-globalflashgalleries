@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<gallery>
+	<galleryName>3D Wall Gallery</galleryName>
+	<settings>
+		<colorScheme>{colorScheme}</colorScheme>
+		<visibleMatrix
+			rows="{visibleMatrix.rows}"
+		/>
+		<zoom>{zoom}</zoom>
+		<scrollSpeed>0.{scrollSpeed}</scrollSpeed>
+		<showReflections>{showReflections}</showReflections>
+		<reflectionAlpha>{reflectionAlpha}</reflectionAlpha>
+		<useHighlight>{useHighlight}</useHighlight>
+		<background
+			bgColor="0x{background.bgColor}"
+			bgImage="{background.bgImage}"
+			bgAlpha="{background.bgAlpha}"
+		/>
+		<thumbnail
+			width="{thumbnail.width}"
+			height="{thumbnail.height}"
+			distance="{thumbnail.distance}"
+		/>
+		<image
+			scaleMode="{image.scaleMode}"
+			bgColor="0x{image.bgColor}"
+			bgAlpha="{image.bgAlpha}"
+			thumbProportion="{image.thumbProportion}"
+		/>
+		<imageCaption
+			position="{imageCaption.position}"
+			color="0x{imageCaption.color}"
+			bgColor="0x{imageCaption.bgColor}"
+			bgAlpha="{imageCaption.bgAlpha}"
+			fontName="{imageCaption.fontName}"
+			fontSize="{imageCaption.fontSize}"
+			visibleMode="{imageCaption.visibleMode}"
+		/>
+		<preloader
+			stripesAlpha="{preloader.stripesAlpha}"
+			barColor="0x{preloader.barColor}"
+			barAlpha="{preloader.barAlpha}"
+			bgColor="0x{preloader.bgColor}"
+			bgAlpha="{preloader.bgAlpha}"
+			innerShadow="{preloader.innerShadow}"
+			dropShadow="{preloader.dropShadow}"
+		/>
+		<loader>{loader}</loader>
+	</settings>
+
+	<items>{items}
+	</items>
+</gallery>

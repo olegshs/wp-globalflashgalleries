@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<gallery>
+	<galleryName>PhotoFlow Gallery</galleryName>
+	<settings>
+		<startPosition>{startPosition}</startPosition>
+		<imageAngle>{imageAngle}</imageAngle>
+		<maxImageWidth>{maxImageWidth}</maxImageWidth>
+		<useScrollBar>{useScrollBar}</useScrollBar>
+		<slideShow>{slideShow}</slideShow>
+		<slideShowDelay>{slideShowDelay}</slideShowDelay>
+		<flipDuration>{flipDuration}</flipDuration>
+		<flipSound>{flipSound}</flipSound>
+		<useHighlight>{useHighlight}</useHighlight>
+		<reflectionAlpha>{reflectionAlpha}</reflectionAlpha>
+		<colorScheme>{colorScheme}</colorScheme>{TRUE custom}
+		<caption
+			textColor="0x{caption.textColor}"
+			bgColor="0x{caption.bgColor}"
+			bgAlpha="{caption.bgAlpha}"
+			frameColor="0x{caption.frameColor}"
+			frameAlpha="{caption.frameAlpha}"
+			shadowAlpha="{caption.shadowAlpha}"
+			multilingual="{caption.multilingual}"
+			multilingualFontSize="{caption.multilingualFontSize}"
+		/>
+		<scrollbar
+			bgColor="0x{scrollbar.bgColor}"
+			bgAlpha="{scrollbar.bgAlpha}"
+			handleColor="0x{scrollbar.handleColor}"
+			handleAlpha="{scrollbar.handleAlpha}"
+			arrowsColor="0x{scrollbar.arrowsColor}"
+			arrowsAlpha="{scrollbar.arrowsAlpha}"
+			innerShadow="{scrollbar.innerShadow}"
+			dropShadow="{scrollbar.dropShadow}"
+		/>
+		<preloader
+			stripesAlpha="{preloader.stripesAlpha}"
+			barColor="0x{preloader.barColor}"
+			barAlpha="{preloader.barAlpha}"
+			bgColor="0x{preloader.bgColor}"
+			bgAlpha="{preloader.bgAlpha}"
+			innerShadow="{preloader.innerShadow}"
+			dropShadow="{preloader.dropShadow}"
+		/>{/TRUE}
+		<picasa
+			user="{picasa.user}"
+			albumID="{picasa.albumID}"
+		/>
+		<flickr
+			userID="{flickr.userID}"
+			photosetID="{flickr.photosetID}"
+			tags="{flickr.tags}"
+		/>
+		<loader>{loader}</loader>
+	</settings>
+	<items>{items}
+	</items>
+</gallery>

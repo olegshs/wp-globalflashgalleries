@@ -1,0 +1,3 @@
+
+		<album icon="{icon}" description="{description}">{items}
+		</album>

@@ -1,0 +1,36 @@
+<div class="version">Version <strong>{version}</strong></div>
+
+<table class="plugin-info">
+	<tr class="plugin dir">
+		<th class="h" rowspan="2">Plugin</th>
+		<th>Directory</th>
+		<td><input type="text" value="{pluginDir}" readonly="readonly" /></td>
+	</tr>
+	<tr class="plugin url">
+		<th>URL</th>
+		<td><input type="text" value="{pluginURL}" readonly="readonly" /></td>
+	</tr>
+	<tr class="content dir">
+		<th class="h" rowspan="2">Content</th>
+		<th>Directory</th>
+		<td><input type="text" value="{contentDir}" readonly="readonly" /></td>
+	</tr>
+	<tr class="content url">
+		<th>URL</th>
+		<td><input type="text" value="{contentURL}" readonly="readonly" /></td>
+	</tr>
+	<tr class="images dir">
+		<th class="h" rowspan="2">Images</th>
+		<th>Directory</th>
+		<td><input type="text" value="{imgDir}" readonly="readonly" /></td>
+	</tr>
+	<tr class="images url">
+		<th>URL</th>
+		<td><input type="text" value="{imgURL}" readonly="readonly" /></td>
+	</tr>
+</table>
+
+{TRUE canUninstall}<div class="uninstall">
+	{uninstall}
+	<p><small>Remove all galleries and deactivate the plugin.</small></p>
+</div>{/TRUE}

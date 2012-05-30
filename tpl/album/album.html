@@ -1,0 +1,89 @@
+<div class="properties" id="albumProperties">
+	<form id="albumPropertiesForm" action="{href}&amp;tab=albums" method="post">
+		<input type="hidden" name="action" value="updateAlbum" />
+		<input type="hidden" name="album_id" value="{id}" />
+
+		<table class="form-table" id="album_info">
+			<tr class="album-title" valign="top">
+				<th><label for="album_title">Title</label></th>
+				<td><input type="text" class="text" id="album_title" name="album[title]" value="{title}" /></td>
+			</tr>
+			<tr class="album-description" valign="top">
+				<th><label for="album_description">Description</label></th>
+				<td><textarea class="text" id="album_description" name="album[description]" rows="3">{description}</textarea></td>
+			</tr>
+			<tr class="submit">
+				<td>
+					<input type="button" class="button button-cancel" name="cancel" value="&larr; Back" onclick="submit();" />
+				</td>
+				<td>
+					<input type="submit" class="button-primary button" name="update" value="Update Album" />
+				</td>
+			</tr>
+		</table>
+	</form>
+</div>
+
+
+<h2 id="picturesHeading">Pictures</h2>
+
+<div class="actions-panel">
+	<div class="addPictures">{addPictures}</div>
+	<div class="createGallery">{createGallery}</div>
+</div>
+
+{TRUE pictures}
+<form action="{href}" method="post">
+	<input type="hidden" name="album_id" value="{id}" />
+
+	<div class="bulk-actions">
+		<select class="action" name="action">
+			<option>Bulk Actions</option>
+			<option value="moveImages">Move to Album</option>
+			<option value="deleteImages">Delete</option>
+		</select>
+		<select class="destAlbum" id="destAlbum" name="destAlbum">{selectAlbum}
+		</select>
+		<input type="submit" class="button" name="doaction" value="Apply" />
+	</div>
+	
+	<table class="pictures-list widefat" id="album_pictures">
+		<thead>
+			<tr>
+				<th scope="col" class="check-column"><input type="checkbox" /></th>
+				<th class="picture-preview">Preview</th>
+				<th class="picture-file">File</th>
+				<th class="picture-title">Title</th>
+				<th class="picture-size">Size</th>
+			</tr>
+		</thead>
+		<tbody>
+{pictures}
+		</tbody>
+		<thead>
+			<tr>
+				<th scope="col" class="check-column"><input type="checkbox" /></th>
+				<th class="picture-preview">Preview</th>
+				<th class="picture-file">File</th>
+				<th class="picture-title">Title</th>
+				<th class="picture-size">Size</th>
+			</tr>
+		</thead>
+	</table>
+	
+	<div class="bulk-actions">
+		<select class="action" name="action2">
+			<option>Bulk Actions</option>
+			<option value="moveImages">Move to Album</option>
+			<option value="deleteImages">Delete</option>
+		</select>
+		<select class="destAlbum" id="destAlbum2" name="destAlbum2">{selectAlbum}
+		</select>
+		<input type="submit" class="button" name="doaction2" value="Apply" />
+	</div>
+</form>
+{/TRUE}
+
+<div class="close"><form action="{href}&amp;tab=albums" method="post"><input type="submit" class="button" value="&larr; Back" /></form></div>
+
+<script type="text/javascript" src="{jsURL}/album.js"></script>

@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<gallery>
+	<galleryName>Box Gallery</galleryName>
+	<settings>
+		<image
+			scaleMode="{image.scaleMode}"
+		/>
+		<thumbnail
+			width="{thumbnail.width}"
+			height="{thumbnail.height}"
+			alpha="{thumbnail.alpha}"
+		/>
+		<colorScheme
+			thumbsFrameColor="0x{colorScheme.thumbsFrameColor}"
+			imageBGColor="0x{colorScheme.imageBGColor}"
+			thumbsArrowsColor="0x{colorScheme.thumbsArrowsColor}"
+			imageArrowsColor="0x{colorScheme.imageArrowsColor}"
+			useShadow="{colorScheme.useShadow}"
+		/>
+		<imageCaption
+			position="{imageCaption.position}"
+			bgAlpha="{imageCaption.bgAlpha}"
+			color="0x{imageCaption.color}"
+			bgColor="0x{imageCaption.bgColor}"
+			fontName="{imageCaption.fontName}"
+			fontSize="{imageCaption.fontSize}"
+			visibleMode="{imageCaption.visibleMode}"
+		/>
+		<thumbCaption
+			color="0x{thumbCaption.color}"
+			bgColor="0x{thumbCaption.bgColor}"
+			bgAlpha="{thumbCaption.bgAlpha}"
+			fontName="{thumbCaption.fontName}"
+			fontSize="{thumbCaption.fontSize}"
+			visibleMode="{thumbCaption.visibleMode}"
+		/>
+		<sounds
+			onRollOver="{sounds.onRollOver}"
+			onClick="{sounds.onClick}"
+		/>
+		<loader>{loader}</loader>
+		<flickr><![CDATA[{flickr}]]></flickr>
+		<picasa
+			user="{picasa.user}"
+			albumID="{picasa.albumID}"
+		/>
+	</settings>
+	<items>{items}
+	</items>
+</gallery>

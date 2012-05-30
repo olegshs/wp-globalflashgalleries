@@ -1,0 +1,26 @@
+<div>
+	<input type="text" class="color" id="{id}" name="{name}" value="{value}" maxlength="6" />
+	<div class="colorPicker" id="colorPicker-{id}" style="position:absolute; display:none;"></div>
+	<script type="text/javascript">//<![CDATA[
+	(function($) {
+		$('#{id2}').click(
+			function() {
+				var lastValue = this.value;
+				$('.colorPicker').hide();
+				$('.colorPicker').click( function() {return false;} );
+				$(document).click(function() {
+					$(document).unbind('click');
+					$('#colorPicker-{id2}').fadeOut(1000);
+					var e = document.getElementById('{id}');
+					if (e.value != lastValue)
+						$(e).change();
+				});
+				$('#colorPicker-{id2}').prepend('<div class="close ui-state-default ui-corner-all" onclick="jQuery(document).click();" title="Apply"><span class="ui-icon ui-icon-check"></span></div>');
+				$('#colorPicker-{id2}').fadeIn(500);
+				return false;
+			}
+		);
+		$('#colorPicker-{id2}').farbtastic('#{id2}');
+	})(jQuery);
+	//]]></script>
+</div>

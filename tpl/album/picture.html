@@ -1,0 +1,26 @@
+			<tr class="picture" id="picture-{id}">
+				<th scope="row" class="check-column"><input type="checkbox" name="image_id[]" value="{id}" /></th>
+				<td class="picture-preview picture-edit"><a href="{href}&amp;action=editImage&amp;image_id={id}"><img src="{previewURL}" alt="{title}" title="" /></a></td>
+				<td class="picture-file">
+					<div class="name picture-edit"><a href="{href}&amp;action=editImage&amp;image_id={id}">{name}</a></div>
+					<div class="info">
+						<span class="picture-type">{type}</span>,
+						<span class="picture-dimensions">
+							<span class="picture-width">{width}</span> &times;
+							<span class="picture-height">{height}</span>
+						</span>
+					</div>
+					<div class="operation">
+						<strong class="picture-edit"><a href="{href}&amp;action=editImage&amp;image_id={id}">Edit</a></strong> |
+						<a href="{href}&amp;action=downloadImage&amp;image_id={id}">Download</a>
+					</div>
+				</td>
+				<td class="picture-title">
+					<h4 class="picture-edit"><a href="{href}&amp;action=editImage&amp;image_id={id}">{title}</a></h4>
+					<div class="picture-description picture-edit"><a href="{href}&amp;action=editImage&amp;image_id={id}">{description}</a></div>
+				</td>
+				<td class="picture-size">
+					{size}
+					<div class="picture-delete"><a href="{href}&amp;action=deleteImage&amp;image_id={id}">Delete</a></div>
+				</td>
+			</tr>

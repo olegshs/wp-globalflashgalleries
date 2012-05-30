@@ -1,0 +1,47 @@
+<form action="" method="post" enctype="multipart/form-data">
+	<input type="hidden" name="action" value="saveImage" />
+	<input type="hidden" name="image_id" value="{id}" />
+{TRUE gallery_id}	<input type="hidden" name="gallery_id" value="{gallery_id}" />{/TRUE}
+{TRUE album_id}	<input type="hidden" name="album_id" value="{album_id}" />{/TRUE}
+
+	<table class="properties form-table">
+		<tr class="image-name">
+			<th><label for="image-name">Name</label></th>
+			<td><input type="text" class="text" id="image-name" name="image[name]" value="{name}" size="55" /></td>
+		</tr>
+		<tr class="image-title">
+			<th><label for="image-title">Title</label></th>
+			<td><input type="text" class="text" id="image-title" name="image[title]" value="{title}" size="55" /></td>
+		</tr>
+		<tr class="image-description">
+			<th><label for="image-description">Description</label></th>
+			<td><textarea class="text" id="image-description" name="image[description]" cols="50" rows="3">{description}</textarea></td>
+		</tr>
+		<tr class="image-link">
+			<th><label for="image-link">Link</label></th>
+			<td><input type="text" class="text" id="image-link" name="image[link]" value="{link}" size="55" /></td>
+		</tr>
+		<tr class="image-target">
+			<th><label for="image-target">Target</label></th>
+			<td>
+				<label style="margin-right:1em;"><input type="radio" name="image[target]" value="_blank"{TRUE target_blank} checked="checked"{/TRUE} /> <span>New window (_blank)</span></label>
+				<label><input type="radio" name="image[target]" value="_self"{TRUE target_self} checked="checked"{/TRUE} /> <span>Same window (_self)</span></label>
+			</td>
+		</tr>
+		<tr class="submit">
+			<td>
+				<input type="button" class="button" name="cancel" value="&larr; Back" onclick="submit();" />
+			</td>
+			<td>
+				<input type="submit" class="button-primary button" name="OK" value="Save Picture" />
+				<label style="margin-left:1em; vertical-align:baseline;"><input type="checkbox" name="applyToCopies" value="1" /> <span>Apply changes to all copies of this picture.</span></label>
+			</td>
+		</tr>
+	</table>
+
+	<div class="view-image">
+		<img src="{imgURL}/{path}" alt="{title}" title="" />
+	</div>
+	
+	<div class="close"><input type="submit" class="button" value="&larr; Back" /></div>
+</form>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<gallery>
+	<galleryName>Line Gallery</galleryName>
+	<settings>
+		<bgImage
+			alpha="{bgImage.alpha}"
+			source="{bgImage.source}"
+		/>
+		<preloader
+			alpha="{preloader.alpha}"
+			usePreloader="{preloader.usePreloader}"
+		/>
+		<image
+			width="{image.width}"
+			height="{image.height}"
+			scaleMode="{image.scaleMode}"
+			cornerRadius="{image.cornerRadius}"
+			useBorder="{image.useBorder}"
+			borderColor="0x{image.borderColor}"
+			borderThickness="{image.borderThickness}"
+			borderAlpha="{image.borderAlpha}"
+			useShadow="{image.useShadow}"
+			bgColor="0x{image.bgColor}"
+			bgAlpha="{image.bgAlpha}"
+		/>
+		<caption
+			color="0x{caption.color}"
+			fontName="{caption.fontName}"
+			fontSize="{caption.fontSize}"
+		/>
+		<scrollbar
+			bgColor="0x{scrollbar.bgColor}"
+			bgAlpha="{scrollbar.bgAlpha}"
+			handleColor="0x{scrollbar.handleColor}"
+			handleAlpha="{scrollbar.handleAlpha}"
+			arrowsColor="0x{scrollbar.arrowsColor}"
+			arrowsAlpha="{scrollbar.arrowsAlpha}"
+			innerShadow="{scrollbar.innerShadow}"
+			dropShadow="{scrollbar.dropShadow}"
+		/>
+		<slideshow
+			start="{slideshow.start}"
+			delay="{slideshow.delay}"
+		/>
+		<sounds
+			onScroll="{sounds.onScroll}"
+		/>
+		<loader>{loader}</loader>
+		<picasa
+			user="{picasa.user}"
+			albumID="{picasa.albumID}"
+		/>
+	</settings>
+
+	<items>{items}
+	</items>
+</gallery>

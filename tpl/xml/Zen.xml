@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<gallery>
+	<galleryName>Zen Gallery</galleryName>
+	<settings>
+		<frameSize>{frameSize}</frameSize>
+		<frameColor>0x{frameColor}</frameColor>
+		<backgroundColor>0x{backgroundColor}</backgroundColor>
+		<cornerRadius>{cornerRadius}</cornerRadius>
+		<initialState>{initialState}</initialState>
+		<showCaption>{showCaption}</showCaption>
+		<captionBackgroundAlpha>{captionBackgroundAlpha}</captionBackgroundAlpha>
+		<captionBackgroundCornerRadius>{captionBackgroundCornerRadius}</captionBackgroundCornerRadius>
+		<buttonsBackgroundAlpha>{buttonsBackgroundAlpha}</buttonsBackgroundAlpha>
+		<buttonsBackgroundCornerRadius>{buttonsBackgroundCornerRadius}</buttonsBackgroundCornerRadius>
+		<showButtons>{showButtons}</showButtons>
+		<showAlbumsButton>{showAlbumsButton}</showAlbumsButton>
+		<showThumbnailsButton>{showThumbnailsButton}</showThumbnailsButton>
+		<showSlideshowButton>{showSlideshowButton}</showSlideshowButton>
+		<showNavigationButton>{showNavigationButton}</showNavigationButton>
+		<slideshowDelay>{slideshowDelay}</slideshowDelay>
+		<rotationDirection>{rotationDirection}</rotationDirection>
+		<rotationDuration>{rotationDuration}</rotationDuration>
+		<panelBackgroundAlpha>{panelBackgroundAlpha}</panelBackgroundAlpha>
+		<iconWidth>{iconWidth}</iconWidth>
+		<iconHeight>{iconHeight}</iconHeight>
+		<iconPadding>{iconPadding}</iconPadding>
+		<useRotation>{useRotation}</useRotation>
+		<imageScaleMode>{imageScaleMode}</imageScaleMode>
+		<useEmbeddedFont>{useEmbeddedFont}</useEmbeddedFont>
+		<fontName>{fontName}</fontName>
+		<fontSize>{fontSize}</fontSize>
+		<translation
+			Album="{translation.Album}"
+			Albums="{translation.Albums}"
+			Image="{translation.Image}"
+			Images="{translation.Images}"
+			Close="{translation.Close}"
+			BackToAlbums="{translation.BackToAlbums}"
+			LoadingImage="{translation.LoadingImage}"
+			Of="{translation.Of}"
+		/>
+		<overSound>{overSound}</overSound>
+		<clickSound>{clickSound}</clickSound>
+		<picasa
+			user="{picasa.user}"
+			albumID="{picasa.albumID}"
+		/>
+		<flickr
+			userID="{flickr.userID}"
+			photosetID="{flickr.photosetID}"
+			tags="{flickr.tags}"
+		/>
+		<loader>{loader}</loader>
+	</settings>
+	<albums>{TRUE multipleAlbums}{albums}{/TRUE}{FALSE multipleAlbums}
+		<album icon="" description="">
+			<items>{items}
+			</items>
+		</album>{/FALSE}
+	</albums>
+</gallery>

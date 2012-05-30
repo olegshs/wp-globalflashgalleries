@@ -1,0 +1,31 @@
+
+<object
+	classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"
+	id="{id}"
+	width="{width}"
+	height="{height}"
+>
+	<param name="movie" value="{movie}" />{params}
+	<param name="expressinstall" value="{pluginURL}/js/swfobject/expressInstall.swf" />
+	<object
+		type="application/x-shockwave-flash"
+		data="{movie}"
+		width="{width}"
+		height="{height}"
+		style="outline:none;"
+	>{params}
+	<param name="expressinstall" value="{pluginURL}/js/swfobject/expressInstall.swf" />
+	{altContent}
+	</object>
+</object>
+<script type="text/javascript">
+jQuery(document).ready(function($) {
+	$('#{id} .flgallery-altcontent').altgallery({
+		width: '{width}',
+		height: '{height}',
+		images: { folder: '{pluginURL}/img/' },
+		config: '{xmlFile}',
+		configType: 'xml'
+	});
+});
+</script>

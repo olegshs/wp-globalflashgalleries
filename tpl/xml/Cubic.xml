@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<gallery>
+	<galleryName>Cubic Gallery</galleryName>
+	<settings>
+		<initialState>{initialState}</initialState>
+		<slideshowDelay>{slideshowDelay}</slideshowDelay>
+		<showCaption>{showCaption}</showCaption>
+		<base
+			color="0x{base.color}"
+			visibleFrame="{base.visibleFrame}"
+		/>
+		<buttons
+			showSlideshowButton="{buttons.showSlideshowButton}"
+			showThumbnailsButton="{buttons.showThumbnailsButton}"
+			bgColor="0x{buttons.bgColor}"
+		/>
+		<picasa
+			user="{picasa.user}"
+			albumID="{picasa.albumID}"
+		/>
+		<flickr
+			userID="{flickr.userID}"
+			photosetID="{flickr.photosetID}"
+			tags="{flickr.tags}"
+		/>
+	</settings>
+	<items>{items}
+	</items>
+</gallery>

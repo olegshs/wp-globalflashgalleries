@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings>
+	<param name="colorScheme" default="custom">
+		<title>Color Scheme</title>
+		<description></description>
+		<input type="select">
+			<option value="custom">custom</option>
+			<option value="white">white</option>
+			<option value="black">black</option>
+			<option value="grey">grey</option>
+			<option value="red">red</option>
+			<option value="green">green</option>
+			<option value="blue">blue</option>
+		</input>
+	</param>
+	<group name="visibleMatrix">
+		<title>Visible Matrix</title>
+		<description></description>
+		<items>
+			<param name="rows" default="3">
+				<title>Rows</title>
+				<description>Number of rows with thumbnails</description>
+				<input type="slider" min="2" max="5" />
+			</param>
+		</items>
+	</group>
+	<param name="zoom" default="3">
+		<title>Zoom</title>
+		<description>Zoom parameter of the camera</description>
+		<input type="slider" min="1" max="10" />
+	</param>
+	<param name="useHighlight" default="true">
+		<title>Use Highlight</title>
+		<description>Highlights images on mouseover</description>
+		<input type="checkbox" value="true|false" />
+	</param>
+	<param name="showReflections" default="true">
+		<title>Reflections</title>
+		<description></description>
+		<input type="checkbox" value="true|false" />
+	</param>
+	<param name="reflectionAlpha" default="50">
+		<title>Reflection Alpha</title>
+		<description></description>
+		<input type="slider" min="0" max="100" />
+	</param>
+	<param name="scrollSpeed" default="3">
+		<title>Scroll Speed</title>
+		<description>Thumbnail scroll speed</description>
+		<input type="slider" min="1" max="9" />
+	</param>
+	<group name="thumbnail">
+		<title>Thumbnail</title>
+		<description>Thumbnail settings</description>
+		<items>
+			<param name="width" default="100">
+				<title>Width</title>
+				<description>Thumbnail width</description>
+				<input type="int" />
+			</param>
+			<param name="height" default="75">
+				<title>Height</title>
+				<description>Thumbnail height</description>
+				<input type="int" />
+			</param>
+			<param name="distance" default="10">
+				<title>Distance</title>
+				<description>Distance between thumbnails</description>
+				<input type="slider" min="0" max="90" />
+			</param>
+		</items>
+	</group>
+	<group name="image">
+		<title>Image</title>
+		<description>Image settings</description>
+		<items>
+			<param name="scaleMode" default="fit">
+				<title>Scale Mode</title>
+				<description>Type of image scaling to the size of the visible area</description>
+				<input type="select">
+					<option value="fit">fit</option>
+					<option value="fill">fill</option>
+					<option value="noScale">noScale</option>
+				</input>
+			</param>
+			<param name="bgColor" default="000000">
+				<title>Background Color</title>
+				<description></description>
+				<input type="color" />
+			</param>
+			<param name="bgAlpha" default="100">
+				<title>Background Alpha</title>
+				<description></description>
+				<input type="slider" min="0" max="100" />
+			</param>
+			<param name="thumbProportion" default="true">
+				<title>Thumb Proportion</title>
+				<description>Applies thumbnail's proportions to the large image</description>
+				<input type="checkbox" value="true|false" />
+			</param>
+		</items>
+	</group>
+	<group name="imageCaption">
+		<title>Image Caption</title>
+		<description></description>
+		<items>
+			<param name="position" default="top">
+				<title>Position</title>
+				<description>Thumbnail position</description>
+				<input type="select">
+					<option value="top">top</option>
+					<option value="bottom">bottom</option>
+				</input>
+			</param>
+			<param name="color" default="ffffff">
+				<title>Color</title>
+				<description></description>
+				<input type="color" />
+			</param>
+			<param name="bgColor" default="000000">
+				<title>Background Color</title>
+				<description></description>
+				<input type="color" />
+			</param>
+			<param name="bgAlpha" default="80">
+				<title>Background Alpha</title>
+				<description></description>
+				<input type="slider" min="0" max="100" />
+			</param>
+			<param name="fontName" default="Verdana">
+				<title>Font Name</title>
+				<description>Font of image captions</description>
+				<input type="font" />
+			</param>
+			<param name="fontSize" default="12">
+				<title>Font Size</title>
+				<description>Font size of image captions</description>
+				<input type="int" />
+			</param>
+			<param name="visibleMode" default="onRollOver">
+				<title>Visible Mode</title>
+				<description>Defines when to show an image caption</description>
+				<input type="select">
+					<option value="always">always</option>
+					<option value="onRollOver">onRollOver</option>
+					<option value="never">never</option>
+				</input>
+			</param>
+		</items>
+	</group>
+	<group name="background">
+		<title>Background</title>
+		<description></description>
+		<items>
+			<param name="bgColor" default="ffffff">
+				<title>Background Color</title>
+				<description></description>
+				<input type="color" />
+			</param>
+			<param name="bgAlpha" default="100">
+				<title>Background Alpha</title>
+				<description></description>
+				<input type="slider" min="0" max="100" />
+			</param>
+			<param name="bgImage" default="">
+				<title>Background Image</title>
+				<description></description>
+				<input type="image" />
+			</param>
+		</items>
+	</group>
+	<group name="preloader">
+		<title>Preloader</title>
+		<description></description>
+		<items>
+			<param name="stripesAlpha" default="45">
+				<title>Stripes Alpha</title>
+				<description></description>
+				<input type="slider" min="0" max="100" />
+			</param>
+			<param name="barColor" default="000000">
+				<title>Bar Color</title>
+				<description></description>
+				<input type="color" />
+			</param>
+			<param name="barAlpha" default="14">
+				<title>Bar Alpha</title>
+				<description></description>
+				<input type="slider" min="0" max="100" />
+			</param>
+			<param name="bgColor" default="000000">
+				<title>Background Color</title>
+				<description></description>
+				<input type="color" />
+			</param>
+			<param name="bgAlpha" default="10">
+				<title>Background Alpha</title>
+				<description></description>
+				<input type="slider" min="0" max="100" />
+			</param>
+			<param name="innerShadow" default="20">
+				<title>Inner Shadow</title>
+				<description></description>
+				<input type="slider" min="0" max="100" />
+			</param>
+			<param name="dropShadow" default="30">
+				<title>Drop Shadow</title>
+				<description></description>
+				<input type="slider" min="0" max="100" />
+			</param>
+		</items>
+	</group>
+	<group name="picasa">
+		<title>picasa</title>
+		<description>Using images from picasa.com</description>
+		<items>
+			<param name="user" default="">
+				<title>User</title>
+				<description>Login</description>
+				<input type="text" />
+			</param>
+			<param name="albumID" default="">
+				<title>Album ID</title>
+				<description>Album ID</description>
+				<input type="text" />
+			</param>
+		</items>
+	</group>
+</settings>

@@ -1,0 +1,22 @@
+<div class='tab-content' id='flgalleryAddMedia'>
+<form id="flgalleryAddMediaForm" action="{href}" method="post" enctype="multipart/form-data">
+	<input type="hidden" name="action" value="addMedia" />
+
+{content}
+
+	<div class="note">Image dimensions should not exceed {max_image_dimensions} px.</div>
+	
+	<div class="submit">
+		<input type="submit" class="button-primary button" id="uploadStart" name="OK" value="{start}" />
+		<input type="submit" class="button" id="uploadCancel" name="cancel" value="Cancel" />
+	</div>
+</form>
+</div>
+
+<script type="text/javascript">//<![CDATA[
+	var flgalleryAddMediaForm = document.getElementById('flgalleryAddMediaForm');
+	if (flgalleryAddMediaForm) {
+		flgalleryAddMediaForm.style.display = 'none';
+		document.getElementById('flgalleryAddMedia').style.background = '#fff url('+ flgallery.pluginURL +'/img/ajaxloader.gif) no-repeat center';
+	}
+//]]></script>

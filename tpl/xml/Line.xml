@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<gallery>
+	<galleryName>Line Gallery</galleryName>
+	<settings>
+		<images
+			alpha="{images.alpha}"
+			margin="{images.margin}"
+			visibleQuantity="{images.visibleQuantity}"
+		/>
+		<frame
+			frameColor="0x{frame.frameColor}"
+			frameSize="{frame.frameSize}"
+			arrowsColor="{frame.arrowsColor}"
+			buttonSize="{frame.buttonSize}"
+			useShadow="{frame.useShadow}"
+			shadowSize="{frame.shadowSize}"
+		/>
+		<imageCaption
+			fontName="{imageCaption.fontName}"
+			fontSize="{imageCaption.fontSize}"
+			color="0x{imageCaption.color}"
+			bgColor="0x{imageCaption.bgColor}"
+			bgAlpha="{imageCaption.bgAlpha}"
+			frameColor="0x{imageCaption.frameColor}"
+			frameAlpha="{imageCaption.frameAlpha}"
+		/>
+		<sounds
+			onRollOver="{sounds.onRollOver}"
+			onClick="{sounds.onClick}"
+		/>
+		<picasa
+			user="{picasa.user}"
+			albumID="{picasa.albumID}"
+		/>
+		<flickr
+			userID="{flickr.userID}"
+			photosetID="{flickr.photosetID}"
+			tags="{flickr.tags}"
+		/>
+		<loader>{loader}</loader>
+	</settings>
+	<items>{items}
+	</items>
+</gallery>

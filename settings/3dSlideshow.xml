@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<settings>
+	<group name="background">
+		<title>Background</title>
+		<description></description>
+		<items>
+			<param name="transparent" default="true">
+				<title>Transparent Background</title>
+				<description></description>
+				<input type="checkbox" value="true|false" />
+			</param>
+			<param name="color" default="ffffff">
+				<title>Background Color</title>
+				<description></description>
+				<input type="color" />
+			</param>
+			<param name="image" default="">
+				<title>Background Image</title>
+				<description></description>
+				<input type="image" />
+			</param>
+		</items>
+	</group>
+	<param name="slideshowDelay" default="2">
+		<title>Slideshow Delay</title>
+		<description></description>
+		<input type="slider" min="1" max="30" />
+	</param>
+	<param name="cameraZoom" default="0.6">
+		<title>Camera Zoom</title>
+		<description></description>
+		<input type="slider" min="0.3" max="1" step="0.05" />
+	</param>
+	<group name="background">
+		<title>Background</title>
+		<description></description>
+		<items>
+			<param name="transparent" default="true">
+				<title>Transparent Background</title>
+				<description></description>
+				<input type="checkbox" value="true|false" />
+			</param>
+			<param name="color" default="ffffff">
+				<title>Background Color</title>
+				<description></description>
+				<input type="color" />
+			</param>
+			<param name="image" default="">
+				<title>Background Image</title>
+				<description></description>
+				<input type="image" />
+			</param>
+		</items>
+	</group>
+	<group name="position">
+		<title>Position</title>
+		<description></description>
+		<items>
+			<param name="xAngle" default="15">
+				<title>X Angle</title>
+				<description></description>
+				<input type="slider" min="-60" max="60" />
+			</param>
+			<param name="yAngle" default="-30">
+				<title>Y Angle</title>
+				<description></description>
+				<input type="slider" min="-60" max="60" />
+			</param>
+		</items>
+	</group>
+	<group name="transition">
+		<title>Transition</title>
+		<description></description>
+		<items>
+			<param name="effect" default="random">
+				<title>Effect</title>
+				<description></description>
+				<input type="select">
+					<option value="random">Random</option>
+					<option value="flip">Flip</option>
+				</input>
+			</param>
+			<param name="rotationDirection" default="fromLeftToRight">
+				<title>Rotation Direction</title>
+				<description></description>
+				<input type="select">
+					<option value="fromLeftToRight">Left To Right</option>
+					<option value="fromRightToLeft">Right To Left</option>
+					<option value="fromTopToBottom">Top To Bottom</option>
+					<option value="fromBottomToTop">Bottom To Top</option>
+				</input>
+			</param>
+			<param name="duration" default="2">
+				<title>Duration</title>
+				<description></description>
+				<input type="slider" min="0.5" max="5" step="0.5" />
+			</param>
+			<param name="withDelay" default="false">
+				<title>With Delay</title>
+				<description></description>
+				<input type="checkbox" value="true|false" />
+			</param>
+			<param name="columns" default="4">
+				<title>Columns</title>
+				<description></description>
+				<input type="slider" min="1" max="10" />
+			</param>
+			<param name="lines" default="1">
+				<title>Lines</title>
+				<description></description>
+				<input type="slider" min="1" max="10" />
+			</param>
+		</items>
+	</group>
+	<group name="plate">
+		<title>Plate</title>
+		<description></description>
+		<items>
+			<param name="color" default="999999">
+				<title>Color</title>
+				<description></description>
+				<input type="color" />
+			</param>
+			<param name="sideColor" default="333333">
+				<title>Side Color</title>
+				<description></description>
+				<input type="color" />
+			</param>
+			<param name="sideThickness" default="15">
+				<title>Side Thickness</title>
+				<description></description>
+				<input type="slider" min="1" max="30" />
+			</param>
+			<param name="useShadow" default="true">
+				<title>Use Shadow</title>
+				<description></description>
+				<input type="checkbox" value="true|false" />
+			</param>
+			<param name="shadowAlpha" default="50">
+				<title>Shadow Alpha</title>
+				<description></description>
+				<input type="slider" min="0" max="100" />
+			</param>
+		</items>
+	</group>
+	<group name="caption">
+		<title>Caption</title>
+		<description>Caption settings</description>
+		<items>
+			<param name="fontName" default="Arial">
+				<title>Font</title>
+				<description>Font of image captions</description>
+				<input type="font" />
+			</param>
+			<param name="fontSize" default="12">
+				<title>Font Size</title>
+				<description>Font size of image captions</description>
+				<input type="int" />
+			</param>
+			<param name="textColor" default="ffffff">
+				<title>Text Color</title>
+				<description></description>
+				<input type="color" />
+			</param>
+			<param name="bgColor" default="000000">
+				<title>Background Color</title>
+				<description>Background color of captions</description>
+				<input type="color" />
+			</param>
+			<param name="bgAlpha" default="60">
+				<title>Background Alpha</title>
+				<description>Background transparency of captions</description>
+				<input type="slider" min="0" max="100" />
+			</param>
+			<param name="frameColor" default="ffffff">
+				<title>Frame Color</title>
+				<description></description>
+				<input type="color" />
+			</param>
+			<param name="frameAlpha" default="40">
+				<title>Frame Alpha</title>
+				<description></description>
+				<input type="slider" min="0" max="100" />
+			</param>
+		</items>
+	</group>
+	<group name="picasa">
+		<title>Picasa</title>
+		<description>Using images from picasa.com</description>
+		<items>
+			<param name="user" default="">
+				<title>User</title>
+				<description>Login</description>
+				<input type="text" />
+			</param>
+			<param name="albumID" default="">
+				<title>Album ID</title>
+				<description>Album ID</description>
+				<input type="text" />
+			</param>
+		</items>
+	</group>
+	<group name="flickr">
+		<title>Flickr</title>
+		<description>Using images from flickr.com</description>
+		<items>
+			<param name="userID" default="">
+				<title>User ID</title>
+				<description>User ID</description>
+				<input type="text" />
+			</param>
+			<param name="photosetID" default="">
+				<title>Photoset ID</title>
+				<description>Photoset ID</description>
+				<input type="text" />
+			</param>
+			<param name="tags" default="">
+				<title>Tags</title>
+				<description>Tags</description>
+				<input type="text" />
+			</param>
+		</items>
+	</group>
+</settings>

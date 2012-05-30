@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<gallery>
+	<galleryName>PhotoFlow Gallery</galleryName>
+	<settings>
+		<imageAngle>{imageAngle}</imageAngle>
+		<useScrollBar>{useScrollBar}</useScrollBar>
+		<slideShow>{slideShow}</slideShow>
+		<slideShowDelay>{slideShowDelay}</slideShowDelay>
+		<flipDuration>{flipDuration}</flipDuration>
+		<flipSound>{flipSound}</flipSound>
+		<colorScheme>{colorScheme}</colorScheme>
+		<startPosition>{startPosition}</startPosition>
+		<reflectionAlpha>{reflectionAlpha}</reflectionAlpha>
+		<useHighlight>{useHighlight}</useHighlight>{TRUE custom}
+		<background
+			bgColor="0x{background.bgColor}"
+			bgAlpha="{background.bgAlpha}"
+			bgImage="{background.bgImage}"
+		/>
+		<caption
+			textColor="0x{caption.textColor}"
+			bgColor="0x{caption.bgColor}"
+			bgAlpha="{caption.bgAlpha}"
+			frameColor="0x{caption.frameColor}"
+			frameAlpha="{caption.frameAlpha}"
+			shadowAlpha="{caption.shadowAlpha}"
+		/>
+		<scrollbar
+			bgColor="0x{scrollbar.bgColor}"
+			bgAlpha="{scrollbar.bgAlpha}"
+			handleColor="0x{scrollbar.handleColor}"
+			handleAlpha="{scrollbar.handleAlpha}"
+			arrowsColor="0x{scrollbar.arrowsColor}"
+			arrowsAlpha="{scrollbar.arrowsAlpha}"
+			innerShadow="{scrollbar.innerShadow}"
+			dropShadow="{scrollbar.dropShadow}"
+		/>
+		<preloader
+			stripesAlpha="{preloader.stripesAlpha}"
+			barColor="0x{preloader.barColor}"
+			barAlpha="{preloader.barAlpha}"
+			bgColor="0x{preloader.bgColor}"
+			bgAlpha="{preloader.bgAlpha}"
+			innerShadow="{preloader.innerShadow}"
+			dropShadow="{preloader.dropShadow}"
+		/>{/TRUE}
+		<loader>{loader}</loader>
+	</settings>
+	<items>{items}
+	</items>
+</gallery>

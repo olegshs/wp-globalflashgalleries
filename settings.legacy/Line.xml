@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<settings>
+	<group name="bgImage">
+		<title>Background</title>
+		<description>Background image settings</description>
+		<items>
+			<param name="source" default="">
+				<title>Source</title>
+				<description>Path to the background of image file</description>
+				<input type="image" />
+			</param>
+			<param name="alpha" default="100">
+				<title>Alpha</title>
+				<description>Background of image transparency</description>
+				<input type="slider" min="0" max="100" />
+			</param>
+		</items>
+	</group>
+	<group name="image">
+		<title>Image</title>
+		<description>Image settings</description>
+		<items>
+			<param name="width" default="150">
+				<title>Width</title>
+				<description>Image width</description>
+				<input type="int" />
+			</param>
+			<param name="height" default="120">
+				<title>Height</title>
+				<description>Image height</description>
+				<input type="int" />
+			</param>
+			<param name="scaleMode" default="fill">
+				<title>Scale Mode</title>
+				<description>Type of image scaling to the size of the visible area</description>
+				<input type="select">
+					<option value="fit">fit</option>
+					<option value="fill">fill</option>
+					<option value="noScale">noScale</option>
+				</input>
+			</param>
+			<param name="bgColor" default="ffffff">
+				<title>Background Color</title>
+				<description>Background color of images</description>
+				<input type="color" />
+			</param>
+			<param name="bgAlpha" default="100">
+				<title>Background Alpha</title>
+				<description>Background transparency of images</description>
+				<input type="slider" min="0" max="100" />
+			</param>
+			<param name="cornerRadius" default="0">
+				<title>Corner Radius</title>
+				<description>Image corners roundness degree</description>
+				<input type="slider" min="0" max="90" />
+			</param>
+			<param name="useBorder" default="true">
+				<title>Use Border</title>
+				<description>Show/hide outline of images</description>
+				<input type="checkbox" value="true|false" />
+			</param>
+			<param name="borderColor" default="ffffff">
+				<title>Border Color</title>
+				<description>Images outline color</description>
+				<input type="color" />
+			</param>
+			<param name="borderThickness" default="1">
+				<title>Border Thickness</title>
+				<description>Images outline thickness</description>
+				<input type="slider" min="0" max="10" />
+			</param>
+			<param name="borderAlpha" default="70">
+				<title>Border Alpha</title>
+				<description>Images outline alpha</description>
+				<input type="slider" min="0" max="100" />
+			</param>
+			<param name="useShadow" default="false">
+				<title>Use Shadow</title>
+				<description>Show/hide shadow of image</description>
+				<input type="checkbox" value="true|false" />
+			</param>
+		</items>
+	</group>
+	<group name="caption">
+		<title>Caption</title>
+		<description>Caption settings</description>
+		<items>
+			<param name="color" default="000000">
+				<title>Color</title>
+				<description>Color of image captions</description>
+				<input type="color" />
+			</param>
+			<param name="fontName" default="Verdana">
+				<title>Font Name</title>
+				<description>Font of image captions</description>
+				<input type="font" />
+			</param>
+			<param name="fontSize" default="11">
+				<title>Font Size</title>
+				<description>Font size of image captions</description>
+				<input type="int" />
+			</param>
+		</items>
+	</group>
+	<group name="scrollbar">
+		<title>Scrollbar</title>
+		<description>Scrollbar settings</description>
+		<items>
+			<param name="bgColor" default="cccccc">
+				<title>Background Color</title>
+				<description>Background color of scrollbar</description>
+				<input type="color" />
+			</param>
+			<param name="bgAlpha" default="70">
+				<title>Background Alpha</title>
+				<description>Background transparency of scrollbar</description>
+				<input type="slider" min="0" max="100" />
+			</param>
+			<param name="handleColor" default="808080">
+				<title>Handle Color</title>
+				<description>Handle color of scrollbar</description>
+				<input type="color" />
+			</param>
+			<param name="handleAlpha" default="70">
+				<title>Handle Alpha</title>
+				<description>Handle transparency of scrollbar</description>
+				<input type="slider" min="0" max="100" />
+			</param>
+			<param name="arrowsColor" default="808080">
+				<title>Arrows Color</title>
+				<description>Arrows color of scrollbar</description>
+				<input type="color" />
+			</param>
+			<param name="arrowsAlpha" default="100">
+				<title>Arrows Alpha</title>
+				<description>Arrows transparency of scrollbar</description>
+				<input type="slider" min="0" max="100" />
+			</param>
+			<param name="innerShadow" default="0">
+				<title>Inner Shadow</title>
+				<description>Inner shadow of scrollbar</description>
+				<input type="slider" min="0" max="100" />
+			</param>
+			<param name="dropShadow" default="10">
+				<title>Drop Shadow</title>
+				<description>Scrollbar shadow</description>
+				<input type="slider" min="0" max="100" />
+			</param>
+		</items>
+	</group>
+	<group name="preloader">
+		<title>Preloader</title>
+		<description>Preloader settings</description>
+		<items>
+			<param name="alpha" default="70">
+				<title>Alpha</title>
+				<description>Preloader transparency</description>
+				<input type="slider" min="0" max="100" />
+			</param>
+			<param name="usePreloader" default="true">
+				<title>Use Preloader</title>
+				<description>Show/hide preloader</description>
+				<input type="checkbox" value="true|false" />
+			</param>
+		</items>
+	</group>
+	<group name="slideshow">
+		<title>Slideshow settings</title>
+		<description></description>
+		<items>
+			<param name="start" default="false">
+				<title>Start</title>
+				<description>Enables/Disables slide show mode</description>
+				<input type="checkbox" value="true|false" />
+			</param>
+			<param name="delay" default="2">
+				<title>Delay</title>
+				<description>Image display duration in Slideshow mode in seconds</description>
+				<input type="slider" min="1" max="60" />
+			</param>
+		</items>
+	</group>
+	<group name="sounds">
+		<title>Sounds</title>
+		<description>Sound settings</description>
+		<items>
+			<param name="onScroll" default="">
+				<title>On Scroll</title>
+				<description>Scroll sound</description>
+				<input type="sound" />
+			</param>
+		</items>
+	</group>
+	<group name="picasa">
+		<title>picasa</title>
+		<description>Using images from picasa.com</description>
+		<items>
+			<param name="user" default="">
+				<title>User</title>
+				<description>Login</description>
+				<input type="text" />
+			</param>
+			<param name="albumID" default="">
+				<title>Album ID</title>
+				<description></description>
+				<input type="text" />
+			</param>
+		</items>
+	</group>
+</settings>

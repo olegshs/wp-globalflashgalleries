@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<gallery>
+	<galleryName>Stack Gallery</galleryName>
+	<settings>
+		<caption color="0x{caption.color}" fontName="{caption.fontName}" />
+		<frameColor>0x{frameColor}</frameColor>
+		<image width="{image.width}" height="{image.height}" />
+		<imageScaleMode>{imageScaleMode}</imageScaleMode>
+		<visibleImages>{visibleImages}</visibleImages>
+		<usePhotoNumbers>{usePhotoNumbers}</usePhotoNumbers>
+		<translation back="{translation.back}" gotoLink="{translation.gotoLink}" />
+		<soundEffect>{soundEffect}</soundEffect>
+		<slideshow>{slideshow}</slideshow>
+		<picasa
+			user="{picasa.user}"
+			albumID="{picasa.albumID}"
+		/>
+		<flickr
+			userID="{flickr.userID}"
+			photosetID="{flickr.photosetID}"
+			tags="{flickr.tags}"
+		/>
+		<loader>{loader}</loader>
+	</settings>
+	<items>{items}
+	</items>
+</gallery>

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<settings>
+	<group name="background">
+		<title>Background</title>
+		<description></description>
+		<items>
+			<param name="transparent" default="true">
+				<title>Transparent Background</title>
+				<description></description>
+				<input type="checkbox" value="true|false" />
+			</param>
+			<param name="color" default="ffffff">
+				<title>Background Color</title>
+				<description></description>
+				<input type="color" />
+			</param>
+			<param name="image" default="">
+				<title>Background Image</title>
+				<description></description>
+				<input type="image" />
+			</param>
+		</items>
+	</group>
+	<param name="initialState" default="Load Image">
+		<title>Initial State</title>
+		<description>Initial state of the gallery</description>
+		<input type="select">
+			<option value="Load Image">Load Image</option>
+			<option value="Start Slideshow">Start Slideshow</option>
+			<option value="Show Thumbnails">Show Thumbnails</option>
+		</input>
+	</param>
+	<group name="base">
+		<title>Base</title>
+		<description></description>
+		<items>
+			<param name="color" default="3e4449">
+				<title>Color</title>
+				<description>Color of the inner background</description>
+				<input type="color" />
+			</param>
+			<param name="visibleFrame" default="5">
+				<title>Visible Frame</title>
+				<description>Border width of the inner frame</description>
+				<input type="slider" min="0" max="20" />
+			</param>
+		</items>
+	</group>
+	<param name="showCaption" default="true">
+		<title>Show Caption</title>
+		<description>Show/hide caption</description>
+		<input type="checkbox" value="true|false" />
+	</param>
+	<group name="buttons">
+		<title>Buttons</title>
+		<description>Button settings</description>
+		<items>
+			<param name="bgColor" default="e5e6e6">
+				<title>Background Color</title>
+				<description>Button color on mouse over</description>
+				<input type="color" />
+			</param>
+			<param name="showThumbnailsButton" default="true">
+				<title>Thumbnails Button</title>
+				<description>Show/hide thumbnails button</description>
+				<input type="checkbox" value="true|false" />
+			</param>
+			<param name="showSlideshowButton" default="true">
+				<title>Slideshow Button</title>
+				<description>Show/hide slideshow button</description>
+				<input type="checkbox" value="true|false" />
+			</param>
+		</items>
+	</group>
+	<param name="slideshowDelay" default="3">
+		<title>Slideshow Delay</title>
+		<description>Image display duration in Slideshow mode (seconds)</description>
+		<input type="slider" min="1" max="30" />
+	</param>
+	<group name="picasa">
+		<title>Picasa</title>
+		<description>Using images from picasa.com</description>
+		<items>
+			<param name="user" default="">
+				<title>User</title>
+				<description>Login</description>
+				<input type="text" />
+			</param>
+			<param name="albumID" default="">
+				<title>Album ID</title>
+				<description>Album ID</description>
+				<input type="text" />
+			</param>
+		</items>
+	</group>
+	<group name="flickr">
+		<title>Flickr</title>
+		<description>Using images from flickr.com</description>
+		<items>
+			<param name="userID" default="">
+				<title>User ID</title>
+				<description>User ID</description>
+				<input type="text" />
+			</param>
+			<param name="photosetID" default="">
+				<title>Photoset ID</title>
+				<description>Photoset ID</description>
+				<input type="text" />
+			</param>
+			<param name="tags" default="">
+				<title>Tags</title>
+				<description>Tags</description>
+				<input type="text" />
+			</param>
+		</items>
+	</group>
+</settings>

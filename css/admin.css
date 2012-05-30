@@ -1,0 +1,1237 @@
+body.wait * {
+	cursor: wait !important;
+}
+
+.flgallery {
+	padding-bottom: 3em;
+}
+.flgallery h2 {
+	margin-bottom: 0.5em;
+}
+.flgallery th {
+	text-align: left;
+	cursor: default;
+}
+.flgallery form, .flgallery table {
+	margin: 0;
+}
+.flgallery .button[disabled] {
+	border-color: #ccc;
+	cursor: default;
+	opacity: 0.5;
+}
+
+.flgallery label span {
+	vertical-align: middle;
+}
+
+.flgallery .colorPicker {
+	border: 1px solid #ccc;
+	padding: 0.5em;
+	background: #fff;
+	z-index: 25;
+	-moz-border-radius: 1em;
+	-webkit-border-radius: 1em;
+	-khtml-border-radius: 1em;
+	border-radius: 1em;
+}
+.flgallery .colorPicker .close {
+	cursor: pointer !important;
+	position: absolute;
+	text-align: center;
+	right: 7px;
+	z-index: 27;
+}
+
+.flgallery .slider {
+	position: relative;
+	height: 3em;
+	top: -0.33em;
+}
+.flgallery .slider .value {
+	position: absolute;
+	left: -2em;
+	top: 0;
+	margin: 0;
+	padding: 0;
+}
+.flgallery .slider .value input {
+	position: relative;
+	left: 0;
+	top: 0;
+	margin: 0;
+	padding: 0;
+	width: 4em;
+	text-align: center;
+	border: none;
+	background: none;
+	cursor: default;
+}
+.flgallery .slider .control {
+	position: absolute;
+	left: 0;
+	bottom: 0;
+}
+.flgallery .ui-slider-horizontal {
+	background-color: transparent;
+	background: url(../img/slider.gif) repeat-x center top;
+	border: none;
+	height: 20px;
+}
+.flgallery .ui-slider-horizontal .ui-slider-handle {
+	background-color: transparent;
+	background: url(../img/slider-handle.gif) no-repeat center bottom;
+	border: none;
+	height: 20px;
+	cursor: pointer;
+}
+
+.flgallery .ui-resizable .ui-resizable-e {
+	z-index: 100;
+	width: 16px;
+}
+.flgallery .ui-resizable .ui-resizable-se {
+	z-index: 110;
+}
+.flgallery .ui-resizable .ui-resizable-s {
+	z-index: 100;
+	height: 16px;
+}
+.ui-resizable .ui-resizable-sw {
+	z-index: 110;
+	width: 16px;
+	height: 16px;
+}
+.flgallery .ui-resizable .ui-resizable-w {
+	z-index: 100;
+	width: 16px;
+}
+
+
+.flgallery .red {
+	color: #c00;
+}
+.flgallery .orange {
+	color: #c90;
+}
+.flgallery .green {
+	color: #090;
+}
+.flgallery .blue {
+	color: #00c;
+}
+
+.flgallery .button,
+.flgallery .button-primary {
+	line-height: 1.5em;
+	padding: 0.2em 1em 0.25em;
+	//padding: 0 0.5em;
+	-moz-border-radius: 1em;
+	-webkit-border-radius: 1em;
+	-khtml-border-radius: 1em;
+	border-radius: 1em;
+}
+.flgallery .button-primary {
+	font-weight: bold;
+}
+
+.flgallery #flgallery-info {
+	margin: 5em 0 0 0;
+	font-size: 11px;
+}
+.flgallery #flgallery-info:hover {
+}
+.flgallery #flgallery-info h4 {
+	margin: 1em 0 0.5em 0;
+	font-size: 12px;
+	font-weight: normal;
+}
+.flgallery #flgallery-info div {
+	margin: 0.67em 0 0 0;
+}
+.flgallery #flgallery-info div div {
+	margin: 0 0 0.5em 0;
+	background: #eee;
+	border: 1px solid #ccc;
+	padding: 0.1em 0.5em 0.25em;
+}
+.flgallery #flgallery-info .flgallery-errors div {
+	background-color: #fee;
+	border-color: #ecc;
+}
+.flgallery #flgallery-info .flgallery-warnings div {
+	background-color: #ffe;
+	border-color: #ddb;
+}
+.flgallery #flgallery-info .flgallery-debug div {
+	background-color: #eef;
+	border-color: #cce;
+}
+
+
+.flgallery .about .version {
+	margin: 0 0 1.5em 0.25em;
+}
+.flgallery .about .version strong {
+	font-size: 110%;
+}
+.flgallery .about .plugin-info {
+	width: 90%;
+	margin: 1em 0 2em;
+}
+.flgallery .about .plugin-info th {
+	font-weight: normal;
+}
+.flgallery .about .plugin-info th.h {
+	font-weight: bold;
+}
+.flgallery .about .plugin-info td,
+.flgallery .about .plugin-info th {
+	padding: 0.25em 1em 0.1em 0.2em;
+	vertical-align: top;
+}
+.flgallery .about .plugin-info td {
+	width: 100%;
+	padding-top: 0;
+}
+.flgallery .about .plugin-info .url td {
+	padding-bottom: 0.67em;
+}
+.flgallery .about .plugin-info input {
+	width: 100%;
+	background: #eee;
+}
+.flgallery .about .uninstall {
+	float: right;
+	width: 12em;
+	margin-right: 10%;
+}
+.flgallery .about .uninstall .button {
+	width: 10em;
+	height: 2em;
+	margin: 1em 0 0;
+}
+.flgallery .about .uninstall .button:hover {
+	color: #900;
+}
+.flgallery .about .uninstall p {
+	margin: 0.5em 0.75em;
+}
+
+.flgallery #server-settings {
+	margin-left: 0.33em;
+}
+.flgallery #server-settings h3 {
+	cursor: default;
+}
+.flgallery #server-settings table {
+	width: 100%;
+	margin: 0.5em 0 1em;
+}
+.flgallery #server-settings table th {
+	text-align: left;
+	font-weight: normal;
+	width: 40%;
+	vertical-align: top !important;
+}
+.flgallery #server-settings table th span {
+	opacity: 0;
+}
+.flgallery #server-settings table th,
+.flgallery #server-settings table td {
+	vertical-align: bottom;
+	padding: 0.5em 0.75em;
+}
+.flgallery #server-settings table td {
+	color: #090;
+}
+.flgallery #server-settings table .even td,
+.flgallery #server-settings table .even th {
+	background: #f7f7f7;
+}
+
+
+.flgallery .manage {
+	margin-right: 5%;
+}
+
+.flgallery #galleries-panel {
+	margin: 2em 0;
+	padding: 0;
+}
+.flgallery #galleries-panel .button,
+.flgallery #galleries-panel .button-primary {
+	font-size: 100% !important;
+}
+
+
+.flgallery #newGalleryForm {
+	width: 50em;
+}
+.flgallery #newGalleryForm .label {
+	padding: 0.5em 1em 0 0;
+}
+.flgallery #newGalleryForm .value {
+	padding: 0.25em 0;
+}
+.flgallery #newGalleryForm .name .label {
+	font-size: 115%;
+	padding-top: 0.67em;
+}
+.flgallery #newGalleryForm .name .value {
+	padding: 0.1em 0 1em 0;
+}
+.flgallery #newGalleryForm .name .value input {
+	width: 100%;
+	font-size: 145%;
+}
+.flgallery #newGalleryForm .type .label,
+.flgallery #newGalleryForm .type .value select {
+	font-size: 11px;
+}
+.flgallery #newGalleryForm .type .value select {
+	width: 215px;
+	float: left;
+	margin-right: 2em;
+	padding: 0.25em 0.3em 0.25em 0.3em;
+	height: 2.1em;
+}
+.flgallery #newGalleryForm .type .value select option {
+	padding: 0.5em;
+	font-size: 12px;
+}
+.flgallery #newGalleryForm .navigation input {
+}
+.flgallery #newGalleryForm .preview {
+	clear: left;
+	float: left;
+	width: 260px;
+	height: 135px;
+	overflow: hidden;
+	margin: 0.5em 0 0.75em -20px;
+}
+.flgallery #newGalleryForm .preview img {
+}
+.flgallery #newGalleryForm .description {
+	margin: 1em 0 0 240px;
+	font-size: 11px;
+	/*max-width: 25em;*/
+}
+.flgallery #newGalleryForm .submit * {
+	vertical-align: middle;
+}
+.flgallery #newGalleryForm .submit input {
+}
+.flgallery #newGalleryForm .submit .button-primary {
+	font-size: 100% !important;
+	margin: 0 0.4em 0 0;
+}
+
+.flgallery .galleries-list {
+}
+.flgallery .galleries-list .gallery {
+	margin: 0.5em 0 3em 0;
+}
+.flgallery .galleries-list .gallery .hndle {
+	margin: 0;
+	padding: 0.7em 1.5em;
+	background-color: #ddd;
+}
+.flgallery .galleries-list .gallery .hndle span {
+}
+.flgallery .galleries-list .gallery .inside {
+	margin: 0;
+	padding: 0;
+}
+.flgallery .galleries-list .gallery .toggle {
+	display: block;
+	height: 16px;
+	margin: -8px -1px -8px;
+	padding: 0;
+	-moz-border-radius: 9px;
+	-webkit-border-radius: 9px;
+	-khtml-border-radius: 9px;
+	border-radius: 9px;
+}
+.flgallery .galleries-list .gallery .toggle span {
+	display: block;
+	height: 16px;
+	background: url(../img/arrows.gif) no-repeat center bottom;
+}
+.flgallery .galleries-list .gallery .brief {
+	height: 145px;
+	padding: 10px 15px 0 270px;
+}
+.flgallery .galleries-list .gallery .full {
+	padding: 35px 1em 1em;
+	background: #fff;
+	border: 1px #ddd;
+	border-style: solid;
+}
+.flgallery .galleries-list .gallery .brief .info {
+	padding: 10px 0;
+	height: 100px;
+	line-height: 15px;
+	font-size: 11px;
+	font-family: Verdana, sans-serif;
+}
+.flgallery .galleries-list .gallery .show-pictures {
+	margin: -15px 255px 0 0;
+	line-height: 20px;
+	text-align: center;
+	position: relative;
+	font-family: Georgia, sans-serif;
+	font-weight: bold;
+	/* font-variant: small-caps; */ 
+	letter-spacing: 1px;
+}
+.flgallery .galleries-list .gallery .show-pictures a {
+	text-decoration: none;
+	border-bottom: 1px dotted;
+	padding: 0 0.2em 0 0.3em;
+}
+.flgallery .galleries-list .gallery .controls {
+	float: right;
+	text-align: center;
+	margin: 0;
+}
+.flgallery .galleries-list .gallery .controls .button {
+	margin: 0.2em 0;
+}
+.flgallery .galleries-list .gallery .publish {
+}
+.flgallery .galleries-list .gallery .publish .button {
+	width: 7.0em;
+}
+.flgallery .galleries-list .gallery .popup {
+}
+.flgallery .galleries-list .gallery .popup .button {
+	width: 7.0em;
+	font-weight: bold;
+}
+.flgallery .galleries-list .gallery .options {
+}
+.flgallery .galleries-list .gallery .options .button {
+	font-size: 16px !important;
+	line-height: 1.3em;
+	width: 5em;
+	//width: 5.5em;
+}
+.flgallery .galleries-list .gallery .delete {
+	margin-top: 0.5em;
+}
+.flgallery .galleries-list .gallery .delete .button {
+	opacity: 0.7;
+}
+.flgallery .galleries-list .gallery .delete .button:hover {
+	opacity: 1;
+	color: #900;
+}
+.flgallery .galleries-list .gallery .arrange-pictures {
+	font-size: 11px;
+	height: 30px;
+	margin: 0 0 15px 12px;
+}
+.flgallery .galleries-list .gallery .arrange-pictures * {
+	vertical-align: middle;
+}
+.flgallery .galleries-list .gallery .arrange-pictures select {
+	width: 5em;
+}
+.flgallery .galleries-list .gallery .images {
+}
+.flgallery .galleries-list .gallery .preview {
+	display: block;
+	float: left;
+	width: 146px;
+	height: 146px;
+	padding: 0;
+	margin: 5px;
+	text-align: left;
+}
+.flgallery .galleries-list .gallery .items .preview {
+	background: url(../img/preview-shadow-120x120.png) no-repeat center;
+}
+.flgallery .galleries-list .gallery .image {
+	display: block;
+	position: relative;
+	margin: 7px 0 0 7px;
+	width: 120px;
+	height: 120px;
+	overflow: hidden;
+	text-align: center;
+	border: 1px solid #555;
+}
+.flgallery .galleries-list .gallery .image .title {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	padding: 1px 0 2px;
+	background: #333;
+	color: #fff;
+	text-align: center;
+	font-family: Tahoma, sans-serif;
+	font-size: 11px;
+	visibility: hidden;
+}
+.flgallery .galleries-list .gallery .image:hover .title {
+	visibility: visible;
+}
+.flgallery .galleries-list .gallery .image img.thumb {
+	/*width: 120px;*/
+	height: 120px;
+	border: none;
+	background: url(../img/transparent-50.gif) repeat left top;
+}
+.flgallery .galleries-list .gallery .image .menu {
+	visibility: hidden;
+}
+.flgallery .galleries-list .gallery .image:hover .menu {
+	visibility: visible;
+}
+.flgallery .galleries-list .gallery .image .menu a.button {
+	display: block;
+	position: absolute;
+	right: 2px;
+	top: 2px;
+	margin: 0;
+	width: 24px;
+	height: 25px;
+	overflow: hidden;
+	padding: 0;
+	text-align: center;
+	text-decoration: none;
+	background: url(../img/gear.png) no-repeat center;
+	border: none !important;
+}
+.flgallery .galleries-list .gallery .image .menu ul {
+	display: block;
+	position: absolute;
+	width: auto;
+	right: 0;
+	top: 15px;
+	float: right;
+	margin: 0;
+	padding: 0.2em 0;
+	text-align: left;
+	font-size: 10px !important;
+	list-style-type: none;
+	opacity: 0.9;
+	visibility: hidden;
+}
+.flgallery .galleries-list .gallery .image .menu:hover ul {
+	visibility: visible;
+}
+.flgallery .galleries-list .gallery .image .menu li {
+	margin: 0;
+}
+.flgallery .galleries-list .gallery .image .menu li a {
+	display: block;
+	padding: 0.25em 0.75em;
+	border-bottom: 1px solid #ccc;
+	text-decoration: none;
+	color: #039;
+}
+.flgallery .galleries-list .gallery .image .menu li a:hover {
+	color: #c30;
+}
+.flgallery .galleries-list .gallery .image .menu .last a {
+	border-bottom: none;
+}
+.flgallery .galleries-list .gallery .add {
+	position: static;
+	border: 1px dotted #999;
+	background: #f0f0f0 no-repeat 45px 50px;
+}
+.flgallery .galleries-list .gallery .add form {
+}
+.flgallery .galleries-list .gallery .add label {
+	display: block;
+	position: relative;
+	z-index: 1;
+	padding-top: 10px;
+	font-weight: bold;
+	color: #bbb;
+	cursor: pointer;
+}
+.flgallery .galleries-list .gallery .add .inFile {
+	display: block;
+	font-size: 60px;
+	//font-size: 25px;
+	width: 100px;
+	height: 60px;
+	margin: -20px 0 0 -10px;
+	border: none;
+	background: #eee;
+	color: #fff;
+	cursor: pointer !important;
+	opacity: 0;
+	filter: alpha(opacity=0);
+}
+.flgallery .galleries-list .gallery .add .submit {
+	border-color: #666;
+	color: #000;
+}
+.flgallery .galleries-list .gallery .add .submit[disabled] {
+	border-color: #ccc;
+	cursor: default;
+}
+ 
+.flgallery #gallery-options {
+	position: relative;
+}
+.flgallery #gallery-options td {
+	padding: 0.5em 0.33em;
+}
+.flgallery #gallery-options .flash {
+	position: absolute;
+	right: 0;
+	top: 0;
+	height: 1px;
+	z-index: 10;
+}
+.flgallery #gallery-options .flash .metabox-holder {
+}
+.flgallery #gallery-options .flash .meta-box-sortables {
+	height: 1px;
+}
+.flgallery #gallery-options .flash:hover {
+	z-index: 30;
+}
+.flgallery #gallery-options #flash-preview {
+	margin: 0 !important;
+}
+.flgallery #gallery-options #flash-preview .hndle {
+	text-align: center;
+	cursor: move !important;
+}
+.flgallery #gallery-options #flash-preview .inside {
+	padding: 15px;
+	overflow: hidden;
+}
+.flgallery #gallery-options #flash-preview .inside2 {
+	margin: 0 !important;
+	padding: 0 !important;
+	border: none !important;
+	background: url(../img/transparent-50.gif) repeat left top;
+}
+.flgallery #gallery-options #flash-preview .inside3 {
+	margin: 0 !important;
+	padding: 0 !important;
+	border: none !important;
+}
+.flgallery #gallery-options #flash-preview .trial {
+	font-family: Verdana, sans-serif;
+	font-size: 11px;
+	line-height: 16px;
+	padding: 10px;
+	background: #ffd;
+	color: #000;
+	border-bottom: 1px solid #eee;
+}
+.flgallery #gallery-options .options-panel:hover {
+	z-index: 25;
+}
+.flgallery #gallery-options .gallery {
+	position: relative;
+	z-index: 20;
+	width: 370px;
+	margin: 0 0 -2em;
+	padding: 0.33em 0.5em 0 0.5em;
+	border: 2px solid #e7e7e7;
+	background: #f9f9f9;
+	-moz-border-radius: 1em;
+	-webkit-border-radius: 1em;
+	-khtml-border-radius: 1em;
+	border-radius: 1em;
+}
+.flgallery #gallery-options .gallery table {
+}
+.flgallery #gallery-options .gallery-name input {
+	font-size: 133%;
+}
+.flgallery #gallery-options .gallery-name input,
+.flgallery #gallery-options .gallery-type select {
+	width: 96%;
+}
+.flgallery #gallery-options .settings {
+	position: relative;
+	z-index: 25;
+	width: 370px;
+	padding: 0 0.5em;
+	margin: 0;
+	cursor: default;
+	background: #f0f0f0;
+	border: 2px solid #ddd;
+	-moz-border-radius: 1em;
+	-webkit-border-radius: 1em;
+	-khtml-border-radius: 1em;
+	border-radius: 1em;
+}
+.flgallery #flashSettings {
+	padding: 0.5em;
+	color: #000;
+}
+.flgallery #flashSettings * { font-size: 12px; font-family: Tahoma,sans-serif; }
+.flgallery #flashSettings h2 { margin-top:0; color:#777; border-bottom:1px solid #ccc; padding-bottom:0.25em; }
+.flgallery #flashSettings .object { margin:1em 0 1em; }
+.flgallery #flashSettings .objectName { font-size:100%; font-weight:bold; margin:0.5em 0; height:2em; }
+.flgallery #flashSettings .objectName label { cursor:pointer; color:#800; background:url(../img/open.gif) no-repeat left 0.33em; padding-left:18px; }
+.flgallery #flashSettings .objectName label.opened { background-image:url(../img/close.gif); }
+.flgallery #flashSettings .objectName label span { border-bottom:1px dotted; font-size:14px; font-family:Verdana,sans-serif; }
+.flgallery #flashSettings .object .hideName { height:2em; margin:-2.5em 0 0.5em 0; background:#f0f0f0; opacity:0.75; filter:alpha(opacity=75); display:block; }
+.flgallery #flashSettings .objectValue { margin:0 0 0 18px; }
+.flgallery #flashSettings .objectValue table { width:100%; }
+.flgallery #flashSettings .objectValue td { padding:0.33em 0.67em 0.33em 0; width:50%; white-space:nowrap; }
+.flgallery #flashSettings .objectValue label { padding-right:1em; vertical-align:middle; }
+.flgallery #flashSettings .objectValue label span { white-space:nowrap; }
+.flgallery #flashSettings .objectValue input { margin-left:0em; vertical-align:middle; }
+.flgallery #flashSettings .objectValue input.text { width: 150px; }
+.flgallery #flashSettings .objectValue select { width: 150px; }
+.flgallery #flashSettings .objectValue input.color { width: 5em; text-align:center; font-family:'Lucida Console',monospace; font-size:13px; vertical-align:middle; }
+.flgallery #flashSettings .objectValue input.int { width: 4em; }
+.flgallery #flashSettings .objectValue textarea { width: 95%; }
+.flgallery #flashSettings .objectProperties { margin:0 0 0.5em; }
+.flgallery #flashSettings .submit { padding:0.33em 0; }
+.flgallery #flashSettings .submit .button-primary { font-size:13px !important; }
+.flgallery #flashSettings #debug {
+	display: none;
+	position: fixed;
+	right: 1em;
+	bottom: 0.5em;
+	width: 500px;
+	font-family: monospace;
+	font-size: 11px;
+	background: #eee;
+	z-index: 100;
+	opacity: 0.5;
+}
+
+.flgallery #gallery-options .submit {
+	position: relative;
+	z-index: 20;
+}
+.flgallery #gallery-options .submit * {
+	vertical-align: middle;
+	margin: 0 0.33em;
+}
+.flgallery #gallery-options .submit .button-primary {
+	font-size: 100% !important;
+}
+
+
+.flgallery .image-properties .properties {
+	width: 45em;
+	margin: 0.5em 0 1em 0;
+}
+.flgallery .image-properties .properties tr {
+	vertical-align: top;
+}
+.flgallery .image-properties .properties th,
+.flgallery .image-properties .properties td {
+	vertical-align: top;
+	padding-bottom: 0.5em;
+}
+.flgallery .image-properties .properties th {
+	padding-top: 0.55em;
+	width: 7em;
+}
+.flgallery .image-properties .properties input.text,
+.flgallery .image-properties .properties textarea {
+	width: 100%;
+}
+.flgallery .image-properties .properties .submit td {
+	vertical-align: middle;
+}
+.flgallery .image-properties .properties .submit .button-primary {
+	font-size: 115% !important;
+}
+.flgallery .image-properties .image-description th {
+	padding-top: 0.75em;
+}
+.flgallery .image-properties .image-description .text {
+	height: 5em;
+}
+.flgallery .image-properties .view-image {
+	text-align: center;
+	margin: 2em 0 0 0;
+	background: #ccc;
+	border: 2px inset;
+	border-color: #eee #fff #fff #eee;
+	overflow: scroll;
+}
+.flgallery .image-properties .view-image img {
+	margin: 2em;
+}
+
+.flgallery .tab-menu {
+	position: relative;
+	margin: 0 0 -1px 0;
+	padding: 0;
+	list-style: none;
+	float: left;
+}
+.flgallery .tab-menu li {
+	float: left;
+	text-align: center;
+	white-space: nowrap;
+	background: #eee url(../img/button.gif) repeat-x top;
+	margin: 0 0.25em 0 0;
+	padding: 0.75em 1.5em 0.5em;
+	border: 1px solid #ccc;
+	-moz-border-radius: 1em 1em 0 0;
+	-webkit-border-top-left-radius: 1em;
+	-khtml-border-top-left-radius: 1em;
+	border-top-left-radius: 1em;
+	-webkit-border-top-right-radius: 1em;
+	-khtml-border-top-right-radius: 1em;
+	border-top-right-radius: 1em;
+}
+.flgallery .tab-menu li:hover {
+	background: #f0f0f0 url(../img/button-hover.gif) repeat-x top;
+}
+.flgallery .tab-menu li.selected {
+	background: #fff;
+	border-bottom-color: #fff;
+}
+.flgallery .tab-menu li.selected a {
+	text-decoration: none;
+	color: #000;
+	cursor: default;
+}
+.flgallery .tab-content {
+	clear: left;
+	background: #fff;
+	min-height: 30em; 
+	margin: 0;
+	padding: 2em 1.5em;
+	border: 1px solid #ccc;
+	-moz-border-radius: 0 1em 0 0;
+	-webkit-border-top-right-radius: 1em;
+	-khtml-border-top-right-radius: 1em;
+	border-top-right-radius: 1em;
+}
+
+.flgallery .media {
+}
+.flgallery .media #action-addNewAlbum .button {
+	font-size: 100% !important;
+}
+.flgallery .media .albums-list {
+	margin: 1.5em 0;
+}
+.flgallery .media .albums-list td {
+	background: #f7f7f7;
+}
+.flgallery .media .albums-list td,
+.flgallery .media .albums-list th {
+	padding: 0.75em 1em;
+}
+.flgallery .media .albums-list td.last,
+.flgallery .media .albums-list th.last {
+	border-right: none;
+}
+.flgallery .media .albums-list th {
+	padding: 0.5em 1em;
+}
+.flgallery .media .albums-list tr:hover td {
+	background: #fcfcf7;
+}
+.flgallery .media .albums-list .album-preview {
+	width: 150px;
+	text-align: center;
+}
+.flgallery .media .albums-list .album-preview img {
+	max-width: 160px;
+}
+.flgallery .media .albums-list .album-title {
+}
+.flgallery .media .albums-list .album-title h4 {
+	margin: 0 0 0.2em;
+	font-family: Verdana, sans-serif;
+	font-size: 115%;
+}
+.flgallery .media .albums-list .album-count {
+	font-weight: normal;
+}
+.flgallery .media .albums-list .album-description {
+	font-family: Tahoma, sans-serif;
+	font-size: 11px;
+	line-height: 13px;
+}
+.flgallery .media .albums-list .album-description a {
+	color: #333;
+	text-decoration: none;
+}
+.flgallery .media .albums-list .album-author {
+	width: 11%;
+}
+.flgallery .media .albums-list .album-date {
+	width: 10%;
+}
+.flgallery .media .albums-list .album-size {
+	width: 9%;
+	text-align: center;
+}
+.flgallery .media .albums-list td.album-operation {
+	width: 13em;
+	padding: 0.4em 0.25em;
+}
+.flgallery .media .albums-list .actionButton {
+	float: left;
+	margin: 0.2em 0.33em 0.2em 0;
+}
+
+.flgallery .album .properties {
+	margin-bottom: 2em;
+}
+.flgallery .album .properties form {
+	margin: 0;
+}
+.flgallery .album .properties table {
+	width: 49em;
+}
+.flgallery .album .properties th {
+	width: 6.75em;
+	padding-top: 0.67em;
+}
+.flgallery .album .properties td .text,
+.flgallery .album .properties td .text {
+	width: 90%;
+	min-width: 90%;
+}
+.flgallery .album .properties .submit td {
+	vertical-align: middle;
+}
+.flgallery .album .properties .submit .button-primary {
+	font-size: 115% !important;
+}
+.flgallery .album .album-title th {
+	padding-top: 1em;
+}
+.flgallery .album .album-title input {
+	font-size: 175%;
+}
+.flgallery .album .album-description textarea {
+	height: 5em;
+}
+	
+.flgallery .album #picturesHeading {
+	margin: 0 0 0.8em 0;
+}
+
+.flgallery .album .actions-panel {
+	margin: 1em 0 2em;
+}
+.flgallery .album .addPictures {
+	float: left;
+}
+.flgallery .album .addPictures .button {
+	margin-right: 0.5em;
+}
+.flgallery .album .addPictures .button,
+.flgallery .album .createGallery .button {
+	font-size: 100% !important;
+	font-weight: bold;
+	height: 1.7em;
+	//height: 2.2em;
+}
+.flgallery .media #action-addMediaPage .button,
+.flgallery .album .addMedia .button {
+	font-weight: bold;
+}
+.flgallery .media #action-addMediaPage .button {
+	color: #069;
+}
+.flgallery .media #action-albumToGallery .button,
+.flgallery .album .createGallery .button {
+	color: #090;
+	font-weight: bold;
+}
+.flgallery .media #action-deleteAlbum .button {
+	opacity: 0.7;
+}
+.flgallery .media #action-deleteAlbum .button:hover {
+	color: #900;
+	opacity: 1;
+}
+
+.flgallery .album .bulk-actions * {
+	vertical-align: middle;
+}
+.flgallery .album .bulk-actions select {
+	float: left;
+	margin-right: 0.5em;
+}
+.flgallery .album .bulk-actions select.action {
+	width: 11.5em;
+}
+.flgallery .album .bulk-actions select.destAlbum option {
+	padding-right: 1em !important;
+}
+
+.flgallery .album .pictures-list {
+	margin: 1em 0;
+}
+.flgallery .album .pictures-list td {
+	padding: 0.5em;
+}
+.flgallery .album .pictures-list .picture-preview {
+	width: 150px;
+	text-align: center;
+}
+.flgallery .album .pictures-list .picture-preview img {
+	max-width: 160px;
+}
+.flgallery .album .pictures-list .picture-file {
+	padding-top: 0.6em;
+	width: 20%;
+}
+.flgallery .album .pictures-list .picture-dimensions {
+	white-space: nowrap;
+}
+.flgallery .album .pictures-list .picture-title h4 {
+	font-size: 100%;
+	margin: 0 0 0.2em 0;
+}
+.flgallery .album .pictures-list .picture-description {
+	font-family: Tahoma, sans-serif;
+	font-size: 11px;
+	line-height: 13px;
+	margin-left: 0.1em;
+}
+.flgallery .album .pictures-list .picture-description a {
+	text-decoration: none;
+	color: #333;
+}
+.flgallery .album .pictures-list .picture-size {
+	width: 7em;
+}
+.flgallery .album .pictures-list .picture-delete {
+	margin: 2.67em 0 0;
+}
+
+.flgallery .album .picture .picture-preview img {
+	height: 80px;
+}
+.flgallery .album .picture .picture-file .name {
+	font-size: 100%;
+}
+.flgallery .album .picture .picture-file .info {
+	margin: 5px 0 5px;
+}
+.flgallery .album .picture .picture-delete,
+.flgallery .album .picture .picture-file .operation {
+	visibility: hidden;
+}
+.flgallery .album .picture:hover .picture-delete,
+.flgallery .album .picture:hover .picture-file .operation {
+	visibility: visible;
+}
+.flgallery .album .picture .picture-title {
+	font-size: 100%;
+}
+.flgallery .album .picture:hover {
+	background: #fffff7;
+}
+.flgallery .image-properties .close,
+.flgallery .album .close {
+	text-align: right;
+	margin: 1em;
+}
+.flgallery .image-properties .close .button,
+.flgallery .album .close .button {
+	font-size: 100% !important;
+	padding: 0.33em 1em 0.33em 0.67em; 
+}
+
+.flgallery #flgalleryAddMediaForm {
+}
+.flgallery #flgalleryAddMediaForm .note {
+	margin: 2em 3px 1em;
+	font-size: 11px;
+}
+.flgallery #flgalleryAddMediaForm .submit {
+	margin: 0;
+	padding: 0;
+}
+.flgallery #flgalleryAddMediaForm .submit .button-primary {
+	font-size: 100% !important;
+}
+.flgallery #flgalleryAddMediaForm .form-table th {
+	width: auto;
+}
+
+.flgallery .addmedia-stdupload .item,
+.flgallery .addmedia-url .item {
+	position: relative;
+}
+.flgallery .addmedia-stdupload .item,
+.flgallery .addmedia-url .item {
+	float: left;
+	width: 33%;
+	min-width: 29em;
+}
+.flgallery .addmedia-url .item {
+	width: 50%;
+}
+.flgallery .addmedia-stdupload .item .inside,
+.flgallery .addmedia-url .item .inside {
+	margin: 0.5em 3em 2em 0;
+	padding: 1.5em 2.5em 1em 1em;
+	background: #f7f7f7;
+	border: 1px solid #ddd;
+	-moz-border-radius: 1em;
+	-webkit-border-radius: 1em;
+	-khtml-border-radius: 1em;
+	border-radius: 1em;
+	overflow: hidden;
+}
+.flgallery .addmedia-stdupload .item table,
+.flgallery .addmedia-url .item table {
+	width: 100%;
+}
+.flgallery .addmedia-stdupload .item th,
+.flgallery .addmedia-url .item th {
+	padding-right: 1em;
+	font-weight: normal;
+	width: 25%;
+	white-space: nowrap;
+}
+.flgallery .addmedia-stdupload .item input,
+.flgallery .addmedia-url .item input {
+	width: 100%;
+}
+.flgallery .addmedia-stdupload .item textarea,
+.flgallery .addmedia-url .item textarea {
+	width: 100%;
+	font-size: 85%;
+}
+.flgallery .addmedia-stdupload .add,
+.flgallery .addmedia-url .add {
+	clear: left;
+}
+.flgallery .addmedia-stdupload .limits {
+	margin: 1em 3px;
+	font-size: 11px;
+}
+
+.flgallery .addmedia-swfupload {
+	min-height: 5em;
+}
+.flgallery .addmedia-swfupload #uploadQueue td,
+.flgallery .addmedia-swfupload #uploadQueue th {
+	padding: 0.5em 1em;
+	border-bottom: 1px solid #ddd;
+}
+.flgallery .addmedia-swfupload #uploadQueue tr:hover td {
+	background: #f0f7ff;
+}
+.flgallery .addmedia-swfupload #uploadQueue tr.completed td {
+	background: #fff;
+}
+.flgallery .addmedia-swfupload #uploadQueue .name {
+	width: 15em;
+}
+.flgallery .addmedia-swfupload #uploadQueue .size {
+	text-align: right;
+}
+.flgallery .addmedia-swfupload #uploadQueue th.size {
+	padding-right: 2em;
+}
+.flgallery .addmedia-swfupload #uploadQueue .cancel {
+	padding-left: 2em;
+	width: 2em;
+}
+.flgallery .addmedia-swfupload #uploadQueue .cancel a {
+	text-decoration: none;
+	font-size: 18px;
+	color: #d54e21;
+}
+.flgallery .addmedia-swfupload #uploadStatus {
+	padding-left: 0.8em;
+	font-size: 125%;
+}
+.flgallery .addmedia-swfupload .select-files {
+}
+.flgallery .addmedia-swfupload .select-files .select {
+	float: left;
+	margin: 0 0 1em -2px;
+}
+.flgallery .addmedia-swfupload .select-files .tip {
+	float: left;
+	font-size: 11px;
+	width: 30em;
+	margin: 2px 8px;
+}
+.flgallery .addmedia-swfupload #uploadQueue {
+	clear: left;
+}
+
+.flgallery #newAlbumForm {
+}
+.flgallery #newAlbumForm .submit .button-primary {
+	font-size: 115% !important;
+}
+.flgallery #newAlbumForm table {
+	width: 45em;
+}
+.flgallery #newAlbumForm th {
+	width: 6.75em;
+}
+.flgallery #newAlbumForm .album-title th {
+	padding-top: 1.1em;
+}
+.flgallery #newAlbumForm .album-title input.text {
+	font-size: 175%;
+}
+.flgallery #newAlbumForm .text {
+	width: 100%;
+}
+
+div.jquery-image-zoom {
+	line-height: 0;
+	font-size: 0;
+	
+	z-index: 10;
+	
+	border: 5px solid #fff;
+	margin: -5px;
+	
+	-webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+	-moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+div.jquery-image-zoom a {
+	background: url(jquery.imageZoom.png) no-repeat;
+	
+	display: block;
+	width: 25px;
+	height: 25px;
+	
+	position: absolute;
+	right: -17px;
+	top: -17px;
+	/* IE-users are prolly used to close-link in right-hand corner */
+	*left: auto;
+	*right: -17px;
+	
+	text-decoration: none;
+	text-indent: -100000px;
+	outline: 0;
+	
+	z-index: 11;
+}
+
+div.jquery-image-zoom a:hover {
+	background-position: left -25px;
+}
+
+div.jquery-image-zoom img, 
+div.jquery-image-zoom embed, 
+div.jquery-image-zoom object, 
+div.jquery-image-zoom div {
+	width: 100%;
+	height: 100%;
+}

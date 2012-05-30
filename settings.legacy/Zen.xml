@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8"?>
+<settings>
+	<param name="initialState" default="Show Thumbnails">
+		<title>Initial State</title>
+		<description>Initial state of the gallery</description>
+		<input type="select">
+			<option value="Show Albums">Show Albums</option>
+			<option value="Show Thumbnails">Show Thumbnails</option>
+			<option value="Load Image">Load Image</option>
+			<option value="Start Slideshow">Start Slideshow</option>
+		</input>
+	</param>
+	<param name="imageScaleMode" default="fill">
+		<title>Image Scale Mode</title>
+		<description>Type of image scaling to the size of the visible area</description>
+		<input type="select">
+			<option value="fit">fit</option>
+			<option value="fill">fill</option>
+			<option value="noScale">noScale</option>
+		</input>
+	</param>
+	<param name="dropShadow" default="true">
+		<title>Drop Shadow</title>
+		<description>Show/hide gallery shadow</description>
+		<input type="checkbox" value="true|false" />
+	</param>
+	<param name="frameSize" default="5">
+		<title>Frame Size</title>
+		<description>Frame thickness</description>
+		<input type="slider" min="0" max="15" />
+	</param>
+	<param name="frameColor" default="ffffff">
+		<title>Frame Color</title>
+		<description>Frame color</description>
+		<input type="color" />
+	</param>
+	<param name="cornerRadius" default="7">
+		<title>Corner Radius</title>
+		<description>Corner radius for gallery background and gallery frame</description>
+		<input type="slider" min="0" max="90" />
+	</param>
+	<param name="backgroundColor" default="ffffff">
+		<title>Background Color</title>
+		<description>Background color inner frame for the first time downloading images</description>
+		<input type="color" />
+	</param>
+	<param name="showCaption" default="always">
+		<title>Show Caption</title>
+		<description>Defines when to show an image caption</description>
+		<input type="select">
+			<option value="always">always</option>
+			<option value="bever">never</option>
+			<option value="onMouseOver">onMouseOver</option>
+		</input>
+	</param>
+	<param name="captionBackgroundAlpha" default="40">
+		<title>Background Alpha</title>
+		<description>Caption background transparency</description>
+		<input type="slider" min="0" max="100" />
+	</param>
+	<param name="captionBackgroundCornerRadius" default="4">
+		<title>Background Corner Radius</title>
+		<description>Corner radius of caption background</description>
+		<input type="slider" min="0" max="30" />
+	</param>
+	<param name="buttonsBackgroundAlpha" default="40">
+		<title>Background Alpha</title>
+		<description>Buttons background transparency</description>
+		<input type="slider" min="0" max="100" />
+	</param>
+	<param name="buttonsBackgroundCornerRadius" default="4">
+		<title>Background Corner Radius</title>
+		<description>Corner radius of buttons Background</description>
+		<input type="slider" min="0" max="30" />
+	</param>
+	<param name="showButtons" default="always">
+		<title>Show Buttons</title>
+		<description>Defines when to show the buttons</description>
+		<input type="select">
+			<option value="always">always</option>
+			<option value="never">never</option>
+			<option value="onMouseOver">onMouseOver</option>
+		</input>
+	</param>
+	<param name="showAlbumsButton" default="true">
+		<title>Albums Button</title>
+		<description>Show/hide albums button</description>
+		<input type="checkbox" value="true|false" />
+	</param>
+	<param name="showThumbnailsButton" default="true">
+		<title>Thumbnails Button</title>
+		<description>Show/hide thumbnails button</description>
+		<input type="checkbox" value="true|false" />
+	</param>
+	<param name="showSlideshowButton" default="true">
+		<title>Slideshow Button</title>
+		<description>Show/hide &quot;play/pause&quot; buttons</description>
+		<input type="checkbox" value="true|false" />
+	</param>
+	<param name="showNavigationButton" default="true">
+		<title>Navigation Button</title>
+		<description>Show/hide navigation buttons</description>
+		<input type="checkbox" value="true|false" />
+	</param>
+	<param name="slideshowDelay" default="4">
+		<title>Slideshow Delay</title>
+		<description>Image display duration in Slideshow mode (in seconds)</description>
+		<input type="slider" min="1" max="60" />
+	</param>
+	<param name="useRotation" default="true">
+		<title>Use Rotation</title>
+		<description>When set to "true" this parameter enables the rotation transition effect, otherwise fade effect is used</description>
+		<input type="checkbox" value="true|false" />
+	</param>
+	<param name="rotationDirection" default="Horizontal CW">
+		<title>Direction</title>
+		<description>Rotation direction</description>
+		<input type="select">
+			<option value="Vertical CW">Vertical CW</option>
+			<option value="Vertical CCW">Vertical CCW</option>
+			<option value="Horizontal CW">Horizontal CW</option>
+			<option value="Horizontal CCW">Horizontal CCW</option>
+		</input>
+	</param>
+	<param name="rotationDuration" default="600">
+		<title>Duration</title>
+		<description>Duration of rotation (in milliseconds)</description>
+		<input type="int" min="100" max="3000" />
+	</param>
+	<param name="panelBackgroundAlpha" default="50">
+		<title>Background Alpha</title>
+		<description>Transparency of panel icons and albums</description>
+		<input type="slider" min="0" max="100" />
+	</param>
+	<param name="iconWidth" default="90">
+		<title>Icon Width</title>
+		<description>Icons width</description>
+		<input type="int" />
+	</param>
+	<param name="iconHeight" default="55">
+		<title>Icon Height</title>
+		<description>Icon height</description>
+		<input type="int" />
+	</param>
+	<param name="iconPadding" default="10">
+		<title>Icon Padding</title>
+		<description>Distance between icons in the list</description>
+		<input type="slider" min="1" max="50" />
+	</param>
+	<param name="useEmbeddedFont" default="false">
+		<title>Use Embedded Font</title>
+		<description>Use embedded font</description>
+		<input type="checkbox" value="true|false" />
+	</param>
+	<param name="fontName" default="Arial">
+		<title>Font Name</title>
+		<description>Name of the font used for captions (works for useEmbeddedFont set to false only)</description>
+		<input type="font" />
+	</param>
+	<param name="fontSize" default="10">
+		<title>Font Size</title>
+		<description>Size of the font used for captions (works for useEmbeddedFont set to false only)</description>
+		<input type="int" />
+	</param>
+	<group name="translation">
+		<title>Translation</title>
+		<description></description>
+		<items>
+			<param name="Album" default="Album">
+				<title>Album</title>
+				<description></description>
+				<input type="text" />
+			</param>
+			<param name="Albums" default="Albums">
+				<title>Albums</title>
+				<description></description>
+				<input type="text" />
+			</param>
+			<param name="Image" default="Image">
+				<title>Image</title>
+				<description></description>
+				<input type="text" />
+			</param>
+			<param name="Images" default="Images">
+				<title>Images</title>
+				<description></description>
+				<input type="text" />
+			</param>
+			<param name="Close" default="Close">
+				<title>Close</title>
+				<description></description>
+				<input type="text" />
+			</param>
+			<param name="BackToAlbums" default="Back to Albums">
+				<title>Back to Albums</title>
+				<description></description>
+				<input type="text" />
+			</param>
+			<param name="LoadingImage" default="Loading Image">
+				<title>Loading Image</title>
+				<description></description>
+				<input type="text" />
+			</param>
+			<param name="Of" default="of">
+				<title>Of</title>
+				<description></description>
+				<input type="text" />
+			</param>
+		</items>
+	</group>
+	<param name="clickSound" default="">
+		<title>Click Sound</title>
+		<description>Path to the file with sound of click</description>
+		<input type="sound" />
+	</param>
+	<param name="overSound" default="">
+		<title>Over Sound</title>
+		<description>Path to the file with sound of mouseover</description>
+		<input type="sound" />
+	</param>
+	<param name="rotationSound" default="">
+		<title>Rotation Sound</title>
+		<description>Path to rotation sound file with rotation</description>
+		<input type="sound" />
+	</param>
+	<param name="cacheRadius" default="2">
+		<title>Cache Radius</title>
+		<description>Radius of gallery cache</description>
+		<input type="slider" min="0" max="10" />
+	</param>
+	<group name="picasa">
+		<title>picasa</title>
+		<description>Using images from picasa.com</description>
+		<items>
+			<param name="user" default="">
+				<title>User</title>
+				<description>Login</description>
+				<input type="text" />
+			</param>
+			<param name="albumID" default="">
+				<title>Album ID</title>
+				<description></description>
+				<input type="text" />
+			</param>
+		</items>
+	</group>
+</settings>

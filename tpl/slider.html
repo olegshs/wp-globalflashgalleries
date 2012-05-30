@@ -1,0 +1,26 @@
+<div class="slider" id="slider-{id}">
+	<div class="value">
+		<input type="text" id="{id}" name="{name}" value="{value}" />
+	</div>
+	<div class="control" style="width:{width}px;"></div>
+	<script type="text/javascript">//<![CDATA[
+	jQuery(document).ready(function($) {
+		$('#{id2}').attr('readonly', 'readonly');
+		$('#slider-{id2} .control').slider({
+			value: {value},
+			min: {min},
+			max: {max},
+			step: {step},
+			slide: function(event, ui) {
+				$('#{id2}')
+					.val(ui.value)
+					.css('left', Math.round((ui.value - {min}) * {width} / ({max} - {min})) + 'px');
+			},
+			change: function(event, ui) {
+				$('#{id2}').change();
+			}
+		});
+		$('#{id2}').css('left', Math.round(({value} - {min}) * {width} / ({max} - {min})) + 'px');
+	});
+	//]]></script>
+</div>

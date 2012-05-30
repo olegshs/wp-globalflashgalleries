@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<settings>
+	<param name="startPosition" default="center">
+		<title>Start Position</title>
+		<description>The initial position of the gallery</description>
+		<input type="select">
+			<option value="left">left</option>
+			<option value="center">center</option>
+			<option value="right">right</option>
+		</input>
+	</param>
+	<param name="imageAngle" default="30">
+		<title>Image Angle</title>
+		<description>Angle of images</description>
+		<input type="slider" min="0" max="120" />
+	</param>
+	<param name="maxImageWidth" default="250">
+		<title>Max Image Width</title>
+		<description></description>
+		<input type="slider" min="100" max="800" step="10" />
+	</param>
+	<param name="useScrollBar" default="true">
+		<title>Use Scroll Bar</title>
+		<description>Show/hide scroll bar</description>
+		<input type="checkbox" value="true|false" />
+	</param>
+	<param name="slideShow" default="false">
+		<title>Slide Show</title>
+		<description>Slideshow mode on/off</description>
+		<input type="checkbox" value="true|false" />
+	</param>
+	<param name="slideShowDelay" default="2">
+		<title>Slide Show Delay</title>
+		<description>Image display duration in Slideshow mode (in seconds)</description>
+		<input type="slider" min="1" max="60" />
+	</param>
+	<param name="flipDuration" default="1">
+		<title>Flip Duration</title>
+		<description>Flip duration (in seconds)</description>
+		<input type="slider" min="1" max="5" />
+	</param>
+	<param name="flipSound" default="">
+		<title>Flip Sound</title>
+		<description></description>
+		<input type="sound" />
+	</param>
+	<param name="useHighlight" default="true">
+		<title>Use Highlight</title>
+		<description>Highlights images on mouseover</description>
+		<input type="checkbox" value="true|false" />
+	</param>
+	<param name="reflectionAlpha" default="25">
+		<title>Reflection Alpha</title>
+		<description></description>
+		<input type="slider" min="1" max="100" />
+	</param>
+	<param name="colorScheme" default="custom">
+		<title>Color Scheme</title>
+		<description></description>
+		<input type="select">
+			<option value="white">white</option>
+			<option value="black">black</option>
+			<option value="grey">grey</option>
+			<option value="red">red</option>
+			<option value="green">green</option>
+			<option value="blue">blue</option>
+			<option value="custom">custom</option>
+		</input>
+	</param>
+	<group name="preloader">
+		<title>Preloader</title>
+		<description>Preloader settings</description>
+		<items>
+			<param name="stripesAlpha" default="45">
+				<title>Stripes Alpha</title>
+				<description></description>
+				<input type="slider" min="0" max="100" />
+			</param>
+			<param name="barColor" default="000000">
+				<title>Bar Color</title>
+				<description></description>
+				<input type="color" />
+			</param>
+			<param name="barAlpha" default="14">
+				<title>Bar Alpha</title>
+				<description></description>
+				<input type="slider" min="0" max="100" />
+			</param>
+			<param name="bgColor" default="000000">
+				<title>Background Color</title>
+				<description></description>
+				<input type="color" />
+			</param>
+			<param name="bgAlpha" default="10">
+				<title>Background Alpha</title>
+				<description></description>
+				<input type="slider" min="0" max="100" />
+			</param>
+			<param name="innerShadow" default="20">
+				<title>Inner Shadow</title>
+				<description></description>
+				<input type="slider" min="0" max="100" />
+			</param>
+			<param name="dropShadow" default="30">
+				<title>Drop Shadow</title>
+				<description></description>
+				<input type="slider" min="0" max="100" />
+			</param>
+		</items>
+	</group>
+	<group name="scrollbar">
+		<title>Scrollbar</title>
+		<description>Scrollbar settings</description>
+		<items>
+			<param name="bgColor" default="000000">
+				<title>Background Color</title>
+				<description></description>
+				<input type="color" />
+			</param>
+			<param name="bgAlpha" default="20">
+				<title>Background Alpha</title>
+				<description></description>
+				<input type="slider" min="0" max="100" />
+			</param>
+			<param name="handleColor" default="ffffff">
+				<title>Handle Color</title>
+				<description></description>
+				<input type="color" />
+			</param>
+			<param name="handleAlpha" default="40">
+				<title>Handle Alpha</title>
+				<description></description>
+				<input type="slider" min="0" max="100" />
+			</param>
+			<param name="arrowsColor" default="ffffff">
+				<title>Arrows Color</title>
+				<description></description>
+				<input type="color" />
+			</param>
+			<param name="arrowsAlpha" default="40">
+				<title>Arrows Alpha</title>
+				<description></description>
+				<input type="slider" min="0" max="100" />
+			</param>
+			<param name="innerShadow" default="10">
+				<title>Inner Shadow</title>
+				<description></description>
+				<input type="slider" min="0" max="100" />
+			</param>
+			<param name="dropShadow" default="0">
+				<title>Drop Shadow</title>
+				<description></description>
+				<input type="slider" min="0" max="100" />
+			</param>
+		</items>
+	</group>
+	<group name="caption">
+		<title>Caption</title>
+		<description>Caption settings</description>
+		<items>
+			<param name="textColor" default="ffffff">
+				<title>Text Color</title>
+				<description></description>
+				<input type="color" />
+			</param>
+			<param name="bgColor" default="000000">
+				<title>Background Color</title>
+				<description></description>
+				<input type="color" />
+			</param>
+			<param name="bgAlpha" default="80">
+				<title>Background Alpha</title>
+				<description></description>
+				<input type="slider" min="0" max="100" />
+			</param>
+			<param name="frameColor" default="ffffff">
+				<title>Frame Color</title>
+				<description></description>
+				<input type="color" />
+			</param>
+			<param name="frameAlpha" default="40">
+				<title>Frame Alpha</title>
+				<description></description>
+				<input type="slider" min="0" max="100" />
+			</param>
+			<param name="shadowAlpha" default="30">
+				<title>Shadow Alpha</title>
+				<description></description>
+				<input type="slider" min="0" max="100" />
+			</param>
+		</items>
+	</group>
+	<group name="background">
+		<title>Background</title>
+		<description></description>
+		<items>
+			<param name="bgColor" default="ffffff">
+				<title>Color</title>
+				<description></description>
+				<input type="color" />
+			</param>
+			<param name="bgAlpha" default="100">
+				<title>Alpha</title>
+				<description></description>
+				<input type="slider" min="0" max="100" />
+			</param>
+			<param name="bgImage" default="">
+				<title>Image</title>
+				<description></description>
+				<input type="image" />
+			</param>
+		</items>
+	</group>
+</settings>

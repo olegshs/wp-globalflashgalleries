@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<settings>
+	<group name="caption">
+		<title>Caption</title>
+		<description></description>
+		<items>
+			<param name="color" default="000000">
+				<title>Caption Color</title>
+				<description>Color of image captions</description>
+				<input type="color" />
+			</param>
+			<param name="fontName" default="Arial">
+				<title>Font Name</title>
+				<description></description>
+				<input type="font" />
+			</param>
+		</items>
+	</group>
+	<param name="frameColor" default="ffffff">
+		<title>Frame Color</title>
+		<description></description>
+		<input type="color" />
+	</param>
+	<param name="imageScaleMode" default="Crop">
+		<title>Image Scale Mode</title>
+		<description>Image scaling type</description>
+		<input type="select">
+			<option value="fill">fill</option>
+			<option value="fit">fit</option>
+			<option value="noScale">noScale</option>
+		</input>
+	</param>
+	<param name="slideshow" default="false">
+		<title>Slideshow</title>
+		<description></description>
+		<input type="checkbox" value="true|false" />
+	</param>
+	<param name="visibleImages" default="5">
+		<title>Visible Images</title>
+		<description>Number of visible images</description>
+		<input type="slider" min="2" max="10" />
+	</param>
+	<param name="usePhotoNumbers" default="true">
+		<title>Use Photo Numbers</title>
+		<description>Determines whether or not to display page numbers</description>
+		<input type="checkbox" value="true|false" />
+	</param>
+	<group name="translation">
+		<title>Background</title>
+		<description>Background image settings</description>
+		<items>
+			<param name="back" default="BACK">
+				<title>Back Button Label</title>
+				<description>The back button text</description>
+				<input type="text" />
+			</param>
+			<param name="gotoLink" default="Go to Link">
+				<title>Goto Link</title>
+				<description></description>
+				<input type="text" />
+			</param>
+		</items>
+	</group>
+	<param name="soundEffect" default="">
+		<title>Sound Effect</title>
+		<description>Image transition sound. You need to specify a path to your sound file</description>
+		<input type="sound" />
+	</param>
+	<group name="bgImage">
+		<title>Background</title>
+		<description>Background image settings</description>
+		<items>
+			<param name="alpha" default="100">
+				<title>Alpha</title>
+				<description></description>
+				<input type="slider" min="0" max="100" />
+			</param>
+			<param name="source" default="">
+				<title>Source</title>
+				<description></description>
+				<input type="image" />
+			</param>
+		</items>
+	</group>
+	<group name="image">
+		<title>Image</title>
+		<description>Image size</description>
+		<items>
+			<param name="width" default="300">
+				<title>Width</title>
+				<description></description>
+				<input type="int" />
+			</param>
+			<param name="height" default="200">
+				<title>Height</title>
+				<description></description>
+				<input type="int" />
+			</param>
+		</items>
+	</group>
+	<param name="flickr" default="">
+		<title>flickr</title>
+		<description>Using images from flickr.com</description>
+		<input type="text" />
+	</param>
+	<group name="picasa">
+		<title>picasa</title>
+		<description>Using images from picasa.com</description>
+		<items>
+			<param name="user" default="">
+				<title>User</title>
+				<description>Login</description>
+				<input type="text" />
+			</param>
+			<param name="albumID" default="">
+				<title>Album ID</title>
+				<description></description>
+				<input type="text" />
+			</param>
+		</items>
+	</group>
+</settings>

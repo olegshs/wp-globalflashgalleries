@@ -1,0 +1,25 @@
+<form id="newAlbumForm" action="" method="post">
+	<input type="hidden" name="action" value="createAlbum" />
+	<table class="form-table">
+		<tr class="album-title">
+			<th><label for="album_title">Title</label></th>
+			<td><input type="text" class="text" id="album_title" name="album[title]" value="New Album" size="40" /></td>
+		</tr>
+		<tr class="album-description">
+			<th><label for="album_description">Description</label></th>
+			<td><textarea class="text" id="album_description" name="album[description]" cols="40" rows="3"></textarea></td>
+		</tr>
+		<tr class="submit">
+			<td>
+				<input type="button" class="button" name="cancel" value="&larr; Back" onclick="document.getElementById('newAlbumForm').submit();" />
+			</td>
+			<td>
+				<input type="submit" class="button-primary button" name="OK" value="Create Album" />
+			</td>
+		</tr>
+	</table>
+</form>
+
+<script type="text/javascript">//<![CDATA[
+	jQuery('#album_title').focus();
+//]]></script>
