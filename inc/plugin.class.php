@@ -177,6 +177,7 @@ class flgalleryPlugin extends flgalleryBaseClass
 			'3dSlideshow' => 15,
 			'3dWall' =>		30,
 			'Art' =>		15,
+			'Aura' =>		15,
 			'Box' =>		20,
 			'Cubic' =>		20,
 			'Line' =>		15,

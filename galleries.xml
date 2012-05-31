@@ -18,6 +18,12 @@
 		<preview src="Art.png" />
 		<demo href="http://flash-gallery.com/wordpress-plugin/art-photo-gallery/" />
 	</gallery>
+	<gallery name="Aura" src="Aura.swf">
+		<title>Aura Gallery</title>
+		<description>Aura Photo Gallery allows you sharing photos right from interface. Send your photos to Facebook and Twitter for your friends to watch it. Placing your photo on the background creates a genuine atmosphere for each picture and the disappearing control panel makes watching your gallery pleasant and easy.</description>
+		<preview src="Aura.png" />
+		<demo href="http://flash-gallery.com/wordpress-plugin/aura-photo-gallery/" />
+	</gallery>
 	<gallery name="Box" src="Box.swf">
 		<title>Box Gallery</title>
 		<description>A natural and compact way to present your photos online. Use the usable table structure of thumbnails for navigating through your online flash album.</description>

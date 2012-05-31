@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<settings>
+	<group name="image">
+		<title>Image</title>
+		<description>Image settings</description>
+		<items>
+			<param name="scaleMode" default="fill">
+				<title>Scale Mode</title>
+				<description>Type of image scaling to the size of the visible area</description>
+				<input type="select">
+					<option value="fit">fit</option>
+					<option value="fill">fill</option>
+					<option value="noScale">noScale</option>
+				</input>
+			</param>
+			<param name="padding" default="30">
+				<title>Padding</title>
+				<description></description>
+				<input type="slider" min="0" max="100" />
+			</param>
+			<param name="bgTintColor" default="ffffff">
+				<title>Background Tint</title>
+				<description></description>
+				<input type="color" />
+			</param>
+		</items>
+	</group>
+	<group name="thumbnail">
+		<title>Thumbnail</title>
+		<description>Thumbnail settings</description>
+		<items>
+			<param name="width" default="80">
+				<title>Width</title>
+				<description>Thumbnail width</description>
+				<input type="int" />
+			</param>
+			<param name="height" default="60">
+				<title>Height</title>
+				<description>Thumbnail height</description>
+				<input type="int" />
+			</param>
+			<param name="alpha" default="70">
+				<title>Alpha</title>
+				<description>Thumbnail transparency</description>
+				<input type="slider" min="0" max="100" />
+			</param>
+		</items>
+	</group>
+	<group name="caption">
+		<title>Caption</title>
+		<description>Image caption settings</description>
+		<items>
+			<param name="showCaption" default="true">
+				<title>Show Caption</title>
+				<description></description>
+				<input type="checkbox" value="true|false" />
+			</param>
+		</items>
+	</group>
+	<group name="buttons">
+		<title>Buttons</title>
+		<description>Button settings</description>
+		<items>
+			<param name="showImageNavigationButtons" default="true">
+				<title>Navigation Buttons</title>
+				<description>Show/hide navigation buttons</description>
+				<input type="checkbox" value="true|false" />
+			</param>
+			<param name="showLinkButton" default="true">
+				<title>Link Button</title>
+				<description>Show/hide link button</description>
+				<input type="checkbox" value="true|false" />
+			</param>
+			<param name="showFacebookButton" default="true">
+				<title>Facebook Button</title>
+				<description>Show/hide Facebook button</description>
+				<input type="checkbox" value="true|false" />
+			</param>
+			<param name="showTwitterButton" default="true">
+				<title>Twitter Button</title>
+				<description>Show/hide Twitter button</description>
+				<input type="checkbox" value="true|false" />
+			</param>
+			<param name="showSlideshowButton" default="true">
+				<title>Slideshow Button</title>
+				<description>Show/hide slideshow button</description>
+				<input type="checkbox" value="true|false" />
+			</param>
+			<param name="showFullscreenButton" default="true">
+				<title>Fullscreen Button</title>
+				<description>Show/hide fullscreen button</description>
+				<input type="checkbox" value="true|false" />
+			</param>
+		</items>
+	</group>
+	<group name="slideshow">
+		<title>Slideshow</title>
+		<description>Slideshow settings</description>
+		<items>
+			<param name="start" default="false">
+				<title>Start</title>
+				<description>Enables/Disables slide show mode</description>
+				<input type="checkbox" value="true|false" />
+			</param>
+			<param name="delay" default="3">
+				<title>Delay</title>
+				<description>Image display duration in Slideshow mode in seconds</description>
+				<input type="slider" min="1" max="30" step="0.5" />
+			</param>
+		</items>
+	</group>
+	<group name="translation">
+		<title>Translation</title>
+		<description></description>
+		<items>
+			<param name="clickToView" default="Click to view">
+				<title>Click to view</title>
+				<description></description>
+				<input type="text" />
+			</param>
+			<param name="getLink" default="Get link">
+				<title>Get link</title>
+				<description></description>
+				<input type="text" />
+			</param>
+			<param name="shareWithFacebook" default="Share with Facebook">
+				<title>Share with Facebook</title>
+				<description></description>
+				<input type="text" />
+			</param>
+			<param name="tweet" default="Tweet">
+				<title>Tweet</title>
+				<description></description>
+				<input type="text" />
+			</param>
+			<param name="startSlideshow" default="Start slideshow">
+				<title>Start slideshow</title>
+				<description></description>
+				<input type="text" />
+			</param>
+			<param name="stopSlideshow" default="Stop slideshow">
+				<title>Stop slideshow</title>
+				<description></description>
+				<input type="text" />
+			</param>
+			<param name="fullscreenMode" default="Fullscreen mode">
+				<title>Fullscreen mode</title>
+				<description></description>
+				<input type="text" />
+			</param>
+		</items>
+	</group>
+	<group name="picasa">
+		<title>Picasa</title>
+		<description>Using images from picasa.com</description>
+		<items>
+			<param name="user" default="">
+				<title>User</title>
+				<description>Username or ID</description>
+				<input type="text" />
+			</param>
+			<param name="albumID" default="">
+				<title>Album ID</title>
+				<description>Album ID</description>
+				<input type="text" />
+			</param>
+		</items>
+	</group>
+	<group name="flickr">
+		<title>Flickr</title>
+		<description>Using images from flickr.com</description>
+		<items>
+			<param name="userID" default="">
+				<title>User ID</title>
+				<description>User ID</description>
+				<input type="text" />
+			</param>
+			<param name="photosetID" default="">
+				<title>Photoset ID</title>
+				<description>Photoset ID</description>
+				<input type="text" />
+			</param>
+			<param name="tags" default="">
+				<title>Tags</title>
+				<description>Tags</description>
+				<input type="text" />
+			</param>
+		</items>
+	</group>
+</settings>

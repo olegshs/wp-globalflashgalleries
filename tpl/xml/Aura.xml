@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<gallery>
+	<galleryName>Slide Gallery</galleryName>
+	<settings>
+		<image>
+			<scaleMode>{image.scaleMode}</scaleMode>
+			<padding>{image.padding}</padding>
+			<bgTintColor>{image.bgTintColor}</bgTintColor>
+		</image>
+		<thumbnail>
+			<width>{thumbnail.width}</width>
+			<height>{thumbnail.height}</height>
+			<alpha>{thumbnail.alpha}</alpha>
+		</thumbnail>
+		<caption>
+			<showCaption>{caption.showCaption}</showCaption>
+		</caption>
+		<buttons>
+			<showImageNavigationButtons>{buttons.showImageNavigationButtons}</showImageNavigationButtons>
+			<showLinkButton>{buttons.showLinkButton}</showLinkButton>
+			<showFacebookButton>{buttons.showFacebookButton}</showFacebookButton>
+			<showTwitterButton>{buttons.showTwitterButton}</showTwitterButton>
+			<showSlideshowButton>{buttons.showSlideshowButton}</showSlideshowButton>
+			<showFullscreenButton>{buttons.showFullscreenButton}</showFullscreenButton>
+		</buttons>
+		<slideshow>
+			<start>{slideshow.start}</start>
+			<delay>{slideshow.delay}</delay>
+		</slideshow>
+		<translation>
+			<clickToView>{translation.clickToView}</clickToView>
+			<getLink>{translation.getLink}</getLink>
+			<shareWithFacebook>{translation.shareWithFacebook}</shareWithFacebook>
+			<tweet>{translation.tweet}</tweet>
+			<startSlideshow>{translation.startSlideshow}</startSlideshow>
+			<stopSlideshow>{translation.stopSlideshow}</stopSlideshow>
+			<fullscreenMode>{translation.fullscreenMode}</fullscreenMode>
+		</translation>
+	</settings>
+	<items>{items}
+	</items>
+</gallery>
