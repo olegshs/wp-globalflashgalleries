@@ -105,7 +105,7 @@
 	<param name="slideshowDelay" default="4">
 		<title>Slideshow Delay</title>
 		<description>Image display duration in Slideshow mode (in seconds)</description>
-		<input type="slider" min="1" max="60" />
+		<input type="slider" min="1" max="30" />
 	</param>
 	<param name="useRotation" default="true">
 		<title>Use Rotation</title>
