@@ -421,9 +421,8 @@ class flgalleryFunctions extends flgalleryBaseClass
 			{
 				if ( is_file($path) )
 				{
-					$data = file_get_contents($path);
 					$destName = &$destination[$key];
-					if ( file_put_contents($destDir. '/'. $destName, $data) )
+					if ( copy($path, $destDir. '/'. $destName) )
 					{
 						$result[$key] = $destName;
 						if ($move)
