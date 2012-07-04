@@ -162,7 +162,7 @@ if (!$is_valid_extension) {
 	been saved.
 */
 if (@move_uploaded_file($_FILES[$upload_name]["tmp_name"], $save_path.$file_name)) {
-	@chmod($save_path.$file_name, 0777);
+	@chmod($save_path.$file_name, 0666);
 }
 else {
 	HandleError("File could not be saved.");
