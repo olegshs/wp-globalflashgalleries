@@ -20,12 +20,12 @@
 </object>
 <script type="text/javascript">
 jQuery(document).ready(function($) {
-	$('#{id} .flgallery-altcontent').altgallery({
+	altgallery({
 		width: '{width}',
 		height: '{height}',
 		images: { folder: '{pluginURL}/img/' },
 		config: '{xmlFile}',
 		configType: 'xml'
-	});
+	}, '#{id} .flgallery-altcontent');
 });
 </script>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <gallery>
-	<galleryName>Slide Gallery</galleryName>
+	<galleryName>Aura Gallery</galleryName>
 	<settings>
 		<image>
 			<scaleMode>{image.scaleMode}</scaleMode>
