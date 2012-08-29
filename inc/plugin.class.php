@@ -314,9 +314,9 @@ class flgalleryPlugin extends flgalleryBaseClass
 		wp_enqueue_script('swfobject', $this->jsDir.'/swfobject/swfobject.js', array(), '2.2');
 
 		if ( function_exists('flgallery_commercial_getJS') && ($url = flgallery_commercial_getJS()) )
-			wp_enqueue_script('altgallery', $url, array('jquery', 'swfobject'), '0.4.6', true);
+			wp_enqueue_script('altgallery', $url, array('jquery', 'swfobject'), null, true);
 		else
-			wp_enqueue_script('altgallery', $this->jsURL.'/altgallery.js', array('jquery', 'swfobject'), '0.4.6', true);
+			wp_enqueue_script('altgallery', $this->jsURL.'/altgallery.js', array('jquery', 'swfobject'), FLGALLERY_JS_VERSION, true);
 	}
 
 	function activate()
