@@ -18,12 +18,14 @@ define( 'FLGALLERY_URL_SCHEME', isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] ==
 define( 'FLGALLERY_FILE', __FILE__ );
 define( 'FLGALLERY_HREF', admin_url('admin.php').(empty($_REQUEST['page']) ? '' : '?page='.$_REQUEST['page']) );
 
+$pregHostname = preg_quote($_SERVER['HTTP_HOST'], '|');
+
 // Site directory
 define( 'FLGALLERY_SITE_DIR', realpath(ABSPATH) );
-define( 'FLGALLERY_SITE_URL', get_option('siteurl') );
+define( 'FLGALLERY_SITE_URL', preg_replace("|^https?://{$pregHostname}|i", '', get_option('siteurl')) );
 // Plugin directory
 define( 'FLGALLERY_PLUGIN_DIR', dirname(__FILE__) );
-define( 'FLGALLERY_PLUGIN_URL', plugins_url('', __FILE__) );
+define( 'FLGALLERY_PLUGIN_URL', preg_replace("|^https?://{$pregHostname}|i", '', plugins_url('', __FILE__)) );
 // Include
 define( 'FLGALLERY_INCLUDE', FLGALLERY_PLUGIN_DIR.'/inc' );
 // Global variables
@@ -32,7 +34,7 @@ define( 'FLGALLERY_GLOBALS', FLGALLERY_INCLUDE.'/globals.php' );
 define( 'FLGALLERY_TPL_DIR', FLGALLERY_PLUGIN_DIR.'/tpl' );
 // Content, images, etc.
 define( 'FLGALLERY_CONTENT_DIR', WP_CONTENT_DIR.'/'.FLGALLERY_CONTENT );
-define( 'FLGALLERY_CONTENT_URL', WP_CONTENT_URL.'/'.FLGALLERY_CONTENT );
+define( 'FLGALLERY_CONTENT_URL', preg_replace("|^https?://{$pregHostname}|i", '', WP_CONTENT_URL.'/'.FLGALLERY_CONTENT) );
 
 define( 'FLGALLERY_LOG', FLGALLERY_CONTENT_DIR.'/log.txt' );
 
