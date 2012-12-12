@@ -778,7 +778,7 @@ class flgalleryMedia extends flgalleryBaseClass
 		$a['pluginURL'] = $plugin->url;
 		$a['jsURL'] = $plugin->jsURL;
 		$a['href'] = $admpage->href;
-		$a['uploadsPath'] = preg_replace('#^'.preg_quote($site->url).'/(.*)#', '$1', $plugin->uploadsURL);
+		$a['uploadsPath'] = preg_replace('#^'.preg_quote(FLGALLERY_SITE_URL).'/(.*)#', '$1', $plugin->uploadsURL);
 		$a['auth_cookie'] = is_ssl() ? $_COOKIE[SECURE_AUTH_COOKIE] : $_COOKIE[AUTH_COOKIE];
 		$a['file_size_limit'] = wp_max_upload_size().'b';
 
@@ -864,7 +864,7 @@ class flgalleryMedia extends flgalleryBaseClass
 		$startText = 'Import';
 
 		$a['jsURL'] = $plugin->jsURL;
-		$a['uploadsPath'] = preg_replace('#^'.preg_quote($site->url).'/(.*)#', '$1', $plugin->uploadsURL);
+		$a['uploadsPath'] = preg_replace('#^'.preg_quote(FLGALLERY_SITE_URL).'/(.*)#', '$1', $plugin->uploadsURL);
 		$a['href'] = $admpage->href;
 
 		$out = $tpl->parse('media/add-directory', $a);
