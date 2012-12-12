@@ -5,6 +5,9 @@ body.wait * {
 .flgallery {
 	padding-bottom: 3em;
 }
+.flgallery a {
+	outline: none;
+}
 .flgallery h2 {
 	margin-bottom: 0.5em;
 }
@@ -337,7 +340,7 @@ body.wait * {
 }
 .flgallery .galleries-list .gallery .toggle {
 	display: block;
-	height: 16px;
+	height: 18px;
 	margin: -8px -1px -8px;
 	padding: 0;
 	-moz-border-radius: 9px;
