@@ -131,7 +131,6 @@ body.wait * {
 	-webkit-box-sizing: border-box;
 }
 .flgallery .button-primary {
-	font-weight: bold;
 }
 
 .flgallery #flgallery-info {
@@ -407,10 +406,10 @@ body.wait * {
 }
 .flgallery .galleries-list .gallery .options .button {
 	width: 100px;
-	height: 30px;
+	height: 32px;
 	font-size: 16px !important;
 	padding-top: 0;
-	padding-bottom: 2px;
+	padding-bottom: 1px;
 }
 .flgallery .galleries-list .gallery .delete {
 	margin-top: 0.5em;
@@ -516,10 +515,10 @@ body.wait * {
 	text-align: left;
 	font-size: 10px !important;
 	list-style-type: none;
-	opacity: 0.95;
 	background: #eee;
+	background: rgba(238,238,238,0.95);
 	border-radius: 3px;
-	box-shadow: 0 1px 2px rgba(0,0,0,0.5);
+	box-shadow: 0 1px 2px rgba(0,0,0,0.7);
 	visibility: hidden;
 }
 .flgallery .galleries-list .gallery .image .menu:hover ul {
@@ -933,8 +932,8 @@ body.wait * {
 }
 .flgallery .album .addPictures .button,
 .flgallery .album .createGallery .button {
-	font-size: 110%;
-	height: 2em;
+	font-size: 110% !important;
+	height: 2.2em;
 	font-weight: bold;
 }
 .flgallery .media #action-addMediaPage .button,
