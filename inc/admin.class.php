@@ -91,17 +91,17 @@ class flgalleryAdmin extends flgalleryBaseClass
 		$wp_version = get_bloginfo('version');
 		if ( version_compare($wp_version, '3.1', '>=') )	// WordPress 3.1 and newer
 		{
-			wp_enqueue_script('jquery', $plugin->jsDir.'/jquery/jquery.js', array(), '1.6.2');
-			wp_enqueue_script('jquery-ui-core', $plugin->jsDir.'/jquery/ui.core.js', array('jquery'), '1.8.14');
-			wp_enqueue_script('jquery-ui-widget', $plugin->jsDir.'/jquery/ui.widget.js', array('jquery'), '1.8.14');
-			wp_enqueue_script('jquery-ui-mouse', $plugin->jsDir.'/jquery/ui.mouse.js', array('jquery', 'jquery-ui-core', 'jquery-ui-widget'), '1.8.14');
-			wp_enqueue_script('jquery-ui-position', $plugin->jsDir.'/jquery/ui.position.js', array('jquery'), '1.8.14');
-			wp_enqueue_script('jquery-ui-dialog', $plugin->jsDir.'/jquery/ui.dialog.js', array('jquery', 'jquery-ui-core', 'jquery-ui-widget', 'jquery-ui-position'), '1.8.14');
-			wp_enqueue_script('jquery-ui-draggable', $plugin->jsDir.'/jquery/ui.draggable.js', array('jquery', 'jquery-ui-core', 'jquery-ui-widget', 'jquery-ui-mouse'), '1.8.14');
-			wp_enqueue_script('jquery-ui-resizable', $plugin->jsDir.'/jquery/ui.resizable.js', array('jquery', 'jquery-ui-core', 'jquery-ui-widget', 'jquery-ui-mouse'), '1.8.14');
-			wp_enqueue_script('jquery-ui-slider', $plugin->jsDir.'/jquery/ui.slider.js', array('jquery', 'jquery-ui-core', 'jquery-ui-widget', 'jquery-ui-mouse'), '1.8.14');
-			wp_enqueue_script('jquery-ui-sortable', $plugin->jsDir.'/jquery/ui.sortable.js', array('jquery', 'jquery-ui-core', 'jquery-ui-widget', 'jquery-ui-mouse'), '1.8.14');
-			//wp_enqueue_script('jquery-ui-tabs', $plugin->jsDir.'/jquery/ui.tabs.js', array('jquery', 'jquery-ui-core', 'jquery-ui-widget'), '1.8.14');
+			wp_enqueue_script('jquery', $plugin->jsDir.'/jquery/jquery.js', array(), '1.7.1');
+			wp_enqueue_script('jquery-ui-core', $plugin->jsDir.'/jquery/ui.core.js', array('jquery'), '1.8.20');
+			wp_enqueue_script('jquery-ui-widget', $plugin->jsDir.'/jquery/ui.widget.js', array('jquery'), '1.8.20');
+			wp_enqueue_script('jquery-ui-mouse', $plugin->jsDir.'/jquery/ui.mouse.js', array('jquery', 'jquery-ui-core', 'jquery-ui-widget'), '1.8.20');
+			wp_enqueue_script('jquery-ui-position', $plugin->jsDir.'/jquery/ui.position.js', array('jquery'), '1.8.20');
+			wp_enqueue_script('jquery-ui-dialog', $plugin->jsDir.'/jquery/ui.dialog.js', array('jquery', 'jquery-ui-core', 'jquery-ui-widget', 'jquery-ui-position'), '1.8.20');
+			wp_enqueue_script('jquery-ui-draggable', $plugin->jsDir.'/jquery/ui.draggable.js', array('jquery', 'jquery-ui-core', 'jquery-ui-widget', 'jquery-ui-mouse'), '1.8.20');
+			wp_enqueue_script('jquery-ui-resizable', $plugin->jsDir.'/jquery/ui.resizable.js', array('jquery', 'jquery-ui-core', 'jquery-ui-widget', 'jquery-ui-mouse'), '1.8.20');
+			wp_enqueue_script('jquery-ui-slider', $plugin->jsDir.'/jquery/ui.slider.js', array('jquery', 'jquery-ui-core', 'jquery-ui-widget', 'jquery-ui-mouse'), '1.8.20');
+			wp_enqueue_script('jquery-ui-sortable', $plugin->jsDir.'/jquery/ui.sortable.js', array('jquery', 'jquery-ui-core', 'jquery-ui-widget', 'jquery-ui-mouse'), '1.8.20');
+			//wp_enqueue_script('jquery-ui-tabs', $plugin->jsDir.'/jquery/ui.tabs.js', array('jquery', 'jquery-ui-core', 'jquery-ui-widget'), '1.8.20');
 		}
 		else	// WordPress 3.0.x and older
 		{
