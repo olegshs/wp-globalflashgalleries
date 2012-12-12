@@ -116,7 +116,7 @@ jQuery(document).ready(function($) {
 						$('#'+ galleryID +' .items .image .menu ul').hide();
 						$('#'+ galleryID +' .items .image').hover(
 							function() {
-								$('#'+this.parentNode.id+' .menu a.button').fadeIn(700);
+								$('#'+this.parentNode.id+' .menu a.button').fadeIn('fast');
 							},
 							function() {
 								$('#'+this.parentNode.id+' .menu a.button').hide();
@@ -125,7 +125,7 @@ jQuery(document).ready(function($) {
 						$('#'+ galleryID +' .items .image .menu a.button').hide();
 						$('#'+ galleryID +' .items .image .menu a.button').mouseover(
 							function() {
-								$('#'+this.parentNode.parentNode.parentNode.id+' .menu ul').show(500);
+								$('#'+this.parentNode.parentNode.parentNode.id+' .menu ul').stop().hide().show('fast');
 							}
 						);
 					}

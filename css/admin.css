@@ -123,16 +123,8 @@ body.wait * {
 
 .flgallery .button,
 .flgallery .button-primary {
-	line-height: 1.5em;
-	padding: 0.2em 1em 0.25em;
-	//padding: 0 0.5em;
-	-moz-border-radius: 1em;
-	-webkit-border-radius: 1em;
-	-khtml-border-radius: 1em;
-	border-radius: 1em;
 }
 .flgallery .button-primary {
-	font-weight: bold;
 }
 
 .flgallery #flgallery-info {
@@ -207,15 +199,12 @@ body.wait * {
 	margin-right: 10%;
 }
 .flgallery .about .uninstall .button {
-	width: 10em;
-	height: 2em;
-	margin: 1em 0 0;
 }
 .flgallery .about .uninstall .button:hover {
 	color: #900;
 }
 .flgallery .about .uninstall p {
-	margin: 0.5em 0.75em;
+	margin: 0.5em 0;
 }
 
 .flgallery #server-settings {
@@ -261,7 +250,6 @@ body.wait * {
 }
 .flgallery #galleries-panel .button,
 .flgallery #galleries-panel .button-primary {
-	font-size: 100% !important;
 }
 
 
@@ -323,8 +311,6 @@ body.wait * {
 .flgallery #newGalleryForm .submit input {
 }
 .flgallery #newGalleryForm .submit .button-primary {
-	font-size: 100% !important;
-	margin: 0 0.4em 0 0;
 }
 
 .flgallery .galleries-list {
@@ -401,21 +387,14 @@ body.wait * {
 .flgallery .galleries-list .gallery .publish {
 }
 .flgallery .galleries-list .gallery .publish .button {
-	width: 7.0em;
 }
 .flgallery .galleries-list .gallery .popup {
 }
 .flgallery .galleries-list .gallery .popup .button {
-	width: 7.0em;
-	font-weight: bold;
 }
 .flgallery .galleries-list .gallery .options {
 }
 .flgallery .galleries-list .gallery .options .button {
-	font-size: 16px !important;
-	line-height: 1.3em;
-	width: 5em;
-	//width: 5.5em;
 }
 .flgallery .galleries-list .gallery .delete {
 	margin-top: 0.5em;
@@ -468,10 +447,15 @@ body.wait * {
 	width: 100%;
 	padding: 1px 0 2px;
 	background: #333;
+	background: rgba(0,0,0,0.5);
+	text-shadow: 0 1px 0 #000;
 	color: #fff;
 	text-align: center;
 	font-family: Tahoma, sans-serif;
 	font-size: 11px;
+	line-height: 12px;
+	max-height: 36px;
+	overflow: hidden;
 	visibility: hidden;
 }
 .flgallery .galleries-list .gallery .image:hover .title {
@@ -516,7 +500,10 @@ body.wait * {
 	text-align: left;
 	font-size: 10px !important;
 	list-style-type: none;
-	opacity: 0.9;
+	opacity: 0.95;
+	background: #eee;
+	border-radius: 3px;
+	box-shadow: 0 1px 2px rgba(0,0,0,0.5);
 	visibility: hidden;
 }
 .flgallery .galleries-list .gallery .image .menu:hover ul {
@@ -652,7 +639,10 @@ body.wait * {
 }
 .flgallery #gallery-options .gallery-name input,
 .flgallery #gallery-options .gallery-type select {
-	width: 96%;
+	width: 99%;
+}
+.flgallery #gallery-options .gallery-type .button {
+	width: 95%;
 }
 .flgallery #gallery-options .settings {
 	position: relative;
@@ -693,7 +683,7 @@ body.wait * {
 .flgallery #flashSettings .objectValue textarea { width: 95%; }
 .flgallery #flashSettings .objectProperties { margin:0 0 0.5em; }
 .flgallery #flashSettings .submit { padding:0.33em 0; }
-.flgallery #flashSettings .submit .button-primary { font-size:13px !important; }
+.flgallery #flashSettings .submit .button-primary { }
 .flgallery #flashSettings #debug {
 	display: none;
 	position: fixed;
@@ -716,7 +706,6 @@ body.wait * {
 	margin: 0 0.33em;
 }
 .flgallery #gallery-options .submit .button-primary {
-	font-size: 100% !important;
 }
 
 
@@ -744,7 +733,6 @@ body.wait * {
 	vertical-align: middle;
 }
 .flgallery .image-properties .properties .submit .button-primary {
-	font-size: 115% !important;
 }
 .flgallery .image-properties .image-description th {
 	padding-top: 0.75em;
@@ -815,7 +803,6 @@ body.wait * {
 .flgallery .media {
 }
 .flgallery .media #action-addNewAlbum .button {
-	font-size: 100% !important;
 }
 .flgallery .media .albums-list {
 	margin: 1.5em 0;
@@ -904,7 +891,6 @@ body.wait * {
 	vertical-align: middle;
 }
 .flgallery .album .properties .submit .button-primary {
-	font-size: 115% !important;
 }
 .flgallery .album .album-title th {
 	padding-top: 1em;
@@ -931,14 +917,9 @@ body.wait * {
 }
 .flgallery .album .addPictures .button,
 .flgallery .album .createGallery .button {
-	font-size: 100% !important;
-	font-weight: bold;
-	height: 1.7em;
-	//height: 2.2em;
 }
 .flgallery .media #action-addMediaPage .button,
 .flgallery .album .addMedia .button {
-	font-weight: bold;
 }
 .flgallery .media #action-addMediaPage .button {
 	color: #069;
@@ -946,7 +927,6 @@ body.wait * {
 .flgallery .media #action-albumToGallery .button,
 .flgallery .album .createGallery .button {
 	color: #090;
-	font-weight: bold;
 }
 .flgallery .media #action-deleteAlbum .button {
 	opacity: 0.7;
@@ -1041,8 +1021,6 @@ body.wait * {
 }
 .flgallery .image-properties .close .button,
 .flgallery .album .close .button {
-	font-size: 100% !important;
-	padding: 0.33em 1em 0.33em 0.67em; 
 }
 
 .flgallery #flgalleryAddMediaForm {
@@ -1056,7 +1034,6 @@ body.wait * {
 	padding: 0;
 }
 .flgallery #flgalleryAddMediaForm .submit .button-primary {
-	font-size: 100% !important;
 }
 .flgallery #flgalleryAddMediaForm .form-table th {
 	width: auto;
@@ -1171,7 +1148,6 @@ body.wait * {
 .flgallery #newAlbumForm {
 }
 .flgallery #newAlbumForm .submit .button-primary {
-	font-size: 115% !important;
 }
 .flgallery #newAlbumForm table {
 	width: 45em;
