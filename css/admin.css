@@ -123,8 +123,12 @@ body.wait * {
 
 .flgallery .button,
 .flgallery .button-primary {
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
 }
 .flgallery .button-primary {
+	font-weight: bold;
 }
 
 .flgallery #flgallery-info {
@@ -199,6 +203,8 @@ body.wait * {
 	margin-right: 10%;
 }
 .flgallery .about .uninstall .button {
+	width: 10em;
+	height: 2.5em;
 }
 .flgallery .about .uninstall .button:hover {
 	color: #900;
@@ -387,14 +393,21 @@ body.wait * {
 .flgallery .galleries-list .gallery .publish {
 }
 .flgallery .galleries-list .gallery .publish .button {
+	width: 100px;
 }
 .flgallery .galleries-list .gallery .popup {
 }
 .flgallery .galleries-list .gallery .popup .button {
+	width: 100px;
 }
 .flgallery .galleries-list .gallery .options {
 }
 .flgallery .galleries-list .gallery .options .button {
+	width: 100px;
+	height: 30px;
+	font-size: 16px !important;
+	padding-top: 0;
+	padding-bottom: 2px;
 }
 .flgallery .galleries-list .gallery .delete {
 	margin-top: 0.5em;
@@ -917,16 +930,21 @@ body.wait * {
 }
 .flgallery .album .addPictures .button,
 .flgallery .album .createGallery .button {
+	font-size: 110%;
+	height: 2em;
+	font-weight: bold;
 }
 .flgallery .media #action-addMediaPage .button,
 .flgallery .album .addMedia .button {
 }
 .flgallery .media #action-addMediaPage .button {
 	color: #069;
+	font-weight: bold;
 }
 .flgallery .media #action-albumToGallery .button,
 .flgallery .album .createGallery .button {
 	color: #090;
+	font-weight: bold;
 }
 .flgallery .media #action-deleteAlbum .button {
 	opacity: 0.7;
