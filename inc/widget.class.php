@@ -60,11 +60,11 @@ class flgalleryWidget extends WP_Widget
 	{
 		include FLGALLERY_GLOBALS;
 
-		$title = esc_attr($instance['title']);
-		$selectedGallery = esc_attr($instance['gallery']);
-		$show = esc_attr($instance['show']);
-		$text = esc_attr($instance['text']);
-		$preview = esc_attr($instance['preview']);
+		$title = isset($instance['title']) ? esc_attr($instance['title']) : '';
+		$selectedGallery = isset($instance['gallery']) ? esc_attr($instance['gallery']) : '';
+		$show = isset($instance['show']) ? esc_attr($instance['show']) : '';
+		$text = isset($instance['text']) ? esc_attr($instance['text']) : '';
+		$preview = isset($instance['preview']) ? esc_attr($instance['preview']) : '';
 ?>
 		<p>
 			<label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:'); ?></label>
