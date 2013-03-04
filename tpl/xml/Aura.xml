@@ -36,6 +36,15 @@
 			<stopSlideshow>{translation.stopSlideshow}</stopSlideshow>
 			<fullscreenMode>{translation.fullscreenMode}</fullscreenMode>
 		</translation>
+		<picasa
+			user="{picasa.user}"
+			albumID="{picasa.albumID}"
+		/>
+		<flickr
+			userID="{flickr.userID}"
+			photosetID="{flickr.photosetID}"
+			tags="{flickr.tags}"
+		/>
 	</settings>
 	<items>{items}
 	</items>
