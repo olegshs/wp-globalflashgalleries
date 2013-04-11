@@ -630,13 +630,15 @@ class flgalleryGallery extends flgalleryBaseClass
 			$altContent = '<a class="flgallery-altcontent" href="http://www.adobe.com/go/getflashplayer" rel="nofollow"><img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash player" /></a>';
 		}
 
+		$xmlFile = $plugin->url.'/gallery-xml.php?id='.$this->id;
+
 		$flash = $func->flash(
 			$plugin->name.'-'.$this->id,	// id
 			$this->getSwf(),				// url
 			$this->width,					// dimensions
 			$this->height,
 			array(
-				'flashVars' => 'XMLFile='.$plugin->url.'/gallery-xml.php?id='.$this->id,
+				'flashVars' => 'XMLFile='.$xmlFile,
 				'allowFullScreen' => 'true',
 				'allowScriptAccess' => 'always',
 				'quality' => 'high',
@@ -646,6 +648,11 @@ class flgalleryGallery extends flgalleryBaseClass
 			$altContent,
 			false
 		);
+
+		$altgallery = $tpl->parse('altgallery', array_merge(get_object_vars($this), array(
+			'pluginURL' => $plugin->url,
+			'xmlFile' => $xmlFile
+		)));
 
 		$style = "width: {$this->width}px; height: {$this->height}px;";
 		$style = str_replace('%px', '%', $style);
@@ -663,7 +670,7 @@ class flgalleryGallery extends flgalleryBaseClass
 				$style .= " background:{$background};";
 		}
 
-		$html = '<div class="flgallery-'.$this->id.' flgallery-'.strtolower($this->type).' flgallery-embed" style="'.$style.'">'.$flash.'</div>';
+		$html = '<div class="flgallery-'.$this->id.' flgallery-'.strtolower($this->type).' flgallery-embed" style="'.$style.'">'.$flash.$altgallery.'</div>';
 
 		$html = preg_replace('/[\r\n\s\t]+/', ' ', $html);
 		$html = preg_replace('/\s*([<>])\s*/', '$1', $html);
