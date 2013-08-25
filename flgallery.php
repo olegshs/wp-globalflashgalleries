@@ -9,7 +9,7 @@ Author URI: http://flash-gallery.com/
 */
 
 define( 'FLGALLERY_VERSION', '0.13.0' );
-define( 'FLGALLERY_JS_VERSION', '0.8.6' );
+define( 'FLGALLERY_JS_VERSION', '0.8.9' );
 
 require_once dirname(__FILE__).'/config.php';
 
