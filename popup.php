@@ -45,10 +45,13 @@ html {
 #wpadminbar {
 	display: none !important;
 }
+<?php if (!empty($trialNotice)): ?>
 .trial {
 	font-family: Tahoma, sans-serif;
 	font-size: 11px;
 	height: 25px;
+	padding: 0;
+	border: none;
 	overflow: hidden;
 	white-space: nowrap;
 	background: #ffc;
@@ -60,6 +63,7 @@ html {
 .trial a {
 	color: #03c;
 }
+<?php endif; ?>
 .flgallery-embed {
 	height: 100%;
 }
@@ -68,7 +72,7 @@ html {
 
 <body>
 <table width="100%" height="100%" cellpadding="0" cellspacing="0" border="0">
-<?php if (!empty($trialNotice)) : ?>
+<?php if (!empty($trialNotice)): ?>
 <tr>
 	<td class="trial"><div><?php echo $trialNotice; ?></div></td>
 </tr>

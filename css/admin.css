@@ -2,6 +2,17 @@ body.wait * {
 	cursor: wait !important;
 }
 
+.ui-widget-overlay {
+    position: fixed;
+    z-index: 99;
+}
+.ui-dialog {
+    z-index: 100;
+}
+.ui-dialog-titlebar .ui-button-text {
+	display: none !important;
+}
+
 .flgallery {
 	padding-bottom: 3em;
 }
@@ -69,6 +80,7 @@ body.wait * {
 	border: none;
 	background: none;
 	cursor: default;
+	box-shadow: none;
 }
 .flgallery .slider .control {
 	position: absolute;
@@ -391,6 +403,7 @@ body.wait * {
 }
 .flgallery .galleries-list .gallery .controls .button {
 	margin: 0.2em 0;
+	height: 25px;
 }
 .flgallery .galleries-list .gallery .publish {
 }
@@ -412,7 +425,7 @@ body.wait * {
 	padding-bottom: 1px;
 }
 .flgallery .galleries-list .gallery .delete {
-	margin-top: 0.5em;
+	margin-top: 3px;
 }
 .flgallery .galleries-list .gallery .delete .button {
 	opacity: 0.7;
@@ -502,6 +515,7 @@ body.wait * {
 	text-decoration: none;
 	background: url(../img/gear.png) no-repeat center;
 	border: none !important;
+	box-shadow: none;
 }
 .flgallery .galleries-list .gallery .image .menu ul {
 	display: block;
@@ -895,7 +909,6 @@ body.wait * {
 }
 .flgallery .album .properties th {
 	width: 6.75em;
-	padding-top: 0.67em;
 }
 .flgallery .album .properties td .text,
 .flgallery .album .properties td .text {
