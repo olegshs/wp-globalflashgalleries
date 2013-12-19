@@ -18,7 +18,7 @@
 				<description></description>
 				<input type="slider" min="0" max="100" />
 			</param>
-			<param name="bgTintColor" default="ffffff">
+			<param name="bgTintColor" default="000000">
 				<title>Background Tint</title>
 				<description></description>
 				<input type="color" />

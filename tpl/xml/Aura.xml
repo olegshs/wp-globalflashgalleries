@@ -5,7 +5,7 @@
 		<image>
 			<scaleMode>{image.scaleMode}</scaleMode>
 			<padding>{image.padding}</padding>
-			<bgTintColor>{image.bgTintColor}</bgTintColor>
+			<bgTintColor>0x{image.bgTintColor}</bgTintColor>
 		</image>
 		<thumbnail>
 			<width>{thumbnail.width}</width>
