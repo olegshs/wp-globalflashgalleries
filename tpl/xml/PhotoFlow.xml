@@ -8,8 +8,8 @@
 		<useScrollBar>{useScrollBar}</useScrollBar>
 		<slideShow>{slideShow}</slideShow>
 		<slideShowDelay>{slideShowDelay}</slideShowDelay>
-		<flipDuration>{flipDuration}</flipDuration>
-		<flipSound>{flipSound}</flipSound>
+		<flipDuration>{flipDuration}</flipDuration>{TRUE flipSound}
+		<flipSound>{flipSound}</flipSound>{/TRUE}
 		<useHighlight>{useHighlight}</useHighlight>
 		<reflectionAlpha>{reflectionAlpha}</reflectionAlpha>
 		<colorScheme>{colorScheme}</colorScheme>{TRUE custom}

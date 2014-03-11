@@ -4,8 +4,8 @@
 	<settings>
 		<frameSize>{frameSize}</frameSize>
 		<frameColor>0x{frameColor}</frameColor>
-		<cornerRadius>{cornerRadius}</cornerRadius>
 		<backgroundColor>0x{backgroundColor}</backgroundColor>
+		<cornerRadius>{cornerRadius}</cornerRadius>
 		<initialState>{initialState}</initialState>
 		<showCaption>{showCaption}</showCaption>
 		<captionBackgroundAlpha>{captionBackgroundAlpha}</captionBackgroundAlpha>
@@ -38,9 +38,10 @@
 			BackToAlbums="{translation.BackToAlbums}"
 			LoadingImage="{translation.LoadingImage}"
 			Of="{translation.Of}"
-		/>
-		<overSound>{overSound}</overSound>
-		<clickSound>{clickSound}</clickSound>
+		/>{TRUE clickSound}
+		<clickSound>{clickSound}</clickSound>{/TRUE}{TRUE overSound}
+		<overSound>{overSound}</overSound>{/TRUE}{TRUE rotationSound}
+		<rotationSound>{rotationSound}</rotationSound>{/TRUE}
 		<loader>{loader}</loader>
 	</settings>
 	<albums>{TRUE multipleAlbums}{albums}{/TRUE}{FALSE multipleAlbums}

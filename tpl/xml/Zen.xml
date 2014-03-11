@@ -38,9 +38,10 @@
 			BackToAlbums="{translation.BackToAlbums}"
 			LoadingImage="{translation.LoadingImage}"
 			Of="{translation.Of}"
-		/>
-		<overSound>{overSound}</overSound>
-		<clickSound>{clickSound}</clickSound>
+		/>{TRUE clickSound}
+		<clickSound>{clickSound}</clickSound>{/TRUE}{TRUE overSound}
+		<overSound>{overSound}</overSound>{/TRUE}{TRUE rotationSound}
+		<rotationSound>{rotationSound}</rotationSound>{/TRUE}
 		<picasa
 			user="{picasa.user}"
 			albumID="{picasa.albumID}"

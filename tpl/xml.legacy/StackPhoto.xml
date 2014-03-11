@@ -9,8 +9,8 @@
 		<imageScaleMode>{imageScaleMode}</imageScaleMode>
 		<visibleImages>{visibleImages}</visibleImages>
 		<usePhotoNumbers>{usePhotoNumbers}</usePhotoNumbers>
-		<translation back="{translation.back}" gotoLink="{translation.gotoLink}" />
-		<soundEffect>{soundEffect}</soundEffect>
+		<translation back="{translation.back}" gotoLink="{translation.gotoLink}" />{TRUE soundEffect}
+		<soundEffect>{soundEffect}</soundEffect>{/TRUE}
 		<slideshow>{slideshow}</slideshow>
 		<loader>{loader}</loader>
 		<flickr><![CDATA[{flickr}]]></flickr>
