@@ -23,7 +23,7 @@ define( 'FLGALLERY_SITE_DIR', realpath(ABSPATH) );
 define( 'FLGALLERY_SITE_URL', get_option('siteurl') );
 // Plugin directory
 define( 'FLGALLERY_PLUGIN_DIR', dirname(__FILE__) );
-define( 'FLGALLERY_PLUGIN_URL', plugins_url('', __FILE__) );
+define( 'FLGALLERY_PLUGIN_URL', plugins_url(basename(dirname(__FILE__))) );
 // Include
 define( 'FLGALLERY_INCLUDE', FLGALLERY_PLUGIN_DIR.'/inc' );
 // Global variables

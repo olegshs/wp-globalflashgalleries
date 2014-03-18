@@ -44,7 +44,7 @@ jQuery(document).ready(function($) {
 								$('#select-images-form').css({ display:'none'} );
 								$('#selectPictures')
 									.dialog('open')
-									.css({ background: 'url('+flgallery.pluginURL+'/img/ajaxloader.gif) no-repeat center' });
+									.css({ background: 'url('+flgallery.pluginURL+'/img/ajaxloader.gif) no-repeat center', position: 'static' });
 
 								$.ajax({
 									url: flgallery.adminAjax,
