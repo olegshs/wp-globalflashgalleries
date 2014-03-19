@@ -10,7 +10,7 @@ function fileDialogComplete(numFilesSelected, numFilesQueued)
 			});
 		}
 	} catch (ex) {
-        this.debug(ex);
+		this.debug(ex);
 	}
 }
 
@@ -64,8 +64,8 @@ function fileQueueError(file, errorCode, message)
 			break;
 		}
 	} catch (ex) {
-        this.debug(ex);
-    }
+		this.debug(ex);
+	}
 }
 
 function uploadStart(file)
@@ -86,9 +86,17 @@ function uploadProgress(file, bytesLoaded, bytesTotal)
 
 		jQuery('#'+file.id+' .cancel a').css({ visibility: 'hidden' });
 
+		var progressBar = jQuery('#'+file.id).find('.name');
+		progressBar.css({
+			background: 'url("' + flgallery.pluginURL + '/img/progress.gif") no-repeat',
+			backgroundPosition: ((bytesLoaded / bytesTotal) * progressBar.outerWidth() - 400) + 'px 0px'
+		});
+
 		if (percent == 100) {
 			jQuery('#'+file.id).addClass('completed');
-			jQuery('#'+file.id+' *').animate( { opacity: 0.4 }, 500 );
+			jQuery('#'+file.id+' *').animate({ opacity: 0.5 }, 500, function() {
+				progressBar.css({ background: 'none' });
+			});
 		}
 	} catch (ex) {
 		this.debug(ex);
@@ -138,8 +146,8 @@ function uploadError(file, errorCode, message)
 			break;
 		}
 	} catch (ex) {
-        this.debug(ex);
-    }
+		this.debug(ex);
+	}
 }
 
 function uploadComplete(file)

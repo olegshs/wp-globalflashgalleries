@@ -1141,7 +1141,10 @@ body.wait * {
 	background: #fff;
 }
 .flgallery .addmedia-swfupload #uploadQueue .name {
-	width: 15em;
+	width: 300px;
+}
+.flgallery .addmedia-swfupload #uploadQueue td.name {
+	font-size: 12px;
 }
 .flgallery .addmedia-swfupload #uploadQueue .size {
 	text-align: right;
