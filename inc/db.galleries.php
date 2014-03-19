@@ -13,7 +13,10 @@ $query = "
 		`created`		DATETIME NOT NULL,
 		`modified`		DATETIME NOT NULL,
 		PRIMARY KEY		(`id`),
-		KEY				(`author`, `order`, `created`, `modified`)
+		KEY				(`order`),
+		KEY				(`author`),
+		KEY				(`created`),
+		KEY				(`modified`)
 	){$charset_collate}
 ";
 

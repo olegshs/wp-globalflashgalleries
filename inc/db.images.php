@@ -18,9 +18,13 @@ $query = "
 		`height`		INT UNSIGNED NOT NULL DEFAULT '0',
 		`size`			INT UNSIGNED NOT NULL DEFAULT '0',
 		PRIMARY KEY		(`id`),
-		KEY				(`album_id`, `gallery_id`, `order`, `type`, `size`),
+		KEY				(`album_id`),
+		KEY				(`gallery_id`),
+		KEY				(`order`),
 		KEY				(`path`),
-		KEY				(`title`)
+		KEY				(`name`),
+		KEY				(`title`),
+		KEY				(`size`)
 	){$charset_collate}
 ";
 

@@ -9,8 +9,7 @@ $query = "
 		`name`			VARCHAR(255) NOT NULL,
 		`value`			VARCHAR(255) NOT NULL,
 		PRIMARY KEY		(`id`),
-		KEY				(`gallery_id`, `gallery_type`),
-		KEY				(`name`)
+		KEY				(`gallery_id`, `gallery_type`)
 	){$charset_collate}
 ";
 
