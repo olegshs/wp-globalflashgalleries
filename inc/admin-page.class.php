@@ -225,7 +225,7 @@ class flgalleryAdminPage extends flgalleryBaseClass
 		<table width="100%">
 			<tr class="name field" valign="top">
 				<td class="label"><label for="galleryName"><?php _e('Name', $plugin->name); ?></label></td>
-				<td class="value" width="100%"><input id="galleryName" name="gallery[name]" value="<?php echo $a['name']; ?>" tabindex="10" /></td>
+				<td class="value" width="100%"><input type="text" id="galleryName" name="gallery[name]" value="<?php echo $a['name']; ?>" tabindex="10" /></td>
 			</tr>
 			<tr class="type field" valign="top">
 				<td class="label"><label for="galleryType"><?php _e('Type', $plugin->name); ?></label></td>
