@@ -347,13 +347,13 @@ class flgalleryPlugin extends flgalleryBaseClass
 		{
 			if ( !empty($prevVersionValue) )	// Upgrade old version
 			{
-				if ( $prevVersionValue < 50000 )	// 0.5.0
-				{
-					$this->upgradeTables();
-				}
 				if ( $prevVersionValue < 80500 )	// 0.8.5
 				{
 					flgallery_clearXmlCache();
+				}
+				if ( $prevVersionValue < 140100 )	// 0.14.1
+				{
+					$this->upgradeTables();
 				}
 
 				$this->log( "Upgraded from {$prevVersion} to ".FLGALLERY_VERSION );
