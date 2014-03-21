@@ -1,32 +1,34 @@
 <script type="text/javascript">
 jQuery(document).ready(function($) {
-	altgallery({
-		type: '{type}',
-		width: '{width}',
-		height: '{height}',
-		images: { folder: '{pluginURL}/img/' },
-		config: '{xmlFile}',
-		configType: 'xml',
-		fullscreen: 'never',
-		callback: function(gallery) {
-			var container = gallery.canvas.element.parents('.flgallery-embed');
-			var parent = container.parent();
-			var initialWidth = container.width();
-			var prevWidth;
-			container.css({
-				width: '',
-				height: ''
-			});
-			function scale() {
-				var parentWidth = parent.width();
-				if (parentWidth != prevWidth) {
-					gallery.canvas.scale(parentWidth / initialWidth);
-					prevWidth = parentWidth;
+	if (!swfobject.hasFlashPlayerVersion('9.0.45.0')) {
+		altgallery({
+			type: '{type}',
+			width: '{width}',
+			height: '{height}',
+			images: { folder: '{pluginURL}/img/' },
+			config: '{xmlFile}',
+			configType: 'xml',
+			fullscreen: 'never',
+			callback: function(gallery) {
+				var container = gallery.canvas.element.parents('.flgallery-embed');
+				var parent = container.parent();
+				var initialWidth = container.width();
+				var prevWidth;
+				container.css({
+					width: '',
+					height: ''
+				});
+				function scale() {
+					var parentWidth = parent.width();
+					if (parentWidth != prevWidth) {
+						gallery.canvas.scale(parentWidth / initialWidth);
+						prevWidth = parentWidth;
+					}
 				}
+				scale();
+				$(window).resize(scale);
 			}
-			scale();
-			$(window).resize(scale);
-		}
-	}, '#flgallery-{id} .flgallery-altcontent');
+		}, '#flgallery-{id} .flgallery-altcontent');
+	}
 });
 </script>

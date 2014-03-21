@@ -621,9 +621,9 @@ class flgalleryGallery extends flgalleryBaseClass
 				$item->title = htmlspecialchars($item->title);
 				$item->description = htmlspecialchars($item->description);
 
-				$altContent .= "\t\t<li><a href=\"{$plugin->imgURL}/{$item->path}\"><img src=\"{$thumbnail}\" alt=\"{$item->title}\" /></a>{$item->description}</li>\n";
+				$altContent .= "\t\t<li style=\"display:inline;\"><a href=\"{$plugin->imgURL}/{$item->path}\"><img src=\"{$thumbnail}\" alt=\"{$item->title}\" /></a>{$item->description}</li>\n";
 			}
-			$altContent = '<div class="flgallery-altcontent"><ol>'.$altContent."\t</ol></div>";
+			$altContent = '<div class="flgallery-altcontent"><ol style="list-style:none;">'.$altContent."\t</ol></div>";
 		}
 		else
 		{
@@ -654,7 +654,7 @@ class flgalleryGallery extends flgalleryBaseClass
 			'xmlFile' => $xmlFile
 		)));
 
-		$style = "width: {$this->width}px; height: {$this->height}px;";
+		$style = "width: {$this->width}px; height: {$this->height}px; overflow: hidden;";
 		$style = str_replace('%px', '%', $style);
 
 		$this->getSettings();
