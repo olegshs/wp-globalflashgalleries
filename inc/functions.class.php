@@ -301,7 +301,7 @@ class flgalleryFunctions extends flgalleryBaseClass
 		return $out;
 	}
 
-	function randString($length = 8, $chars = '[0-9][a-z][A-Z]')
+	function randString($length = 12, $chars = '[0-9][a-z][A-Z]')
 	{
 		$chars = str_replace('[0-9]', '0123456789', $chars);
 		$chars = str_replace('[a-z]', 'abcdefghijklmnopqrstuvwxyz', $chars);
@@ -322,7 +322,7 @@ class flgalleryFunctions extends flgalleryBaseClass
 		return $string;
 	}
 
-	function uniqueFile($format = '%s', $length = 8, $chars = '[a-z][0-9]')
+	function uniqueFile($format = '%s', $length = 12, $chars = '[a-z][0-9]')
 	{
 		do {
 			$path = sprintf( $format, $this->randString($length, $chars) );
