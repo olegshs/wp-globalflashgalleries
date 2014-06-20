@@ -778,7 +778,7 @@ class flgalleryMedia extends flgalleryBaseClass
 		$a['pluginURL'] = $plugin->url;
 		$a['jsURL'] = $plugin->jsURL;
 		$a['href'] = $admpage->href;
-		$a['uploadsPath'] = preg_replace('#^'.preg_quote(FLGALLERY_SITE_URL).'/(.*)#', '$1', $plugin->uploadsURL);
+		$a['uploadsPath'] = preg_replace('#^'.preg_quote(FLGALLERY_SITE_URL).'/(.*)#', '$1', $plugin->uploadsURL.'/'.rand(0, 9999999));
 		$a['auth_cookie'] = is_ssl() ? $_COOKIE[SECURE_AUTH_COOKIE] : $_COOKIE[AUTH_COOKIE];
 		$a['file_size_limit'] = wp_max_upload_size().'b';
 
@@ -1016,7 +1016,12 @@ class flgalleryMedia extends flgalleryBaseClass
 		}
 
 		// Import from FTP Folder
-		if ( empty($importFolder_path) ) $importFolder_path = &$_POST['importFolder_path'];
+		if ( !isset($importFolder_path) )
+			$importFolder_path = &$_POST['importFolder_path'];
+
+		if ( !isset($importFolder_delete) )
+			$importFolder_delete = &$_POST['importFolder_delete'];
+
 		if ( !empty($importFolder_path) )
 		{
 			$path = ABSPATH . $importFolder_path;
@@ -1029,9 +1034,13 @@ class flgalleryMedia extends flgalleryBaseClass
 				$destNames[$key] = basename( $func->uniqueFile($destDir."/%s{$ext}") );
 			}
 
-			$files = $func->copyFiles($this->files, $destDir, $destNames, !empty($_POST['importFolder_delete']) || !empty($importFolder_delete));
+			$files = $func->copyFiles($this->files, $destDir, $destNames, !empty($importFolder_delete));
 			if (!empty($files))
 				$added = array_merge($added, $files);
+
+			if (!empty($_POST['importFolder_delete_dir'])) {
+				$tmpDirs[] = ABSPATH . $importFolder_path;
+			}
 		}
 
 		// Delete temporary directories

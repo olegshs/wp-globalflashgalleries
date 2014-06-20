@@ -161,6 +161,10 @@ if (!$is_valid_extension) {
 	Depending on your server OS and needs you may need to set the Security Permissions on the file after it has
 	been saved.
 */
+if (!file_exists($save_path)) {
+	mkdir($save_path, 0777, true);
+}
+
 if (@move_uploaded_file($_FILES[$upload_name]["tmp_name"], $save_path.$file_name)) {
 	@chmod($save_path.$file_name, 0666);
 }
