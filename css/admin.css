@@ -404,6 +404,7 @@ body.wait * {
 .flgallery .galleries-list .gallery .controls .button {
 	margin: 0.2em 0;
 	height: 25px;
+	line-height: 22px;
 }
 .flgallery .galleries-list .gallery .publish {
 }
