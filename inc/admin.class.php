@@ -236,7 +236,7 @@ class flgalleryAdmin extends flgalleryBaseClass
 					if ( !empty($_REQUEST['exportXML']) )
 					{
 						$admpage->manageGalleries();
-						$func->redirect($plugin->url."/gallery-xml.php?id={$gallery->id}&download");
+						$func->redirect($plugin->url."/gallery-xml.php?id={$gallery->id}&blog_id={$plugin->blogID}&download");
 						break;
 					}
 				}

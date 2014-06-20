@@ -38,6 +38,7 @@ class flgalleryPlugin extends flgalleryBaseClass
 		$tmpURL,
 		// Site info
 		$site,
+		$blogID,
 		// User
 		$userID = 0,
 		$userLevel = 0,
@@ -71,6 +72,9 @@ class flgalleryPlugin extends flgalleryBaseClass
 
 		require_once FLGALLERY_INCLUDE.'/site.class.php';
 		$this->site = new flgallerySite();
+
+		global $blog_id;
+		$this->blogID = (int)$blog_id;
 
 		require_once FLGALLERY_INCLUDE.'/templates.class.php';
 		$this->tpl = new flgalleryTemplates( $this->tplDir, array('plugin' => &$this) );

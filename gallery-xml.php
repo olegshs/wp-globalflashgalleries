@@ -12,12 +12,13 @@ if ( !empty($_REQUEST['id']) )
 	require_once 'config.php';
 
 	$gallery_id = (int)$_REQUEST['id'];
+	$blog_id = (int)$_REQUEST['blog_id'];
 
 	preg_match('|^(.*?/)(wp-content)/|i', str_replace('\\', '/', __FILE__), $m);
 	$abspath = $m[1];
 	$content_dir = $m[1].$m[2];
 
-	$xmlPath = $content_dir.'/'.FLGALLERY_CONTENT.'/'.FLGALLERY_XML."/{$gallery_id}.xml";
+	$xmlPath = $content_dir.'/'.FLGALLERY_CONTENT.'/'.FLGALLERY_XML."/{$blog_id}/{$gallery_id}.xml";
 	if ( file_exists($xmlPath) )
 	{
 		header('Content-Type: text/xml; charset=utf-8');
