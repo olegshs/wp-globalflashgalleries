@@ -308,17 +308,15 @@ class flgalleryFunctions extends flgalleryBaseClass
 		$chars = str_replace('[A-Z]', 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', $chars);
 		$n_chars = strlen($chars) - 1;
 
-		srand();
-
 		if ( is_array($length) )
 		{
-			$length = rand($length[0], $length[1]);
+			$length = mt_rand($length[0], $length[1]);
 		}
 
 		$string = '';
 		for ($i = 0; $i < $length; $i++)
 		{
-			$string .= $chars[rand(0, $n_chars)];
+			$string .= $chars[mt_rand(0, $n_chars)];
 		}
 
 		return $string;

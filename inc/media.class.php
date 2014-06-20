@@ -778,7 +778,7 @@ class flgalleryMedia extends flgalleryBaseClass
 		$a['pluginURL'] = $plugin->url;
 		$a['jsURL'] = $plugin->jsURL;
 		$a['href'] = $admpage->href;
-		$a['uploadsPath'] = preg_replace('#^'.preg_quote(FLGALLERY_SITE_URL).'/(.*)#', '$1', $plugin->uploadsURL.'/'.rand(0, 9999999));
+		$a['uploadsPath'] = preg_replace('#^'.preg_quote(FLGALLERY_SITE_URL).'/(.*)#', '$1', $plugin->uploadsURL).'/'.mt_rand();
 		$a['auth_cookie'] = is_ssl() ? $_COOKIE[SECURE_AUTH_COOKIE] : $_COOKIE[AUTH_COOKIE];
 		$a['file_size_limit'] = wp_max_upload_size().'b';
 
@@ -1003,7 +1003,7 @@ class flgalleryMedia extends flgalleryBaseClass
 				if ( !$data['error'][$key] )
 				{
 					$archiveName = &$data['tmp_name'][$key];
-					$tmpDirs[] = $tmpDir = $plugin->uploadsDir. '/'. rand(0, 9999999);
+					$tmpDirs[] = $tmpDir = $plugin->uploadsDir.'/'.mt_rand();
 
 					$archive = new PclZip( $archiveName );
 					$archive->extract(PCLZIP_OPT_PATH, $tmpDir);
