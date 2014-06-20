@@ -1012,6 +1012,7 @@ class flgalleryMedia extends flgalleryBaseClass
 			}
 
 			$importFolder_path = preg_replace('#^'.preg_quote(ABSPATH).'(.*)#', '$1', $plugin->uploadsDir);
+			$importFolder_delete = true;
 		}
 
 		// Import from FTP Folder
@@ -1028,7 +1029,7 @@ class flgalleryMedia extends flgalleryBaseClass
 				$destNames[$key] = basename( $func->uniqueFile($destDir."/%s{$ext}") );
 			}
 
-			$files = $func->copyFiles($this->files, $destDir, $destNames, !empty($_POST['importFolder_delete']));
+			$files = $func->copyFiles($this->files, $destDir, $destNames, !empty($_POST['importFolder_delete']) || !empty($importFolder_delete));
 			if (!empty($files))
 				$added = array_merge($added, $files);
 		}
