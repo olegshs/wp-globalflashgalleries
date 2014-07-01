@@ -815,7 +815,7 @@ class flgalleryGallery extends flgalleryBaseClass
 				if ( function_exists('strisplashes') )
 					$xml = strisplashes($xml);
 
-				$this->cacheXML($xml);
+				$this->cacheXml($xml);
 
 				return $xml;
 			}
@@ -882,7 +882,7 @@ class flgalleryGallery extends flgalleryBaseClass
 		return !empty($flgalleryProducts[$s]) && $flgalleryProducts[$s] !== true;
 	}
 
-	function cacheXML($xml)
+	function cacheXml($xml)
 	{
 		if ($this->id)
 		{
