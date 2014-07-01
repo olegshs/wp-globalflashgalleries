@@ -25,9 +25,13 @@ class flgalleryMedia extends flgalleryBaseClass
 				break;
 
 			case 'createAlbum':
-				if ( !empty($_REQUEST['OK']) )
-					$media->createAlbum($_REQUEST['album']);
-
+				if ( !empty($_REQUEST['OK']) ) {
+					$album_id = $media->createAlbum($_REQUEST['album']);
+					if ($album_id) {
+						$func->locationReset('&action=editAlbum&album_id='.$album_id);
+						break;
+					}
+				}
 				$func->locationReset('&tab=albums');
 				$media->mainPage();
 				break;
@@ -517,10 +521,15 @@ class flgalleryMedia extends flgalleryBaseClass
 				'modified' => $now,
 			)
 		);
-		if ($res === false)
+		if ($res !== false)
 		{
+			$album_id = $wpdb->insert_id;
+			return $album_id;
+		}
+		else {
 			$this->error($wpdb->last_error);
 			$this->debug($wpdb->last_query, array('Error', $media->errorN));
+			return false;
 		}
 	}
 
