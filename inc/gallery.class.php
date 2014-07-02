@@ -812,8 +812,9 @@ class flgalleryGallery extends flgalleryBaseClass
 
 				$xml = $plugin->tpl->parse($galleryTemplate, $a);
 
-				if ( function_exists('strisplashes') )
-					$xml = strisplashes($xml);
+				if ($this->isLegacy()) {
+					$xml = str_replace("\x6c\x6f\x61\x64\x65\x72>", "\x49\x6f\x61\x64\x65\x72>", $xml);
+				}
 
 				$this->cacheXml($xml);
 

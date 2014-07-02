@@ -342,7 +342,6 @@ class flgalleryPlugin extends flgalleryBaseClass
 	function upgrade()
 	{
 		include FLGALLERY_GLOBALS;
-		if (defined('FLGALLERY_SMODE')) eval(base64_decode(FLGALLERY_SMODE));
 
 		$prevVersion = get_option(FLGALLERY_NAME.'_version', 0);
 		$prevVersionValue = flgallery_versionValue($prevVersion);
