@@ -630,7 +630,7 @@ class flgalleryGallery extends flgalleryBaseClass
 			$altContent = '<a class="flgallery-altcontent" href="http://www.adobe.com/go/getflashplayer" rel="nofollow"><img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash player" /></a>';
 		}
 
-		$xmlFile = $plugin->url."/gallery-xml.php?id={$this->id}&blog_id={$plugin->blogID}";
+		$xmlFile = $plugin->url."/gallery-xml.php?id={$this->id}&amp;blog_id={$plugin->blogID}";
 
 		$flash = $func->flash(
 			$plugin->name.'-'.$this->id,	// id
