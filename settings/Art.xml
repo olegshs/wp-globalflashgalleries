@@ -97,6 +97,7 @@
 				<description>Type of image transition effect</description>
 				<input type="select">
 					<option value="fade">fade</option>
+					<option value="slide">slide</option>
 					<option value="zoom">zoom</option>
 					<option value="pixel">pixel</option>
 					<option value="squares">squares</option>
