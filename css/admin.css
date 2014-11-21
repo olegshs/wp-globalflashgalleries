@@ -233,9 +233,13 @@ body.wait * {
 .flgallery #server-settings h3 {
 	cursor: default;
 }
+.flgallery #server-settings .inside {
+	margin: 0;
+	padding: 0;
+}
 .flgallery #server-settings table {
 	width: 100%;
-	margin: 0.5em 0 1em;
+	margin: 0;
 }
 .flgallery #server-settings table th {
 	text-align: left;
@@ -254,9 +258,9 @@ body.wait * {
 .flgallery #server-settings table td {
 	color: #090;
 }
-.flgallery #server-settings table .even td,
-.flgallery #server-settings table .even th {
-	background: #f7f7f7;
+.flgallery #server-settings table tr:nth-child(odd) td,
+.flgallery #server-settings table tr:nth-child(odd) th {
+	background: #f9f9f9;
 }
 
 
@@ -839,7 +843,6 @@ body.wait * {
 	margin: 1.5em 0;
 }
 .flgallery .media .albums-list td {
-	background: #f7f7f7;
 }
 .flgallery .media .albums-list td,
 .flgallery .media .albums-list th {
@@ -852,8 +855,8 @@ body.wait * {
 .flgallery .media .albums-list th {
 	padding: 0.5em 1em;
 }
-.flgallery .media .albums-list tr:hover td {
-	background: #fcfcf7;
+.flgallery .media .albums-list tr:nth-child(odd) td {
+	background: #f9f9f9;
 }
 .flgallery .media .albums-list .album-preview {
 	width: 150px;
@@ -1047,8 +1050,8 @@ body.wait * {
 .flgallery .album .picture .picture-title {
 	font-size: 100%;
 }
-.flgallery .album .picture:hover {
-	background: #fffff7;
+.flgallery .album .picture:nth-child(odd) {
+	background: #f9f9f9;
 }
 .flgallery .image-properties .close,
 .flgallery .album .close {
@@ -1092,7 +1095,7 @@ body.wait * {
 .flgallery .addmedia-url .item .inside {
 	margin: 0.5em 3em 2em 0;
 	padding: 1.5em 2.5em 1em 1em;
-	background: #f7f7f7;
+	background: #f9f9f9;
 	border: 1px solid #ddd;
 	-moz-border-radius: 1em;
 	-webkit-border-radius: 1em;
