@@ -101,6 +101,9 @@
 					<option value="zoom">zoom</option>
 					<option value="pixel">pixel</option>
 					<option value="squares">squares</option>
+					<option value="squares">blur</option>
+					<option value="squares">stripes</option>
+					<option value="squares">random</option>
 				</input>
 			</param>
 			<param name="transitionDuration" default="1">
