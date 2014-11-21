@@ -102,8 +102,6 @@
 					<option value="pixel">pixel</option>
 					<option value="squares">squares</option>
 					<option value="blur">blur</option>
-					<option value="stripes">stripes</option>
-					<option value="random">random</option>
 				</input>
 			</param>
 			<param name="transitionDuration" default="1">
