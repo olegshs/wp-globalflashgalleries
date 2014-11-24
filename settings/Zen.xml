@@ -123,7 +123,7 @@
 		<description>Show/hide navigation buttons</description>
 		<input type="checkbox" value="true|false" />
 	</param>
-	<param name="slideshowDelay" default="4">
+	<param name="slideshowDelay" default="3">
 		<title>Slideshow Delay</title>
 		<description>Image display duration in Slideshow mode (in seconds)</description>
 		<input type="slider" min="1" max="30" />

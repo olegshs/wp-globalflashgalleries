@@ -4,7 +4,7 @@
 		<title>Image</title>
 		<description>Image settings</description>
 		<items>
-			<param name="scaleMode" default="fill">
+			<param name="scaleMode" default="fit">
 				<title>Scale Mode</title>
 				<description>Type of image scaling to the size of the visible area</description>
 				<input type="select">

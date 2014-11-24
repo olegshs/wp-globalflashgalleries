@@ -66,7 +66,7 @@
 		<description>Slideshow mode on/off</description>
 		<input type="checkbox" value="true|false" />
 	</param>
-	<param name="slideShowDelay" default="2">
+	<param name="slideShowDelay" default="3">
 		<title>Slide Show Delay</title>
 		<description>Image display duration in Slideshow mode (in seconds)</description>
 		<input type="slider" min="1" max="30" />

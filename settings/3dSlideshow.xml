@@ -21,7 +21,7 @@
 			</param>
 		</items>
 	</group>
-	<param name="slideshowDelay" default="2">
+	<param name="slideshowDelay" default="3">
 		<title>Slideshow Delay</title>
 		<description></description>
 		<input type="slider" min="1" max="30" />
