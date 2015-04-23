@@ -65,7 +65,7 @@ if ((int)$_SERVER['CONTENT_LENGTH'] > $multiplier*(int)$POST_MAX_SIZE && $POST_M
 
 // Settings
 $path = $_GET['path'];
-if (preg_match('#[/\\]\.#', $path)) {
+if (preg_match('#[/\\\\]\.#', $path)) {
 	HandleError("Invalid path");
 }
 
