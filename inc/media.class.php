@@ -1098,6 +1098,36 @@ class flgalleryMedia extends flgalleryBaseClass
 			'description' => $description
 		);
 	}
+
+	function getWpMediaLibraryJson($offset = 0, $limit = 30)
+	{
+		include FLGALLERY_GLOBALS;
+
+		$offset = (int)$offset;
+		$limit = (int)$limit;
+
+		$items = $wpdb->get_results("
+			SELECT ID, guid, post_title, post_mime_type
+			FROM `{$wpdb->prefix}posts`
+			WHERE `post_author` = 1
+			AND `post_type` = 'attachment'
+			AND `post_mime_type` IN ('image/gif', 'image/jpeg', 'image/png')
+			ORDER BY `post_date` DESC
+			LIMIT {$offset}, {$limit}
+		");
+
+		foreach ($items as $key => $item) {
+			$thumbnail = wp_get_attachment_image_src($item->ID, array(300, 300));
+			$items[$key]->thumbnail = array(
+				'src' => $thumbnail[0],
+				'width' => $thumbnail[1],
+				'height' => $thumbnail[2]
+			);
+		}
+
+		@header("Content-Type: application/json; charset=utf-8");
+		echo json_encode($items);
+	}
 }
 
 ?>

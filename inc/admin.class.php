@@ -406,6 +406,12 @@ class flgalleryAdmin extends flgalleryBaseClass
 				$admpage->head('Picture Properties', 'image-properties');
 				$admpage->editImage($image_id);
 				break;
+
+			case 'getWpMediaLibraryJson':
+				$offset = (int)$request['offset'];
+				$limit = (int)$request['limit'];
+				$media->getWpMediaLibraryJson($offset, $limit);
+				break;
 		}
 
 		exit();

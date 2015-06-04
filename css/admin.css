@@ -1186,6 +1186,31 @@ body.wait * {
 .flgallery .addmedia-swfupload #uploadQueue {
 	clear: left;
 }
+.flgallery #importWpMedia-items {
+	display: block;
+	margin: 0;
+	padding: 0;
+}
+.flgallery #importWpMedia-items li {
+	display: block;
+	position: relative;
+	float: left;
+	width: 150px;
+	height: 150px;
+	overflow: hidden;
+	margin: 0 15px 15px 0;
+	list-style: none;
+}
+.flgallery #importWpMedia-items li img {
+	display: block;
+	position: absolute;
+}
+.flgallery #importWpMedia-items li input {
+	position: absolute;
+	left: 5px;
+	top: 5px;
+	margin: 0;
+}
 
 .flgallery #newAlbumForm {
 }
