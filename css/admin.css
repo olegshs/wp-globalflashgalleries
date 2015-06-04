@@ -1188,7 +1188,7 @@ body.wait * {
 }
 .flgallery #importWpMedia-items {
 	display: block;
-	margin: 0;
+	margin: 0 0 0 -5px;
 	padding: 0;
 }
 .flgallery #importWpMedia-items li {
@@ -1198,8 +1198,12 @@ body.wait * {
 	width: 150px;
 	height: 150px;
 	overflow: hidden;
-	margin: 0 15px 15px 0;
+	margin: 0 10px 10px 0;
 	list-style: none;
+	border: 5px solid transparent;
+}
+.flgallery #importWpMedia-items li.selected {
+	border: 5px solid #00a0d2;
 }
 .flgallery #importWpMedia-items li img {
 	display: block;
@@ -1207,6 +1211,7 @@ body.wait * {
 }
 .flgallery #importWpMedia-items li input {
 	position: absolute;
+	display: none;
 	left: 5px;
 	top: 5px;
 	margin: 0;

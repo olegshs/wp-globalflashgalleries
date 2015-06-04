@@ -45,7 +45,7 @@ jQuery(document).ready(function($) {
 	    }
 	};
 
-	function loadItems(offset, limit) {
+	function loadItems(offset, limit, callback) {
 		$.ajax({
 			url: flgallery.adminAjax,
 			type: 'get',
@@ -57,28 +57,7 @@ jQuery(document).ready(function($) {
 			},
 			dataType: 'json',
 			success: function(response) {
-				var ul = $('#importWpMedia-items'), li, img;
-				var i, item, checkbox;
-
-				for (i = 0; i < response.length; i++) {
-					item = response[i];
-
-					li = $('<li>');
-
-					img = $('<img>');
-					img.attr({
-						src: item.thumbnail.src,
-						width: item.thumbnail.width,
-						height: item.thumbnail.height
-					}).css(Scale.fill(item.thumbnail.width, item.thumbnail.height, 150, 150));
-
-					checkbox = $('<input type="checkbox">');
-					checkbox.val(item.ID);
-
-					li.append(img);
-					li.append(checkbox);
-					ul.append(li);
-				}
+				callback(response);
 			}
 		});
 	}
@@ -86,7 +65,53 @@ jQuery(document).ready(function($) {
 	var offset = 0, limit = 30;
 
 	function loadMore() {
-		loadItems(offset, limit);
+		loadItems(offset, limit, function(response) {
+			if (response.length < limit) {
+				$('#importWpMedia .button.more').hide();
+			}
+
+			var ul = $('#importWpMedia-items'), li, img;
+			var i, item, checkbox;
+
+			for (i = 0; i < response.length; i++) {
+				item = response[i];
+
+				li = $('<li>');
+
+				img = $('<img>');
+				img.attr({
+					src: item.thumbnail.src,
+					width: item.thumbnail.width,
+					height: item.thumbnail.height
+				}).css(Scale.fill(item.thumbnail.width, item.thumbnail.height, 150, 150));
+
+				checkbox = $('<input type="checkbox">');
+				checkbox.val(item.ID);
+
+				li.append(img);
+				li.append(checkbox);
+				ul.append(li);
+
+				(function(li, checkbox) {
+					checkbox.click(function(e) {
+						e.stopPropagation();
+					}).change(function() {
+						if (checkbox.prop('checked')) {
+							checkbox.show();
+							li.addClass('selected');
+						} else {
+							checkbox.hide();
+							li.removeClass('selected');
+						}
+					});
+
+					li.click(function() {
+						checkbox.prop('checked', !checkbox.prop('checked'));
+						checkbox.trigger('change');
+					});
+				})(li, checkbox);
+			}
+		});
 		offset += limit;
 	}
 
