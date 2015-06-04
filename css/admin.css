@@ -1186,6 +1186,9 @@ body.wait * {
 .flgallery .addmedia-swfupload #uploadQueue {
 	clear: left;
 }
+.flgallery .addmedia-wpmedia .addmedia-label {
+	margin: 0 0 1em;
+}
 .flgallery #importWpMedia-items {
 	display: block;
 	margin: 0 0 0 -5px;

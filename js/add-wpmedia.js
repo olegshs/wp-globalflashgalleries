@@ -1,7 +1,4 @@
 jQuery(document).ready(function($) {
-	$('#flgalleryAddMedia').css('backgroundImage', 'none');
-	$('#flgalleryAddMediaForm').fadeIn(500);
-
 	/**
 	 * Scale
 	 */
@@ -62,10 +59,17 @@ jQuery(document).ready(function($) {
 		});
 	}
 
+	var isVisible = false;
 	var offset = 0, limit = 30;
 
 	function loadMore() {
 		loadItems(offset, limit, function(response) {
+			if (!isVisible) {
+				isVisible = true;
+				$('#flgalleryAddMediaForm').fadeIn(500);
+				$('#flgalleryAddMedia').css('backgroundImage', 'none');
+			}
+
 			if (response.length < limit) {
 				$('#importWpMedia .button.more').hide();
 			}
@@ -112,6 +116,7 @@ jQuery(document).ready(function($) {
 				})(li, checkbox);
 			}
 		});
+
 		offset += limit;
 	}
 
