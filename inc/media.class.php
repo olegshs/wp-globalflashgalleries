@@ -717,8 +717,8 @@ class flgalleryMedia extends flgalleryBaseClass
 		return $wpdb->update($plugin->dbImages, array('album_id' => $album_id), array('id' => $image_id));
 	}
 
-	/*
-	 *	Upload page
+	/**
+	 * "Add Pictures" page
 	 */
 	function addMediaPage($a)
 	{
@@ -780,8 +780,8 @@ class flgalleryMedia extends flgalleryBaseClass
 		));
 	}
 
-	/*
-	 *	"Flash Uploader" tab
+	/**
+	 * "Flash Uploader" tab
 	 */
 	function swfUploader(&$a, $echo = true)
 	{
@@ -806,8 +806,8 @@ class flgalleryMedia extends flgalleryBaseClass
 		return $out;
 	}
 
-	/*
-	 *	"Browser Uploader" tab
+	/**
+	 * "Browser Uploader" tab
 	 */
 	function browserUploader(&$a, $echo = true)
 	{
@@ -830,8 +830,8 @@ class flgalleryMedia extends flgalleryBaseClass
 		return $out;
 	}
 
-	/*
-	 *	"Add From URLs" tab
+	/**
+	 * "Add URLs" tab
 	 */
 	function addFromURL(&$a, $echo = true)
 	{
@@ -850,8 +850,8 @@ class flgalleryMedia extends flgalleryBaseClass
 		return $out;
 	}
 
-	/*
-	 *	"Upload Archive" tab
+	/**
+	 * "Upload Archive" tab
 	 */
 	function uploadArchive(&$a, $echo = true)
 	{
@@ -870,8 +870,8 @@ class flgalleryMedia extends flgalleryBaseClass
 		return $out;
 	}
 
-	/*
-	 *	"Import from FTP folder" tab
+	/**
+	 * "Import from Folder" tab
 	 */
 	function importFolder(&$a, $echo = true)
 	{
@@ -891,6 +891,9 @@ class flgalleryMedia extends flgalleryBaseClass
 		return $out;
 	}
 
+	/**
+	 * "Import from Media Library" tab
+	 */
 	function importWpMedia(&$a, $echo = true)
 	{
 		include FLGALLERY_GLOBALS;
@@ -908,8 +911,8 @@ class flgalleryMedia extends flgalleryBaseClass
 		return $out;
 	}
 
-	/*
-	 *	Add images to albums and galleries
+	/**
+	 * Add images to albums and galleries
 	 */
 	function addMedia($a)
 	{
@@ -1000,7 +1003,7 @@ class flgalleryMedia extends flgalleryBaseClass
 				$added = array_merge($added, $files);
 		}
 
-		// Add from URLs
+		// Add URLs
 		if ( !empty($_POST['addFromURL_file']) && is_array($_POST['addFromURL_file']) )
 		{
 			$URLs = array();
@@ -1048,7 +1051,7 @@ class flgalleryMedia extends flgalleryBaseClass
 			$importFolder_delete = true;
 		}
 
-		// Import from FTP Folder
+		// Import from Folder
 		if ( !isset($importFolder_path) )
 			$importFolder_path = &$_POST['importFolder_path'];
 
@@ -1074,6 +1077,23 @@ class flgalleryMedia extends flgalleryBaseClass
 			if (!empty($_POST['importFolder_delete_dir'])) {
 				$tmpDirs[] = ABSPATH . $importFolder_path;
 			}
+		}
+
+		// Import from Media Library
+		$wpmedia_ids =& $_POST['wpmedia_id'];
+		if ( !empty($wpmedia_ids) && is_array($wpmedia_ids) )
+		{
+			foreach ($wpmedia_ids as $key => $id)
+			{
+				$file = get_attached_file($id);
+				$this->addFile($file, get_the_title($id), '');
+				$ext = $func->fileExtByMime($func->fileMime($file));
+				$destNames[$key] = basename($func->uniqueFile($destDir."/%s{$ext}"));
+			}
+
+			$files = $func->copyFiles($this->files, $destDir, $destNames);
+			if (!empty($files))
+				$added = array_merge($added, $files);
 		}
 
 		// Delete temporary directories
@@ -1107,7 +1127,7 @@ class flgalleryMedia extends flgalleryBaseClass
 		$limit = (int)$limit;
 
 		$items = $wpdb->get_results("
-			SELECT ID, guid, post_title, post_mime_type
+			SELECT ID
 			FROM `{$wpdb->prefix}posts`
 			WHERE `post_author` = 1
 			AND `post_type` = 'attachment'

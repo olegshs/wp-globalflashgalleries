@@ -1,16 +1,5 @@
 jQuery(document).ready(function($) {
-	/**
-	 * Scale
-	 */
 	var Scale = {
-	    /**
-	     * Fill
-	     * @param {number|*} w1
-	     * @param {number|*} h1
-	     * @param {number|*} w2
-	     * @param {number|*} h2
-	     * @returns {Object.<string, number>}
-	     */
 	    fill: function (w1, h1, w2, h2) {
 	        w1 = Number(w1);
 	        h1 = Number(h1);
@@ -90,7 +79,10 @@ jQuery(document).ready(function($) {
 				}).css(Scale.fill(item.thumbnail.width, item.thumbnail.height, 150, 150));
 
 				checkbox = $('<input type="checkbox">');
-				checkbox.val(item.ID);
+				checkbox.attr({
+					name: 'wpmedia_id[]',
+					value: item.ID
+				});
 
 				li.append(img);
 				li.append(checkbox);
