@@ -70,7 +70,6 @@ if (preg_match('#[/\\\\]\.#', $path)) {
 }
 
 $save_path = FLGALLERY_CONTENT_DIR.'/'.$path.'/';
-file_put_contents(__DIR__.'/save_path', $save_path);
 $upload_name = "Filedata";
 $max_file_size_in_bytes = 2147483647;				// 2GB in bytes
 $extension_whitelist = array("jpg", "gif", "png");	// Allowed file extensions
