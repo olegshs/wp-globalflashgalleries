@@ -942,7 +942,15 @@ class flgalleryMedia extends flgalleryBaseClass
 			{
 				if ( !empty($path) )
 				{
-					$fullPath = $plugin->imgDir.'/'.$path;
+					if (preg_match('#^(/|[a-z]:)#i', $path)) {
+						$fullPath = $path;
+						$path = '/'.preg_replace('/^'.preg_quote(ABSPATH, '/').'/', '', $path);
+					}
+					else {
+						$fullPath = $plugin->imgDir.'/'.$path;
+					}
+
+
 					list($width, $height) = $imageSize = getimagesize($fullPath);
 
 					$insert = $wpdb->insert(
@@ -1087,13 +1095,8 @@ class flgalleryMedia extends flgalleryBaseClass
 			{
 				$file = get_attached_file($id);
 				$this->addFile($file, get_the_title($id), '');
-				$ext = $func->fileExtByMime($func->fileMime($file));
-				$destNames[$key] = basename($func->uniqueFile($destDir."/%s{$ext}"));
+				$added[] = $file;
 			}
-
-			$files = $func->copyFiles($this->files, $destDir, $destNames);
-			if (!empty($files))
-				$added = array_merge($added, $files);
 		}
 
 		// Delete temporary directories

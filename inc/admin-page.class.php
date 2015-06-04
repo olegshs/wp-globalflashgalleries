@@ -543,6 +543,13 @@ class flgalleryAdminPage extends flgalleryBaseClass
 			$image->target_blank = empty($image->target) || $image->target == '_blank';
 			$image->target_self = $image->target == '_self';
 
+			if (strpos($image->path, '/') === 0) {
+				$image->src = FLGALLERY_SITE_URL.$image->path;
+			}
+			else {
+				$image->src = $plugin->imgURL.'/'.$image->path;
+			}
+
 			if ( empty($image->title) )
 				$image->title = $func->filenameToTitle($image->name);
 

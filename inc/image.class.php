@@ -32,7 +32,13 @@ class flgalleryImage extends flgalleryBaseClass
 	{
 		include FLGALLERY_GLOBALS;
 
-		$fullPath = $plugin->imgDir .'/'. $this->path;
+		if (strpos($this->path, '/') === 0) {
+			$fullPath = ABSPATH.$this->path;
+		}
+		else {
+			$fullPath = $plugin->imgDir.'/'.$this->path;
+		}
+
 		if ( file_exists($fullPath) )
 		{
 			$save = false;
@@ -273,6 +279,9 @@ class flgalleryImage extends flgalleryBaseClass
 		$newHeight = round( empty($size['height']) ? $this->height * ($size['width'] / $this->width) : $size['height'] );
 
 		preg_match('/(.*)(\..*)$/', $this->path, $fname);
+		if (strpos($this->path, '/') === 0) {
+			$fname[1] = md5($fname[1]);
+		}
 		$newPath = $plugin->tmpDir."/img-{$fname[1]}.{$newWidth}x{$newHeight}{$fname[2]}";
 
 		if ( !file_exists($newPath) )
@@ -317,7 +326,14 @@ class flgalleryImage extends flgalleryBaseClass
 
 				$this->addToBlacklist($this->path);
 
-				$srcImage = $imagecreate($plugin->imgDir.'/'.$this->path);
+				if (strpos($this->path, '/') === 0) {
+					$fullPath = ABSPATH.$this->path;
+				}
+				else {
+					$fullPath = $plugin->imgDir.'/'.$this->path;
+				}
+
+				$srcImage = $imagecreate($fullPath);
 				$dstImage = imagecreatetruecolor($newWidth, $newHeight);
 
 				if ($this->type == 'image/png') {

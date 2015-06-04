@@ -725,7 +725,13 @@ class flgalleryGallery extends flgalleryBaseClass
 
 				foreach ($images as $img)
 				{
-					$img->source = $plugin->imgURL.'/'.$img->path;
+					if (strpos($img->path, '/') === 0) {
+						$img->source = FLGALLERY_SITE_URL.$img->path;
+					}
+					else {
+						$img->source = $plugin->imgURL.'/'.$img->path;
+					}
+
 					$img->thumbnail = $img->source;
 
 					if ( !$plugin->stats->deadline() )
