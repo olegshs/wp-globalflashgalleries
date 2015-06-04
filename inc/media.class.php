@@ -740,9 +740,10 @@ class flgalleryMedia extends flgalleryBaseClass
 			array(
 				'swfupload' =>	'Flash Uploader',
 				'stdupload' =>	'Browser Uploader',
-				'url' =>		'Add from URL',
+				'url' =>		'Add URLs',
 				'archive' =>	'Upload Archive',
-				'directory' =>	'Import from FTP Folder',
+				'directory' =>	'Import from Folder',
+				//'media' =>		'Import from Media Library',
 			),
 			$tab, '&amp;action=addMediaPage'.$objectID
 		);
