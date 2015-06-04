@@ -743,7 +743,7 @@ class flgalleryMedia extends flgalleryBaseClass
 				'url' =>		'Add URLs',
 				'archive' =>	'Upload Archive',
 				'directory' =>	'Import from Folder',
-				//'media' =>		'Import from Media Library',
+				'wpmedia' =>	'Import from Media Library',
 			),
 			$tab, '&amp;action=addMediaPage'.$objectID
 		);
@@ -764,6 +764,9 @@ class flgalleryMedia extends flgalleryBaseClass
 				break;
 			case 'directory':
 				$addMediaPage = $media->importFolder($a, false);
+				break;
+			case 'wpmedia':
+				$addMediaPage = $media->importWpMedia($a, false);
 				break;
 			default:
 				$addMediaPage = '';
@@ -881,6 +884,23 @@ class flgalleryMedia extends flgalleryBaseClass
 		$a['href'] = $admpage->href;
 
 		$out = $tpl->parse('media/add-directory', $a);
+
+		if ($echo)
+			echo $out;
+
+		return $out;
+	}
+
+	function importWpMedia(&$a, $echo = true)
+	{
+		include FLGALLERY_GLOBALS;
+		global $startText;
+		$startText = 'Import';
+
+		$a['jsURL'] = $plugin->jsURL;
+		$a['href'] = $admpage->href;
+
+		$out = $tpl->parse('media/add-wpmedia', $a);
 
 		if ($echo)
 			echo $out;
