@@ -442,6 +442,8 @@ class flgalleryAdminPage extends flgalleryBaseClass
 		$images = $gallery->getItems();
 		if ($images !== false)
 		{
+			$nonce = wp_create_nonce('deleteImage');
+
 			foreach ($images as $img)
 			{
 				$image = new flgalleryImage($img);
@@ -456,6 +458,8 @@ class flgalleryAdminPage extends flgalleryBaseClass
 
 				$img->title = htmlspecialchars(stripslashes( $img->title ));
 				$img->description = htmlspecialchars(stripslashes( $img->description ));
+
+				$img->nonce = $nonce;
 
 				$imagesHTML .= $tpl->parse('manage/image-preview', $img);
 			}
