@@ -3,12 +3,12 @@
 Plugin Name: Global Flash Gallery
 Plugin URI: http://flash-gallery.com/wordpress-plugin/
 Description: Global Flash Galleries plugin is designed for quick and easy creating and publishing flash galleries and slideshows. There are convenient tools for uploading and managing images. This plugin includes 11 different galleries. Each gallery can be customized according to your preferences.
-Version: 0.15.0
+Version: 0.15.1
 Author: Flash Gallery Team
 Author URI: http://flash-gallery.com/
 */
 
-define( 'FLGALLERY_VERSION', '0.15.0' );
+define( 'FLGALLERY_VERSION', '0.15.1' );
 define( 'FLGALLERY_JS_VERSION', '0.12.1' );
 
 require_once dirname(__FILE__).'/config.php';
