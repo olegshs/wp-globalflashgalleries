@@ -669,11 +669,17 @@ class flgalleryMedia extends flgalleryBaseClass
 				");
 				if ( $copies !== false && count($copies) == 0 )
 				{
-					// Delete image
-					unlink( $plugin->imgDir.'/'.$image->path );
-					// Delete thumbnails
 					preg_match('/(.*)(\..*)/', $image->path, $fname);
-					$func->recurse( $plugin->tmpDir, '#^img-'.preg_quote($fname[1]).'\..+#i', 'unlink' );
+
+					if (strpos($image->path, '/') === 0) {
+						$fname[1] = md5($fname[1]);
+					} else {
+						// Delete image
+						unlink($plugin->imgDir.'/'.$image->path);
+					}
+
+					// Delete thumbnails
+					$func->recurse($plugin->tmpDir, '#^img-'.preg_quote($fname[1]).'\..+#i', 'unlink');
 				}
 			}
 			else
