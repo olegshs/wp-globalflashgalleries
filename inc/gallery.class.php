@@ -528,7 +528,7 @@ class flgalleryGallery extends flgalleryBaseClass
 		{
 			include FLGALLERY_GLOBALS;
 
-			$this->itemsCount = $wpdb->get_results("
+			$this->itemsCount = (int)$wpdb->get_var("
 				SELECT COUNT(*)
 				FROM `{$plugin->dbImages}`
 				WHERE `gallery_id` = '{$this->id}'
