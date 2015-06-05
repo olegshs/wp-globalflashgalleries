@@ -1148,7 +1148,7 @@ class flgalleryMedia extends flgalleryBaseClass
 		$items = $wpdb->get_results("
 			SELECT ID
 			FROM `{$wpdb->prefix}posts`
-			WHERE `post_author` = 1
+			WHERE (`post_author` = '{$plugin->userID}' OR {$plugin->userLevel} >= 5)
 			AND `post_type` = 'attachment'
 			AND `post_mime_type` IN ('image/gif', 'image/jpeg', 'image/png')
 			ORDER BY `post_date` DESC
