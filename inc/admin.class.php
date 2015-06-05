@@ -178,7 +178,7 @@ class flgalleryAdmin extends flgalleryBaseClass
 		switch ($action)
 		{
 			case 'arrangeGallery':
-				$gallery->arrange($_REQUEST['order']);
+				$gallery->arrange($_POST['order']);
 				$admpage->manageGalleries();
 				break;
 
@@ -188,30 +188,30 @@ class flgalleryAdmin extends flgalleryBaseClass
 				break;
 
 			case 'changeGalleryOptions':
-				if ( !empty($_REQUEST['OK']) || !empty($_REQUEST['update']) || !empty($_REQUEST['exportXML']) )
+				if ( !empty($_POST['OK']) || !empty($_POST['update']) || !empty($_POST['exportXML']) )
 				{
 					$gallery_type = $gallery->type;
 					$typeChanged = false;
 
-					if ( !empty($_REQUEST['gallery']) )
+					if ( !empty($_POST['gallery']) )
 					{
-						foreach ($_REQUEST['gallery'] as $key => $value)
+						foreach ($_POST['gallery'] as $key => $value)
 						{
 							if ( isset($gallery->$key) )
 								$gallery->$key = $value;
 						}
 						$gallery->save();
-						if ( $_REQUEST['gallery']['type'] != $gallery_type )
+						if ( $_POST['gallery']['type'] != $gallery_type )
 							$typeChanged = true;
 					}
 
-					if ( !empty($_REQUEST['settings']) && !$typeChanged )
+					if ( !empty($_POST['settings']) && !$typeChanged )
 					{
 						$gallery->getSettings();
 						foreach ($gallery->settingsInfo as $key => $param)
 						{
-							if ( isset($_REQUEST['settings'][$key]) )
-								$gallery->settings[$key] = trim($_REQUEST['settings'][$key]);
+							if ( isset($_POST['settings'][$key]) )
+								$gallery->settings[$key] = trim($_POST['settings'][$key]);
 							else
 							{
 								$paramInputAtt = $param->input->attributes();
@@ -225,7 +225,7 @@ class flgalleryAdmin extends flgalleryBaseClass
 						$gallery->saveSettings();
 					}
 
-					if ( !empty($_REQUEST['update']) )
+					if ( !empty($_POST['update']) )
 					{
 						$admpage->head('Gallery Options', 'gallery-options');
 						$func->locationReset("&action=galleryOptions&gallery_id={$gallery->id}");
@@ -233,7 +233,7 @@ class flgalleryAdmin extends flgalleryBaseClass
 						break;
 					}
 
-					if ( !empty($_REQUEST['exportXML']) )
+					if ( !empty($_POST['exportXML']) )
 					{
 						$admpage->manageGalleries();
 						$func->redirect($plugin->url."/gallery-xml.php?id={$gallery->id}&blog_id={$plugin->blogID}&download");
@@ -241,7 +241,7 @@ class flgalleryAdmin extends flgalleryBaseClass
 					}
 				}
 
-				if ( !empty($_REQUEST['resetOptions']) )
+				if ( !empty($_POST['resetOptions']) )
 				{
 					$gallery->resetSettings();
 
@@ -268,11 +268,11 @@ class flgalleryAdmin extends flgalleryBaseClass
 				break;
 
 			case 'saveImage':
-				if ( !empty($_REQUEST['OK']) && !empty($_REQUEST['image']) )
+				if ( !empty($_POST['OK']) && !empty($_POST['image']) )
 				{
-					$image_id = (int)$_REQUEST['image_id'];
-					$applyToCopies = !empty($_REQUEST['applyToCopies']);
-					if ( $media->saveImage($image_id, $_REQUEST['image'], $applyToCopies) )
+					$image_id = (int)$_POST['image_id'];
+					$applyToCopies = !empty($_POST['applyToCopies']);
+					if ( $media->saveImage($image_id, $_POST['image'], $applyToCopies) )
 						$gallery->save();
 				}
 				$func->locationReset("&gallery_id={$gallery->id}&imgs=1#gallery-{$gallery->id}");
@@ -285,14 +285,18 @@ class flgalleryAdmin extends flgalleryBaseClass
 				break;
 
 			case 'deleteGallery':
-				$gallery->delete();
+				if (!empty($_POST['gallery_id'])) {
+					$gallery->delete();
+				}
 				$func->locationReset('');
 				$admpage->manageGalleries();
 				break;
 
 			case 'deleteImage':
-				$image_id = (int)$_REQUEST['image_id'];
-				$admin->deleteImage($image_id, $gallery);
+				if (wp_verify_nonce($_REQUEST['nonce'], 'deleteImage')) {
+					$image_id = (int)$_REQUEST['image_id'];
+					$admin->deleteImage($image_id, $gallery);
+				}
 				$func->locationReset("&gallery_id={$gallery->id}&imgs=1#gallery-{$gallery->id}");
 				$admpage->manageGalleries();
 				break;
@@ -302,7 +306,7 @@ class flgalleryAdmin extends flgalleryBaseClass
 				break;
 
 			case 'upload':
-				if ( !empty($_REQUEST['OK']) )
+				if ( !empty($_POST['OK']) )
 				{
 					$media->uploadPictures( array('gallery_id' => $gallery->id) );
 					$func->locationReset("&gallery_id={$gallery->id}&imgs=1#gallery-{$gallery->id}");
@@ -316,7 +320,7 @@ class flgalleryAdmin extends flgalleryBaseClass
 				break;
 
 			case 'addImages':
-				switch ( $_REQUEST['order'] )
+				switch ( $_POST['order'] )
 				{
 					case 'before':
 						$order = (int)$wpdb->get_var("
@@ -325,7 +329,7 @@ class flgalleryAdmin extends flgalleryBaseClass
 							WHERE `gallery_id` = '{$gallery->id}'
 						");
 						$orderInc = -1;
-						$_REQUEST['images'] = array_reverse($_REQUEST['images']);
+						$_POST['images'] = array_reverse($_POST['images']);
 						break;
 
 					default:
@@ -338,7 +342,7 @@ class flgalleryAdmin extends flgalleryBaseClass
 						break;
 				}
 
-				foreach ( $_REQUEST['images'] as $image_id )
+				foreach ( $_POST['images'] as $image_id )
 				{
 					$order += $orderInc;
 					$media->copyImage( $image_id, array('gallery_id' => $gallery->id, 'order' => $order) );
@@ -370,6 +374,8 @@ class flgalleryAdmin extends flgalleryBaseClass
 			case 'getGalleryItemsHtml':
 				if ( !empty($request['gallery_id']) )
 					$gallery = new flgalleryGallery( (int)$request['gallery_id'] );
+				else
+					$gallery = null;
 
 				echo $admpage->getGalleryItemsHtml($gallery);
 				break;
@@ -379,14 +385,16 @@ class flgalleryAdmin extends flgalleryBaseClass
 				break;
 
 			case 'sortImages':
-				$admin->sortImages($request);
+				if (!empty($_POST['gallery_id'])) {
+					$admin->sortImages($request);
+				}
 				break;
 
 			case 'deleteImage':
-				if ( !empty($request['gallery_id']) )
-					$gallery = new flgalleryGallery( (int)$request['gallery_id'] );
-
-				$this->deleteImage($request['image_id'], $gallery);
+				if (wp_verify_nonce($request['nonce'], 'deleteImage')) {
+					$gallery = !empty($request['gallery_id']) ? new flgalleryGallery((int)$request['gallery_id']) : null;
+					$this->deleteImage($request['image_id'], $gallery);
+				}
 				break;
 
 			case 'selectPictures':
@@ -547,7 +555,7 @@ class flgalleryAdmin extends flgalleryBaseClass
 		}
 	}
 
-	function deleteImage($image_id, $gallery = false)
+	function deleteImage($image_id, $gallery = null)
 	{
 		include FLGALLERY_GLOBALS;
 
@@ -556,7 +564,7 @@ class flgalleryAdmin extends flgalleryBaseClass
 			FROM `{$plugin->dbImages}`
 			WHERE `id` = '{$image_id}'
 		");
-		if ($image !== false)
+		if ($image)
 		{
 			$res = $wpdb->query("
 				DELETE FROM `{$plugin->dbImages}`
@@ -571,11 +579,17 @@ class flgalleryAdmin extends flgalleryBaseClass
 				");
 				if ( $copies !== false && count($copies) == 0 )
 				{
-					// Delete image
-					unlink( $plugin->imgDir.'/'.$image->path );
-					// Delete thumbnails
 					preg_match('/(.*)(\..*)/', $image->path, $fname);
-					$func->recurse( $plugin->tmpDir, '#^'.preg_quote($fname[1]).'-.*#i', 'unlink' );
+
+					if (strpos($image->path, '/') === 0) {
+						$fname[1] = md5($fname[1]);
+					} else {
+						// Delete image
+						unlink($plugin->imgDir.'/'.$image->path);
+					}
+
+					// Delete thumbnails
+					$func->recurse($plugin->tmpDir, '#^img-'.preg_quote($fname[1]).'\..+#i', 'unlink');
 				}
 
 				if ($gallery)

@@ -25,8 +25,8 @@ class flgalleryMedia extends flgalleryBaseClass
 				break;
 
 			case 'createAlbum':
-				if ( !empty($_REQUEST['OK']) ) {
-					$album_id = $media->createAlbum($_REQUEST['album']);
+				if ( !empty($_POST['OK']) ) {
+					$album_id = $media->createAlbum($_POST['album']);
 					if ($album_id) {
 						$func->locationReset('&action=editAlbum&album_id='.$album_id);
 						break;
@@ -44,11 +44,11 @@ class flgalleryMedia extends flgalleryBaseClass
 				break;
 
 			case 'updateAlbum':
-				if ( !empty($_REQUEST['update']) )
+				if ( !empty($_POST['update']) )
 				{
 					if ( !empty($album_id) )
 					{
-						$data = $_REQUEST['album'];
+						$data = $_POST['album'];
 						$data['modified'] = $now = $func->now();
 						$wpdb->update( $plugin->dbAlbums, $data, array('id' => $album_id) );
 					}
@@ -60,7 +60,9 @@ class flgalleryMedia extends flgalleryBaseClass
 				break;
 
 			case 'deleteAlbum':
-				$media->deleteAlbum($album_id);
+				if (!empty($_POST['album_id'])) {
+					$media->deleteAlbum($album_id);
+				}
 				$func->locationReset('&tab=albums');
 				$media->mainPage();
 				break;
@@ -73,11 +75,11 @@ class flgalleryMedia extends flgalleryBaseClass
 				break;
 
 			case 'saveImage':
-				if ( !empty($_REQUEST['OK']) && !empty($_REQUEST['image']) )
+				if ( !empty($_POST['OK']) && !empty($_POST['image']) )
 				{
-					$image_id = (int)$_REQUEST['image_id'];
-					$applyToCopies = !empty($_REQUEST['applyToCopies']);
-					$media->saveImage($image_id, $_REQUEST['image'], $applyToCopies);
+					$image_id = (int)$_POST['image_id'];
+					$applyToCopies = !empty($_POST['applyToCopies']);
+					$media->saveImage($image_id, $_POST['image'], $applyToCopies);
 				}
 				$func->locationReset('&action=editAlbum&album_id='.$album_id);
 				$media->editAlbum($album_id);
@@ -89,17 +91,18 @@ class flgalleryMedia extends flgalleryBaseClass
 				break;
 
 			case 'deleteImages':
-				if ( !empty($_REQUEST['image_id']) && is_array($_REQUEST['image_id']) )
+				if ( !empty($_POST['image_id']) && is_array($_POST['image_id']) )
 				{
-					foreach ($_REQUEST['image_id'] as $image_id)
+					foreach ($_POST['image_id'] as $image_id) {
 						$media->deleteImage( (int)$image_id );
+					}
 				}
 				$func->locationReset('&action=editAlbum&album_id='.$album_id);
 				$media->editAlbum($album_id);
 				break;
 
 			case 'deleteImage':
-				if ( !empty($_REQUEST['image_id']) )
+				if ( !empty($_REQUEST['image_id']) && wp_verify_nonce($_REQUEST['nonce'], 'deleteImage') )
 				{
 					$image_id = (int)$_REQUEST['image_id'];
 					$media->deleteImage($image_id);
@@ -109,11 +112,14 @@ class flgalleryMedia extends flgalleryBaseClass
 				break;
 
 			case 'moveImages':
-				$destAlbum = empty($_REQUEST['doaction2']) ? (int)$_REQUEST['destAlbum'] : (int)$_REQUEST['destAlbum2'];
+				if ( !empty($_POST['image_id']) && is_array($_POST['image_id']) )
+				{
+					$destAlbum = empty($_POST['doaction2']) ? (int)$_POST['destAlbum'] : (int)$_POST['destAlbum2'];
 
-				foreach ($_REQUEST['image_id'] as $image_id)
-					$media->moveImage( (int)$image_id, $destAlbum );
-
+					foreach ($_POST['image_id'] as $image_id) {
+						$media->moveImage( (int)$image_id, $destAlbum );
+					}
+				}
 				$func->locationReset('&action=editAlbum&album_id='.$album_id);
 				$media->editAlbum($album_id);
 				break;
@@ -124,7 +130,7 @@ class flgalleryMedia extends flgalleryBaseClass
 				break;
 
 			case 'addMedia':
-				if ( !empty($_REQUEST['OK']) )
+				if ( !empty($_POST['OK']) )
 				{
 					if ( !empty($album_id) )
 					{
@@ -560,6 +566,8 @@ class flgalleryMedia extends flgalleryBaseClass
 			");
 			if ( $pictures !== false && count($pictures) )
 			{
+				$nonce = wp_create_nonce('deleteImage');
+
 				foreach ($pictures as $picture)
 				{
 					$image = new flgalleryImage($picture);
@@ -569,6 +577,8 @@ class flgalleryMedia extends flgalleryBaseClass
 					$thumbnail = $image->resized(array('height' => 80));
 					$picture->previewURL = $thumbnail ? $func->url($thumbnail) : $picture->url;
 					$picture->href = $admpage->href .'&amp;album_id='. $album_id;
+					$picture->nonce = $nonce;
+
 					$picturesHTML .= $tpl->parse('album/picture', $picture);
 				}
 
@@ -654,7 +664,7 @@ class flgalleryMedia extends flgalleryBaseClass
 			FROM `{$plugin->dbImages}`
 			WHERE `id` = '{$image_id}'
 		");
-		if ($image !== false)
+		if ($image)
 		{
 			$res = $wpdb->query("
 				DELETE FROM `{$plugin->dbImages}`

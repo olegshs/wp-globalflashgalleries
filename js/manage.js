@@ -69,7 +69,8 @@ jQuery(document).ready(function($) {
 							if ( confirm('Delete Picture?') ) {
 								var
 									image_id = this.href.match(/image_id=(\d+)/)[1],
-									gallery_id = this.href.match(/gallery_id=(\d+)/)[1];
+									gallery_id = this.href.match(/gallery_id=(\d+)/)[1],
+									nonce = this.href.match(/nonce=(\w+)/)[1];
 
 								$('#image-'+image_id).fadeOut(500, function() {
 									$(this).remove();
@@ -82,7 +83,8 @@ jQuery(document).ready(function($) {
 										action: 'flgalleryAdmin',
 										ajax_action: 'deleteImage',
 										image_id: image_id,
-										gallery_id: gallery_id
+										gallery_id: gallery_id,
+										nonce: nonce
 									}
 								});
 							}

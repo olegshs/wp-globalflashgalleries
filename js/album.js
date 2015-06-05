@@ -32,7 +32,9 @@ jQuery(document).ready(function($) {
 	});
 
 	$('#album_pictures .picture .picture-delete a').click(function() {
-		var image_id = this.href.match(/image_id=(\d+)/)[1];
+		var image_id = this.href.match(/image_id=(\d+)/)[1],
+			nonce = this.href.match(/nonce=(\w+)/)[1];
+
 		$('#picture-'+image_id).fadeOut(500, function() {
 			$(this).remove();
 		});
@@ -42,7 +44,8 @@ jQuery(document).ready(function($) {
 			data: {
 				action: 'flgalleryAdmin',
 				ajax_action: 'deleteImage',
-				image_id: image_id
+				image_id: image_id,
+				nonce: nonce
 			}
 		});
 		return false;
