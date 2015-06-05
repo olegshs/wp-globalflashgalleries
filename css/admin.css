@@ -1172,16 +1172,34 @@ body.wait * {
 	font-size: 125%;
 }
 .flgallery .addmedia-swfupload .select-files {
+	margin-bottom: 30px;
 }
 .flgallery .addmedia-swfupload .select-files .select {
-	float: left;
+	position: relative;
 	margin: 0 0 1em -2px;
 }
+.flgallery .addmedia-swfupload .select-files .select .button {
+	position: absolute;
+	left: 0;
+	top: 0;
+	font-size: 16px;
+	line-height: 20px;
+	width: 150px;
+	height: auto;
+	padding: 10px 0;
+	text-align: center;
+}
+.flgallery .addmedia-swfupload .select-files .select .swfupload {
+	position: absolute;
+	left: 0;
+	top: 0;
+	cursor: pointer;
+}
 .flgallery .addmedia-swfupload .select-files .tip {
-	float: left;
 	font-size: 11px;
 	width: 30em;
-	margin: 2px 8px;
+	margin: 0 0 0 170px;
+	padding: 2px 0 0 0;
 }
 .flgallery .addmedia-swfupload #uploadQueue {
 	clear: left;

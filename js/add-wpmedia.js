@@ -99,6 +99,8 @@ jQuery(document).ready(function($) {
 							checkbox.hide();
 							li.removeClass('selected');
 						}
+					
+						$('#uploadStart').prop({ disabled: !$('#importWpMedia-items li.selected').length });
 					});
 
 					li.click(function() {
@@ -107,11 +109,16 @@ jQuery(document).ready(function($) {
 					});
 				})(li, checkbox);
 			}
+
+			if (!$('#importWpMedia-items li').length) {
+				$('#importWpMedia .addmedia-label').text('No images found.');
+			}
 		});
 
 		offset += limit;
 	}
 
-	loadMore();
+	$('#uploadStart').prop({ disabled: true });
 	$('#importWpMedia .button.more').click(loadMore);
+	loadMore();
 });

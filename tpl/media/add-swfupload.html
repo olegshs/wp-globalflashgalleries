@@ -27,12 +27,11 @@ window.onload = function()
 		debug: false,
 
 		// Button Settings
-		button_image_url : "{pluginURL}/img/upload-button.png",
+		button_window_mode : SWFUpload.WINDOW_MODE.TRANSPARENT,
 		button_placeholder_id : "uploadSelect",
-		button_width: 160,
+		button_width: 150,
 		button_height: 40,
-		button_text: '<span class="buttonText">Select Files…</span>',
-		button_text_style: ".buttonText { text-align:center; font-family:Verdana,sans-serif; font-size: 14px; }",
+		button_text: '',
 		button_cursor: SWFUpload.CURSOR.HAND,
 		button_text_left_padding: 0,
 		button_text_top_padding: 7,
@@ -58,8 +57,11 @@ window.onload = function()
 
 
 <div class="select-files">
-	<div class="select"><div id="uploadSelect"></div></div>
-	<div class="tip" style="display:none;">You can select multiple pictures in the dialog by holding the &ldquo;Ctrl&rdquo; key down while clicking on the files.</div>
+	<div class="select">
+		<div class="button">Select Files&hellip;</div>
+		<div class="swfupload" id="uploadSelect"></div>
+	</div>
+	<div class="tip" style="display:none;">You can select multiple pictures in the dialog by holding the &ldquo;Ctrl&rdquo;&nbsp;key down while clicking on the files.</div>
 </div>
 
 <table id="uploadQueue" cellspacing="0" style="display:none;">

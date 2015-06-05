@@ -3,7 +3,7 @@ function fileDialogComplete(numFilesSelected, numFilesQueued)
 	try {
 		if (numFilesSelected > 0) {
 			jQuery('#uploadQueue').show();
-			jQuery('#uploadStart').click(function() {
+			jQuery('#uploadStart').prop({ disabled: false }).click(function() {
 				this.disabled = true;
 				swfu.startUpload();
 				return false;
