@@ -132,9 +132,7 @@ class flgalleryPlugin extends flgalleryBaseClass
 		$this->upgrade();
 
 		$this->initGalleryInfo();
-		//add_action( 'init', array(&$this, 'initGalleryInfo') );
 
-		//$this->getUserInfo();
 		add_action( 'init', array(&$this, 'getUserInfo') );
 		add_action( 'wp_print_scripts', array(&$this, 'scripts') );
 
@@ -145,6 +143,11 @@ class flgalleryPlugin extends flgalleryBaseClass
 		}
 
 		add_shortcode( $this->name, array(&$this, 'flashGallery') );
+
+		require_once FLGALLERY_INCLUDE.'/ajaxUpload.class.php';
+		$ajaxUpload = new flgalleryAjaxUpload();
+		add_action( 'wp_ajax_flgalleryUpload', array(&$ajaxUpload, 'upload') );
+		add_action( 'wp_ajax_nopriv_flgalleryUpload', array(&$ajaxUpload, 'upload') );
 	}
 
 	function initGalleryInfo()
