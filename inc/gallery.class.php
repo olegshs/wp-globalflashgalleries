@@ -564,9 +564,7 @@ class flgalleryGallery extends flgalleryBaseClass
 
 	function getPopupUrl()
 	{
-		include FLGALLERY_GLOBALS;
-
-		return $plugin->url."/popup.php?id={$this->id}";
+		return admin_url('admin-ajax.php')."?action=flgalleryPopup&gallery_id={$this->id}";
 	}
 
 	function getPopupJs()

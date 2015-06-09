@@ -149,6 +149,11 @@ class flgalleryPlugin extends flgalleryBaseClass
 		add_action( 'wp_ajax_flgalleryXml', array(&$galleryXml, 'getXml') );
 		add_action( 'wp_ajax_nopriv_flgalleryXml', array(&$galleryXml, 'getXml') );
 
+		require_once FLGALLERY_INCLUDE.'/galleryPopup.class.php';
+		$galleryPopup = new flgalleryGalleryPopup();
+		add_action( 'wp_ajax_flgalleryPopup', array(&$galleryPopup, 'render') );
+		add_action( 'wp_ajax_nopriv_flgalleryPopup', array(&$galleryPopup, 'render') );
+
 		require_once FLGALLERY_INCLUDE.'/ajaxUpload.class.php';
 		$ajaxUpload = new flgalleryAjaxUpload();
 		add_action( 'wp_ajax_flgalleryUpload', array(&$ajaxUpload, 'upload') );
