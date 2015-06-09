@@ -144,6 +144,11 @@ class flgalleryPlugin extends flgalleryBaseClass
 
 		add_shortcode( $this->name, array(&$this, 'flashGallery') );
 
+		require_once FLGALLERY_INCLUDE.'/galleryXml.class.php';
+		$galleryXml = new flgalleryGalleryXml();
+		add_action( 'wp_ajax_flgalleryXml', array(&$galleryXml, 'getXml') );
+		add_action( 'wp_ajax_nopriv_flgalleryXml', array(&$galleryXml, 'getXml') );
+
 		require_once FLGALLERY_INCLUDE.'/ajaxUpload.class.php';
 		$ajaxUpload = new flgalleryAjaxUpload();
 		add_action( 'wp_ajax_flgalleryUpload', array(&$ajaxUpload, 'upload') );
