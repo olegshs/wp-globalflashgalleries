@@ -4,7 +4,7 @@ class flgalleryAdmin extends flgalleryBaseClass
 {
 	function init()
 	{
-		require_once FLGALLERY_INCLUDE.'/admin-page.class.php';
+		require_once FLGALLERY_INCLUDE.'/adminPage.class.php';
 		$this->page = new flgalleryAdminPage();
 
 		if (!empty($_REQUEST['page']) && ($_REQUEST['page'] == 'flgallery' || $_REQUEST['page'] == 'flgallery/media'))

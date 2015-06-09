@@ -100,7 +100,7 @@ class flgalleryAdminPage extends flgalleryBaseClass
 			)
 		);
 
-		include FLGALLERY_INCLUDE.'/server-settings.php';
+		include FLGALLERY_INCLUDE.'/serverSettings.php';
 ?>
 		<div class="metabox-holder"><div class="postbox-container" style="width:60%;">
 			<div class="postbox" id="server-settings">
