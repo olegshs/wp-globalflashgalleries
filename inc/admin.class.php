@@ -91,34 +91,31 @@ class flgalleryAdmin extends flgalleryBaseClass
 		$wp_version = get_bloginfo('version');
 		if ( version_compare($wp_version, '3.1', '>=') )	// WordPress 3.1 and newer
 		{
-			wp_enqueue_script('jquery', $plugin->jsDir.'/jquery/jquery.js', array(), '1.10.2');
-			wp_enqueue_script('jquery-ui-core', $plugin->jsDir.'/jquery/ui.core.js', array('jquery'), '1.10.4');
-			wp_enqueue_script('jquery-ui-widget', $plugin->jsDir.'/jquery/ui.widget.js', array('jquery'), '1.10.4');
-			wp_enqueue_script('jquery-ui-mouse', $plugin->jsDir.'/jquery/ui.mouse.js', array('jquery', 'jquery-ui-core', 'jquery-ui-widget'), '1.10.4');
-			wp_enqueue_script('jquery-ui-position', $plugin->jsDir.'/jquery/ui.position.js', array('jquery'), '1.10.4');
-			wp_enqueue_script('jquery-ui-dialog', $plugin->jsDir.'/jquery/ui.dialog.js', array('jquery', 'jquery-ui-core', 'jquery-ui-widget', 'jquery-ui-position'), '1.10.4');
-			wp_enqueue_script('jquery-ui-draggable', $plugin->jsDir.'/jquery/ui.draggable.js', array('jquery', 'jquery-ui-core', 'jquery-ui-widget', 'jquery-ui-mouse'), '1.10.4');
-			wp_enqueue_script('jquery-ui-resizable', $plugin->jsDir.'/jquery/ui.resizable.js', array('jquery', 'jquery-ui-core', 'jquery-ui-widget', 'jquery-ui-mouse'), '1.10.4');
-			wp_enqueue_script('jquery-ui-slider', $plugin->jsDir.'/jquery/ui.slider.js', array('jquery', 'jquery-ui-core', 'jquery-ui-widget', 'jquery-ui-mouse'), '1.10.4');
-			wp_enqueue_script('jquery-ui-sortable', $plugin->jsDir.'/jquery/ui.sortable.js', array('jquery', 'jquery-ui-core', 'jquery-ui-widget', 'jquery-ui-mouse'), '1.10.4');
-			//wp_enqueue_script('jquery-ui-tabs', $plugin->jsDir.'/jquery/ui.tabs.js', array('jquery', 'jquery-ui-core', 'jquery-ui-widget'), '1.10.4');
+			wp_enqueue_script('jquery');
+			wp_enqueue_script('jquery-ui-core');
+			wp_enqueue_script('jquery-ui-widget');
+			wp_enqueue_script('jquery-ui-mouse');
+			wp_enqueue_script('jquery-ui-position');
+			wp_enqueue_script('jquery-ui-dialog');
+			wp_enqueue_script('jquery-ui-draggable');
+			wp_enqueue_script('jquery-ui-resizable');
+			wp_enqueue_script('jquery-ui-slider');
+			wp_enqueue_script('jquery-ui-sortable');
 		}
 		else	// WordPress 3.0.x and older
 		{
-			wp_enqueue_script('jquery', $plugin->jsDir.'/jquery-legacy/jquery.js', array(), '1.3.2');
-			wp_enqueue_script('jquery-ui-core', $plugin->jsDir.'/jquery-legacy/ui.core.js', array('jquery'), '1.7.3');
-			wp_enqueue_script('jquery-ui-dialog', $plugin->jsDir.'/jquery-legacy/ui.dialog.js', array('jquery', 'jquery-ui-core'), '1.7.3');
-			wp_enqueue_script('jquery-ui-draggable', $plugin->jsDir.'/jquery-legacy/ui.draggable.js', array('jquery', 'jquery-ui-core'), '1.7.3');
-			wp_enqueue_script('jquery-ui-resizable', $plugin->jsDir.'/jquery-legacy/ui.resizable.js', array('jquery', 'jquery-ui-core'), '1.7.3');
-			wp_enqueue_script('jquery-ui-slider', $plugin->jsDir.'/jquery-legacy/ui.slider.js', array('jquery', 'jquery-ui-core'), '1.7.3');
-			wp_enqueue_script('jquery-ui-sortable', $plugin->jsDir.'/jquery-legacy/ui.sortable.js', array('jquery', 'jquery-ui-core'), '1.7.3');
-			//wp_enqueue_script('jquery-ui-tabs', $plugin->jsDir.'/jquery-legacy/ui.tabs.js', array('jquery', 'jquery-ui-core'), '1.7.3');
+			wp_enqueue_script('jquery');
+			wp_enqueue_script('jquery-ui-core');
+			wp_enqueue_script('jquery-ui-dialog');
+			wp_enqueue_script('jquery-ui-draggable');
+			wp_enqueue_script('jquery-ui-resizable');
+			wp_enqueue_script('jquery-ui-slider', $plugin->jsDir.'/ui.slider.js', array('jquery', 'jquery-ui-core'), '1.7.3');
+			wp_enqueue_script('jquery-ui-sortable');
 		}
 
+		wp_enqueue_script('swfobject');
+		wp_enqueue_script('jquery-scrollTo', $plugin->jsDir.'/jquery.scrollTo.js', array('jquery'), '1.4.2');
 		wp_enqueue_script($plugin->name.'-farbtastic', $plugin->jsDir.'/farbtastic.js', array('jquery'), '1.2');
-		wp_enqueue_script($plugin->name.'-swfobject', $plugin->jsDir.'/swfobject/swfobject.js', array(), '2.2');
-		//wp_enqueue_script($plugin->name.'-swfupload', $plugin->jsDir.'/swfupload/swfupload.js', array($plugin->name.'-swfobject'), '2.2.0.1');
-		wp_enqueue_script('scrollTo', $plugin->jsDir.'/jquery.scrollTo.js', array('jquery'), '1.4.2');
 ?>
 <link rel="stylesheet" type="text/css" href="<?php echo $plugin->url; ?>/css/jquery/jquery-ui.css" />
 <link rel="stylesheet" type="text/css" href="<?php echo $plugin->url; ?>/css/farbtastic/farbtastic.css" />
