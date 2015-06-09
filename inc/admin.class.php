@@ -114,6 +114,8 @@ class flgalleryAdmin extends flgalleryBaseClass
 		}
 
 		wp_enqueue_script('swfobject');
+		wp_enqueue_script('swfupload');
+		wp_enqueue_script('swfupload-queue');
 		wp_enqueue_script('jquery-scrollTo', $plugin->jsDir.'/jquery.scrollTo.js', array('jquery'), '1.4.2');
 		wp_enqueue_script($plugin->name.'-farbtastic', $plugin->jsDir.'/farbtastic.js', array('jquery'), '1.2');
 ?>

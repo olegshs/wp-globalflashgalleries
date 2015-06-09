@@ -805,6 +805,7 @@ class flgalleryMedia extends flgalleryBaseClass
 
 		$upload_id = mt_rand();
 
+		$a['includesURL'] = rtrim(includes_url(), '/');
 		$a['contentURL'] = $plugin->contentURL;
 		$a['pluginURL'] = $plugin->url;
 		$a['jsURL'] = $plugin->jsURL;

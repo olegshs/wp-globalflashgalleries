@@ -1,8 +1,6 @@
 <script type="text/javascript" src="{jsURL}/add-swfupload.js"></script>
 <div class="addmedia-swfupload" id="swfUpload">
 
-<script type="text/javascript" src="{jsURL}/swfupload/swfupload.js"></script>
-<script type="text/javascript" src="{jsURL}/swfupload/swfupload.queue.js"></script>
 <script type="text/javascript" src="{jsURL}/swfupload.handlers.js"></script>
 <script type="text/javascript">//<![CDATA[
 var swfu;
@@ -10,7 +8,7 @@ var swfu;
 window.onload = function()
 {
 	var settings = {
-		flash_url : "{jsURL}/swfupload/swfupload.swf",
+		flash_url : "{includesURL}/js/swfupload/swfupload.swf",
 		upload_url: flgallery.adminAjax + "?action=flgalleryUpload&upload_path={contentPath}",
 		post_params: {
 			"auth_cookie": "{auth_cookie}"
