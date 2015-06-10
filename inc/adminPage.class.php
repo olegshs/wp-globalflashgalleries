@@ -12,7 +12,7 @@ class flgalleryAdminPage extends flgalleryBaseClass
 		include FLGALLERY_GLOBALS;
 
 		if ( !empty($_REQUEST) )
-			$this->debug('REQUEST: '.htmlspecialchars(var_export($_REQUEST, true)));
+			$this->debug('REQUEST: '.esc_html(var_export($_REQUEST, true)));
 
 		echo "\n\n<!-- begin {$plugin->name} -->\n";
 		echo "<link rel='stylesheet' type='text/css' href='{$plugin->url}/css/admin.css' />\n";
@@ -353,7 +353,7 @@ class flgalleryAdminPage extends flgalleryBaseClass
 			{
 				$this->galleriesCount++;
 				$gallery = new flgalleryGallery($gal->id);
-				$gallery->typeTitle = htmlspecialchars($plugin->galleryInfo[$gallery->type]['title']);
+				$gallery->typeTitle = esc_html($plugin->galleryInfo[$gallery->type]['title']);
 				$galleriesHTML .= $this->galleryPreview($gallery, 'manage/gallery', false);
 			}
 			$tpl->t('manage/galleries-list', array('galleries' => $galleriesHTML));
@@ -456,8 +456,8 @@ class flgalleryAdminPage extends flgalleryBaseClass
 				if ( empty($img->title) )
 					$img->title = $func->filenameToTitle($img->name);
 
-				$img->title = htmlspecialchars(stripslashes( $img->title ));
-				$img->description = htmlspecialchars(stripslashes( $img->description ));
+				$img->title = esc_html(stripslashes( $img->title ));
+				$img->description = esc_html(stripslashes( $img->description ));
 
 				$img->nonce = $nonce;
 
@@ -539,9 +539,9 @@ class flgalleryAdminPage extends flgalleryBaseClass
 
 		if ( $image->id )
 		{
-			$image->title = htmlspecialchars(stripslashes( $image->title ));
-			$image->description = htmlspecialchars(stripslashes( $image->description ));
-			$image->link = htmlspecialchars(stripslashes( $image->link ));
+			$image->title = esc_html(stripslashes( $image->title ));
+			$image->description = esc_html(stripslashes( $image->description ));
+			$image->link = esc_html(stripslashes( $image->link ));
 			$image->imgURL = $plugin->imgURL;
 			$image->href = $admpage->href;
 			$image->target_blank = empty($image->target) || $image->target == '_blank';

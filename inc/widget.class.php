@@ -81,7 +81,7 @@ class flgalleryWidget extends WP_Widget
 				foreach ($galleries as $gallery)
 				{
 ?>
-					<option value="<?php echo $gallery->id; ?>"<?php if ($gallery->id == $selectedGallery) echo ' selected="selected"' ?>><?php echo htmlspecialchars(stripslashes($gallery->name)); ?></option>
+					<option value="<?php echo $gallery->id; ?>"<?php if ($gallery->id == $selectedGallery) echo ' selected="selected"' ?>><?php echo esc_html(stripslashes($gallery->name)); ?></option>
 <?php
 				}
 ?>

@@ -86,7 +86,7 @@ class flgalleryGallery extends flgalleryBaseClass
 				foreach ($gallery as $key => $val)
 				{
 					if ( isset($this->$key) )
-						$this->$key = htmlspecialchars(stripslashes($val));
+						$this->$key = esc_html(stripslashes($val));
 				}
 				$author = get_userdata($this->author);
 				$this->authorName = $author->display_name;
@@ -340,7 +340,7 @@ class flgalleryGallery extends flgalleryBaseClass
 			if ( $results !== false )
 			{
 				foreach ($results as $res)
-					$this->settings[$res->name] = htmlspecialchars(stripslashes($res->value));
+					$this->settings[$res->name] = esc_html(stripslashes($res->value));
 
 				$settingsXml = $this->getSettingsXml();
 
@@ -378,8 +378,8 @@ class flgalleryGallery extends flgalleryBaseClass
 								$this->settingsInfo[$name] = $param;
 
 								$this->settingsForm[$name] = array(
-									'title' => htmlspecialchars( (string)$param->title ),
-									'description' => isset($param->description) ? htmlspecialchars( (string)$param->description ) : '',
+									'title' => esc_html( (string)$param->title ),
+									'description' => isset($param->description) ? esc_html( (string)$param->description ) : '',
 									'input' => $func->input($param->input, $name, "settings[$name]", $this->settings[$name])
 								);
 							}
@@ -418,8 +418,8 @@ class flgalleryGallery extends flgalleryBaseClass
 							$this->settingsInfo[$name] = $param;
 
 							$this->settingsForm[$name] = array(
-								'title' => htmlspecialchars( (string)$param->title ),
-								'description' => isset($param->description) ? htmlspecialchars( (string)$param->description ) : '',
+								'title' => esc_html( (string)$param->title ),
+								'description' => isset($param->description) ? esc_html( (string)$param->description ) : '',
 								'input' => $func->input($param->input, $name, "settings[$name]", $this->settings[$name])
 							);
 						}
@@ -616,8 +616,8 @@ class flgalleryGallery extends flgalleryBaseClass
 				$image = new flgalleryImage($item);
 				$thumbnail = $image->resized(array('height' => 120), true);
 
-				$item->title = htmlspecialchars($item->title);
-				$item->description = htmlspecialchars($item->description);
+				$item->title = esc_html($item->title);
+				$item->description = esc_html($item->description);
 
 				$altContent .= "\t\t<li style=\"display:inline;\"><a href=\"{$plugin->imgURL}/{$item->path}\"><img src=\"{$thumbnail}\" alt=\"{$item->title}\" /></a>{$item->description}</li>\n";
 			}
@@ -786,8 +786,8 @@ class flgalleryGallery extends flgalleryBaseClass
 					$item = array(
 						'source' => $img->source,
 						'thumbnail' => $img->thumbnail,
-						'description' => htmlspecialchars(stripslashes( $description )),
-						'link' => htmlspecialchars(stripslashes( $img->link )),
+						'description' => esc_html(stripslashes( $description )),
+						'link' => esc_html(stripslashes( $img->link )),
 						'target' => $img->target
 					);
 
@@ -812,7 +812,7 @@ class flgalleryGallery extends flgalleryBaseClass
 							'icon' => '',
 							'thumbnailsFolder' => $plugin->imgURL.'/',
 							'imagesFolder' => $plugin->imgURL.'/',
-							'description' => htmlspecialchars(stripslashes( $description )),
+							'description' => esc_html(stripslashes( $description )),
 							'items' => $items
 						));
 					}
