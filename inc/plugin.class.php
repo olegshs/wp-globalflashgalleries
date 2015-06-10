@@ -474,9 +474,9 @@ class flgalleryPlugin extends flgalleryBaseClass
 		global $wpdb;
 
 		foreach ($fields as $field) {
-			$wpdb->query("UPDATE `{$table}` SET `{$field}` = REPLACE(`{$field}`, '\\\\\\'', '\\'')"); // \' -> '
-			$wpdb->query("UPDATE `{$table}` SET `{$field}` = REPLACE(`{$field}`, '\\\\\"', '\"')"); // \" -> "
-			$wpdb->query("UPDATE `{$table}` SET `{$field}` = REPLACE(`{$field}`, '\\\\\\\\', '\\\\')"); // \\ -> \
+			$wpdb->query("UPDATE `{$table}` SET `{$field}` = REPLACE(`{$field}`, '\\\\\\'', '\\'') WHERE `{$field}` LIKE '%\\\\\\'%'");    // \' -> '
+			$wpdb->query("UPDATE `{$table}` SET `{$field}` = REPLACE(`{$field}`, '\\\\\"', '\"') WHERE `{$field}` LIKE '%\\\\\"%'");       // \" -> "
+			$wpdb->query("UPDATE `{$table}` SET `{$field}` = REPLACE(`{$field}`, '\\\\\\\\', '\\\\') WHERE `{$field}` LIKE '%\\\\\\\\%'"); // \\ -> \
 		}
 	}
 
