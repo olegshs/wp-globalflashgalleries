@@ -166,8 +166,12 @@ class flgalleryMedia extends flgalleryBaseClass
 				break;
 
 			case 'createGallery':
-				if (!empty($_REQUEST['OK'])) {
-					$gallery_id = $admin->createGallery($_REQUEST['gallery']);
+				if (!empty($_POST['OK'])) {
+					$data = array(
+						'name' => sanitize_text_field(stripslashes($_POST['gallery']['name'])),
+						'type' => sanitize_text_field(stripslashes($_POST['gallery']['type']))
+					);
+					$gallery_id = $admin->createGallery($data);
 
 					if (!empty($album_id) && $gallery_id) {
 						$images = $wpdb->get_results("
@@ -195,21 +199,22 @@ class flgalleryMedia extends flgalleryBaseClass
 				break;
 
 			case 'changeGalleryOptions':
-				if (!empty($_REQUEST['OK']) || !empty($_REQUEST['update'])) {
-					if (!empty($_REQUEST['gallery'])) {
-						$gallery = new flgalleryGallery($_REQUEST['gallery_id']);
-						foreach ($_REQUEST['gallery'] as $key => $value) {
-							if (isset($gallery->$key)) {
-								$gallery->$key = $value;
-							}
-						}
+				if (!empty($_POST['OK']) || !empty($_POST['update'])) {
+					if (!empty($_POST['gallery'])) {
+						$gallery = new flgalleryGallery((int)$_POST['gallery_id']);
+
+						$gallery->name = sanitize_text_field(stripslashes($_POST['gallery']['name']));
+						$gallery->type = sanitize_text_field(stripslashes($_POST['gallery']['type']));
+						$gallery->width = (int)$_POST['gallery']['width'];
+						$gallery->height = (int)$_POST['gallery']['height'];
+
 						$gallery->save();
 					}
-					if (!empty($_REQUEST['settings'])) {
+					if (!empty($_POST['settings'])) {
 						$gallery->getSettings();
 						foreach ($gallery->settingsInfo as $key => $param) {
-							if (isset($_REQUEST['settings'][$key])) {
-								$gallery->settings[$key] = trim($_REQUEST['settings'][$key]);
+							if (isset($_POST['settings'][$key])) {
+								$gallery->settings[$key] = sanitize_text_field(stripslashes($_POST['settings'][$key]));
 							} else {
 								if ((string)$param->input['type'] == 'checkbox') {
 									$values = explode('|', (string)$param->input['value']);
@@ -219,14 +224,14 @@ class flgalleryMedia extends flgalleryBaseClass
 						}
 						$gallery->saveSettings();
 					}
-					if (!empty($_REQUEST['update'])) {
+					if (!empty($_POST['update'])) {
 						$admpage->head('Gallery Options', 'gallery-options');
 						$func->locationReset("&action=galleryOptions&gallery_id={$gallery->id}");
 						$admpage->galleryOptions($gallery);
 						break;
 					}
 				}
-				if (!empty($_REQUEST['resetOptions'])) {
+				if (!empty($_POST['resetOptions'])) {
 					$admpage->head('Gallery Options', 'gallery-options');
 					$func->locationReset("&action=galleryOptions&gallery_id={$gallery->id}");
 					$admpage->galleryOptions($gallery);
