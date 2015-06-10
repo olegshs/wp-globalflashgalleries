@@ -15,7 +15,7 @@ class flgalleryWidget extends WP_Widget
 		);
 	}
 
-	function widget( $args, $instance )
+	function widget($args, $instance)
 	{
 		include FLGALLERY_GLOBALS;
 
@@ -23,35 +23,34 @@ class flgalleryWidget extends WP_Widget
 		$title = apply_filters('widget_title', $instance['title']);
 		$gallery_id = (int)$instance['gallery'];
 
-		echo $before_widget;
+		if (!empty($title)) {
+			echo esc_html($title);
+		}
 
-		if ( !empty($title) )
-			echo $before_title. $title. $after_title;
-
-		if ( !empty($gallery_id) )
-		{
+		if (!empty($gallery_id)) {
 			$a = array(
 				'id' => $gallery_id,
 				'popup' => true
 			);
-			if ($instance['show'] == 'preview')
+
+			if ($instance['show'] == 'preview') {
 				$a['preview'] = $instance['preview'];
-			else
+			} else {
 				$a['text'] = $instance['text'];
+			}
 
 			echo
 				'<div class="textwidget">'.
 					$plugin->flashGallery($a).
 				'</div>';
 		}
-
-		echo $after_widget;
 	}
 
-	function update( $new_instance, $old_instance )
+	function update($new_instance, $old_instance)
 	{
-		if ( empty($new_instance['text']) )
+		if (empty($new_instance['text'])) {
 			$new_instance['text'] = __('To view the gallery in a popup window, #click here#.');
+		}
 
 		return $new_instance;
 	}

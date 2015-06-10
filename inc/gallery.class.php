@@ -587,10 +587,10 @@ class flgalleryGallery extends flgalleryBaseClass
 
 	function getPopupLink( $text )
 	{
-		$url = $this->getPopupUrl();
+		$url = esc_html($this->getPopupUrl());
 		$onclick = $this->getPopupJs();
 
-		if ( preg_match('/(.*?)#(.*?)#(.*)/s', $text, $m) )
+		if ( preg_match('/(.*?)#(.*?)#(.*)/s', html_entity_decode($text, ENT_QUOTES), $m) )
 		{
 			$text_before = $m[1];
 			$text = $m[2];

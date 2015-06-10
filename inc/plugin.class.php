@@ -225,6 +225,8 @@ class flgalleryPlugin extends flgalleryBaseClass
 					else
 						$previewURL = $a['preview'];
 
+					$previewURL = esc_html($previewURL);
+
 					$text = "<img src='{$previewURL}' alt='{$title}' title='{$title}' />";
 				}
 				else
@@ -232,7 +234,7 @@ class flgalleryPlugin extends flgalleryBaseClass
 					if ( !empty($a['text']) )
 						$text = $a['text'];
 					else
-						$text = &$title;
+						$text = esc_html($title);
 				}
 
 				return $gallery->getPopupLink($text);
