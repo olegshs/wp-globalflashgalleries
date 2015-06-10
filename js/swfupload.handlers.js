@@ -4,7 +4,7 @@ function fileDialogComplete(numFilesSelected, numFilesQueued) {
 			jQuery('#uploadQueue').show();
 			jQuery('#uploadStart').prop({
 				disabled: false
-			}).click(function() {
+			}).click(function () {
 				this.disabled = true;
 				swfu.startUpload();
 				return false;
@@ -33,7 +33,7 @@ function fileQueued(file) {
 
 function removeFile(fileID) {
 	swfu.cancelUpload(fileID);
-	jQuery('#' + fileID).fadeOut(300, function() {
+	jQuery('#' + fileID).fadeOut(300, function () {
 		jQuery('#' + fileID).remove();
 	});
 }
@@ -49,18 +49,18 @@ function fileQueueError(file, errorCode, message) {
 		}
 
 		switch (errorCode) {
-		case SWFUpload.QUEUE_ERROR.FILE_EXCEEDS_SIZE_LIMIT:
-			this.debug('Error Code: File too big, File name: ' + file.name + ', File size: ' + file.size + ', Message: ' + message);
-			break;
-		case SWFUpload.QUEUE_ERROR.ZERO_BYTE_FILE:
-			this.debug('Error Code: Zero byte file, File name: ' + file.name + ', File size: ' + file.size + ', Message: ' + message);
-			break;
-		case SWFUpload.QUEUE_ERROR.INVALID_FILETYPE:
-			this.debug('Error Code: Invalid File Type, File name: ' + file.name + ', File size: ' + file.size + ', Message: ' + message);
-			break;
-		default:
-			this.debug('Error Code: ' + errorCode + ', File name: ' + file.name + ', File size: ' + file.size + ', Message: ' + message);
-			break;
+			case SWFUpload.QUEUE_ERROR.FILE_EXCEEDS_SIZE_LIMIT:
+				this.debug('Error Code: File too big, File name: ' + file.name + ', File size: ' + file.size + ', Message: ' + message);
+				break;
+			case SWFUpload.QUEUE_ERROR.ZERO_BYTE_FILE:
+				this.debug('Error Code: Zero byte file, File name: ' + file.name + ', File size: ' + file.size + ', Message: ' + message);
+				break;
+			case SWFUpload.QUEUE_ERROR.INVALID_FILETYPE:
+				this.debug('Error Code: Invalid File Type, File name: ' + file.name + ', File size: ' + file.size + ', Message: ' + message);
+				break;
+			default:
+				this.debug('Error Code: ' + errorCode + ', File name: ' + file.name + ', File size: ' + file.size + ', Message: ' + message);
+				break;
 		}
 	} catch (ex) {
 		this.debug(ex);
@@ -95,7 +95,7 @@ function uploadProgress(file, bytesLoaded, bytesTotal) {
 			jQuery('#' + file.id).addClass('completed');
 			jQuery('#' + file.id + ' *').animate({
 				opacity: 0.5
-			}, 500, function() {
+			}, 500, function () {
 				progressBar.css({
 					background: 'none'
 				});
@@ -112,34 +112,34 @@ function uploadSuccess(file, serverData) {
 function uploadError(file, errorCode, message) {
 	try {
 		switch (errorCode) {
-		case SWFUpload.UPLOAD_ERROR.HTTP_ERROR:
-			this.debug('Error Code: HTTP Error, File name: ' + file.name + ', Message: ' + message);
-			break;
-		case SWFUpload.UPLOAD_ERROR.UPLOAD_FAILED:
-			this.debug('Error Code: Upload Failed, File name: ' + file.name + ', File size: ' + file.size + ', Message: ' + message);
-			break;
-		case SWFUpload.UPLOAD_ERROR.IO_ERROR:
-			this.debug('Error Code: IO Error, File name: ' + file.name + ', Message: ' + message);
-			break;
-		case SWFUpload.UPLOAD_ERROR.SECURITY_ERROR:
-			this.debug('Error Code: Security Error, File name: ' + file.name + ', Message: ' + message);
-			break;
-		case SWFUpload.UPLOAD_ERROR.UPLOAD_LIMIT_EXCEEDED:
-			this.debug('Error Code: Upload Limit Exceeded, File name: ' + file.name + ', File size: ' + file.size + ', Message: ' + message);
-			break;
-		case SWFUpload.UPLOAD_ERROR.FILE_VALIDATION_FAILED:
-			this.debug('Error Code: File Validation Failed, File name: ' + file.name + ', File size: ' + file.size + ', Message: ' + message);
-			break;
-		case SWFUpload.UPLOAD_ERROR.FILE_CANCELLED:
-			if (this.getStats().files_queued === 0) {
-				document.getElementById(this.customSettings.cancelButtonId).disabled = true;
-			}
-			break;
-		case SWFUpload.UPLOAD_ERROR.UPLOAD_STOPPED:
-			break;
-		default:
-			this.debug('Error Code: ' + errorCode + ', File name: ' + file.name + ', File size: ' + file.size + ', Message: ' + message);
-			break;
+			case SWFUpload.UPLOAD_ERROR.HTTP_ERROR:
+				this.debug('Error Code: HTTP Error, File name: ' + file.name + ', Message: ' + message);
+				break;
+			case SWFUpload.UPLOAD_ERROR.UPLOAD_FAILED:
+				this.debug('Error Code: Upload Failed, File name: ' + file.name + ', File size: ' + file.size + ', Message: ' + message);
+				break;
+			case SWFUpload.UPLOAD_ERROR.IO_ERROR:
+				this.debug('Error Code: IO Error, File name: ' + file.name + ', Message: ' + message);
+				break;
+			case SWFUpload.UPLOAD_ERROR.SECURITY_ERROR:
+				this.debug('Error Code: Security Error, File name: ' + file.name + ', Message: ' + message);
+				break;
+			case SWFUpload.UPLOAD_ERROR.UPLOAD_LIMIT_EXCEEDED:
+				this.debug('Error Code: Upload Limit Exceeded, File name: ' + file.name + ', File size: ' + file.size + ', Message: ' + message);
+				break;
+			case SWFUpload.UPLOAD_ERROR.FILE_VALIDATION_FAILED:
+				this.debug('Error Code: File Validation Failed, File name: ' + file.name + ', File size: ' + file.size + ', Message: ' + message);
+				break;
+			case SWFUpload.UPLOAD_ERROR.FILE_CANCELLED:
+				if (this.getStats().files_queued === 0) {
+					document.getElementById(this.customSettings.cancelButtonId).disabled = true;
+				}
+				break;
+			case SWFUpload.UPLOAD_ERROR.UPLOAD_STOPPED:
+				break;
+			default:
+				this.debug('Error Code: ' + errorCode + ', File name: ' + file.name + ', File size: ' + file.size + ', Message: ' + message);
+				break;
 		}
 	} catch (ex) {
 		this.debug(ex);

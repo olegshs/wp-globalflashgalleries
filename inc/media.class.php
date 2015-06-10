@@ -309,13 +309,13 @@ class flgalleryMedia extends flgalleryBaseClass
 
 		$albums = $wpdb->get_results("
 			SELECT
-			    a.`id`,
-			    a.`title`,
-			    a.`description`,
-			    a.`created`,
-			    a.`modified`,
-			    a.`preview`,
-			    SUM(i.`size`) as `size`
+				a.`id`,
+				a.`title`,
+				a.`description`,
+				a.`created`,
+				a.`modified`,
+				a.`preview`,
+				SUM(i.`size`) as `size`
 			FROM `{$plugin->dbAlbums}` a
 			LEFT JOIN `{$plugin->dbImages}` i ON i.`album_id` = a.`id` AND i.`gallery_id` = 0
 			WHERE (a.`author` = '{$plugin->userID}' OR {$plugin->userLevel} >= 5)
@@ -449,10 +449,8 @@ class flgalleryMedia extends flgalleryBaseClass
 						<img src="<?php echo esc_html($previewURL); ?>" alt="<?php echo $imageNameTitle; ?>"/>
 					</span>
 					<span class="select-image" style="white-space:nowrap;">
-						<input type="checkbox" class="select-image" id="select-image-<?php echo $image->id; ?>"
-						       name="images[]" value="<?php echo $image->id; ?>"/>
-						<small title="<?php echo $imageNameTitle; ?>"
-						       style="font-size:10px;"><?php echo $imageNameShort; ?></small>
+						<input type="checkbox" class="select-image" id="select-image-<?php echo $image->id; ?>" name="images[]" value="<?php echo $image->id; ?>"/>
+						<small title="<?php echo $imageNameTitle; ?>" style="font-size:10px;"><?php echo $imageNameShort; ?></small>
 					</span>
 				</label>
 			</li>

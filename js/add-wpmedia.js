@@ -1,34 +1,34 @@
-jQuery(document).ready(function($) {
+jQuery(document).ready(function ($) {
 	var Scale = {
-	    fill: function (w1, h1, w2, h2) {
-	        w1 = Number(w1);
-	        h1 = Number(h1);
-	        w2 = Number(w2);
-	        h2 = Number(h2);
+		fill: function (w1, h1, w2, h2) {
+			w1 = Number(w1);
+			h1 = Number(h1);
+			w2 = Number(w2);
+			h2 = Number(h2);
 
-	        var w, h, x, y, k = w1 / h1;
+			var w, h, x, y, k = w1 / h1;
 
-	        w = w2;
-	        if (w > w1) {
-	            w = w1;
-	        }
+			w = w2;
+			if (w > w1) {
+				w = w1;
+			}
 
-	        h = w / k;
-	        if (h < h2) {
-	            h = h2;
-	            w = h * k;
-	        }
+			h = w / k;
+			if (h < h2) {
+				h = h2;
+				w = h * k;
+			}
 
-	        x = (w2 - w) / 2;
-	        y = (h2 - h) / 2;
+			x = (w2 - w) / 2;
+			y = (h2 - h) / 2;
 
-	        return {
-	            'left': x,
-	            'top': y,
-	            'width': w,
-	            'height': h
-	        };
-	    }
+			return {
+				'left': x,
+				'top': y,
+				'width': w,
+				'height': h
+			};
+		}
 	};
 
 	function loadItems(offset, limit, callback) {
@@ -42,7 +42,7 @@ jQuery(document).ready(function($) {
 				limit: limit
 			},
 			dataType: 'json',
-			success: function(response) {
+			success: function (response) {
 				callback(response);
 			}
 		});
@@ -52,7 +52,7 @@ jQuery(document).ready(function($) {
 	var offset = 0, limit = 30;
 
 	function loadMore() {
-		loadItems(offset, limit, function(response) {
+		loadItems(offset, limit, function (response) {
 			if (!isVisible) {
 				isVisible = true;
 				$('#flgalleryAddMediaForm').fadeIn(500);
@@ -88,10 +88,10 @@ jQuery(document).ready(function($) {
 				li.append(checkbox);
 				ul.append(li);
 
-				(function(li, checkbox) {
-					checkbox.click(function(e) {
+				(function (li, checkbox) {
+					checkbox.click(function (e) {
 						e.stopPropagation();
-					}).change(function() {
+					}).change(function () {
 						if (checkbox.prop('checked')) {
 							checkbox.show();
 							li.addClass('selected');
@@ -99,11 +99,11 @@ jQuery(document).ready(function($) {
 							checkbox.hide();
 							li.removeClass('selected');
 						}
-					
+
 						$('#uploadStart').prop({ disabled: !$('#importWpMedia-items li.selected').length });
 					});
 
-					li.click(function() {
+					li.click(function () {
 						checkbox.prop('checked', !checkbox.prop('checked'));
 						checkbox.trigger('change');
 					});
