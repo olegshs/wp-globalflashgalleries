@@ -264,20 +264,7 @@ class flgalleryAdminPage extends flgalleryBaseClass
 		</table>
 		</form>
 		<script type="text/javascript">//<![CDATA[
-			var galleryInfo = {
-<?php
-				foreach ($galleryInfo as $key => $info) {
-					echo
-						"\t\t'{$key}': {\n".
-						"			title: '{$info['title']}',\n".
-						"			description: '{$info['description']}',\n".
-						"			preview: '{$info['preview']}',\n".
-						"			demo: '{$info['demo']}'\n".
-						"\t\t},\n";
-				}
-?>
-				none : ''
-			};
+			var galleryInfo = <?php echo json_encode($galleryInfo) ?>;
 			jQuery(document).ready(function($) {
 				$('#galleryType').change(
 					function() {

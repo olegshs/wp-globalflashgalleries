@@ -178,8 +178,8 @@ class flgalleryPlugin extends flgalleryBaseClass
 
 			$this->galleryInfo[(string)$galleryAtt->name] = array(
 				'src' => (string)$galleryAtt->src,
-				'title' => addslashes(esc_html((string)$gallery->title)),
-				'description' => addslashes(esc_html((string)$gallery->description)),
+				'title' => esc_html((string)$gallery->title),
+				'description' => esc_html((string)$gallery->description),
 				'preview' => urlencode((string)$galleryPreviewAtt->src),
 				'demo' => urlencode((string)$galleryDemoAtt->href)
 			);
