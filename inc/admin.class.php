@@ -145,8 +145,12 @@ class flgalleryAdmin extends flgalleryBaseClass
 					break;
 
 				case 'createGallery':
-					if (!empty($_REQUEST['OK'])) {
-						if ($admin->createGallery($_REQUEST['gallery'])) {
+					if (!empty($_POST['OK'])) {
+						$data = array(
+							'name' => sanitize_text_field(stripslashes($_POST['gallery']['name'])),
+							'type' => sanitize_text_field(stripslashes($_POST['gallery']['type']))
+						);
+						if ($admin->createGallery($data)) {
 							$func->locationReset();
 						}
 					}

@@ -103,6 +103,10 @@ class flgalleryGallery extends flgalleryBaseClass
 				$conditions['author'] = $plugin->userID;
 			}
 
+			if (!strlen(trim($this->name))) {
+				$this->name = "Gallery #{$this->id}";
+			}
+
 			$update = $wpdb->update(
 				$plugin->dbGalleries,
 				array(

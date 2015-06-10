@@ -26,7 +26,11 @@ class flgalleryMedia extends flgalleryBaseClass
 
 			case 'createAlbum':
 				if (!empty($_POST['OK'])) {
-					$album_id = $media->createAlbum($_POST['album']);
+					$data = array(
+						'title' => sanitize_text_field(stripslashes($_POST['album']['title'])),
+						'description' => sanitize_text_field(stripslashes($_POST['album']['description']))
+					);
+					$album_id = $media->createAlbum($data);
 					if ($album_id) {
 						$func->locationReset('&action=editAlbum&album_id=' . $album_id);
 						break;
@@ -52,6 +56,11 @@ class flgalleryMedia extends flgalleryBaseClass
 							'description' => sanitize_text_field(stripslashes($_POST['album']['description'])),
 							'modified' => $func->now()
 						);
+
+						if (!strlen(trim($data['title']))) {
+							$data['title'] = 'Untitled';
+						}
+
 						$wpdb->update($plugin->dbAlbums, $data, array('id' => $album_id));
 					}
 					$func->locationReset('&action=editAlbum&album_id=' . $album_id);
@@ -494,6 +503,10 @@ class flgalleryMedia extends flgalleryBaseClass
 		");
 		$order = $order === false ? 0 : (int)$order + 1;
 
+		if (!strlen(trim($a['title']))) {
+			$a['title'] = 'Untitled';
+		}
+
 		$res = $wpdb->insert(
 			$plugin->dbAlbums,
 			array(
@@ -563,13 +576,14 @@ class flgalleryMedia extends flgalleryBaseClass
 				}
 
 				$albums = $wpdb->get_results("
-					SELECT *
+					SELECT `id`, `title`
 					FROM `{$plugin->dbAlbums}`
 					WHERE `id` <> '{$album_id}'
 					ORDER BY `title` ASC
 				");
 				if ($albums !== false && count($albums)) {
 					foreach ($albums as $row) {
+						$row->title = esc_html($row->title);
 						$album->selectAlbum .= "\n\t\t\t<option value='{$row->id}'>{$row->title}</option>";
 					}
 				}
