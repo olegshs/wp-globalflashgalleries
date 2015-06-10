@@ -371,6 +371,10 @@ class flgalleryPlugin extends flgalleryBaseClass
 				{
 					$this->upgradeTables();
 				}
+				if ( $prevVersionValue < 150200 )   // 0.15.2
+				{
+					$this->dbStripSlashes();
+				}
 
 				$this->log( "Upgraded from {$prevVersion} to ".FLGALLERY_VERSION );
 			}
@@ -476,6 +480,25 @@ class flgalleryPlugin extends flgalleryBaseClass
 		$table_name = $wpdb->prefix.FLGALLERY_DB_PREFIX.FLGALLERY_DB_SETTINGS;
 		require_once FLGALLERY_INCLUDE.'/db.settings.php';
 		dbDelta($query);
+	}
+
+	function dbStripSlashes()
+	{
+		$this->dbStripSlashesInTable($this->dbAlbums, array('title', 'description'));
+		$this->dbStripSlashesInTable($this->dbGalleries, array('name'));
+		$this->dbStripSlashesInTable($this->dbImages, array('name', 'title', 'description', 'link'));
+		$this->dbStripSlashesInTable($this->dbSettings, array('value'));
+	}
+
+	function dbStripSlashesInTable($table, $fields)
+	{
+		global $wpdb;
+
+		foreach ($fields as $field) {
+			$wpdb->query("UPDATE `{$table}` SET `{$field}` = REPLACE(`{$field}`, '\\\\\\'', '\\'')");   // \' -> '
+			$wpdb->query("UPDATE `{$table}` SET `{$field}` = REPLACE(`{$field}`, '\\\\\"', '\"')");     // \" -> "
+			$wpdb->query("UPDATE `{$table}` SET `{$field}` = REPLACE(`{$field}`, '\\\\\\\\', '\\\\')"); // \\ -> \
+		}
 	}
 
 	function dropTables()

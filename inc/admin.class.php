@@ -273,8 +273,16 @@ class flgalleryAdmin extends flgalleryBaseClass
 				{
 					$image_id = (int)$_POST['image_id'];
 					$applyToCopies = !empty($_POST['applyToCopies']);
-					if ( $media->saveImage($image_id, $_POST['image'], $applyToCopies) )
+					$data = array(
+						'name' => stripslashes($_POST['image']['name']),
+						'title' => stripslashes($_POST['image']['title']),
+						'description' => stripslashes($_POST['image']['description']),
+						'link' => stripslashes($_POST['image']['link']),
+						'target' => stripslashes($_POST['image']['target'])
+					);
+					if ( $media->saveImage($image_id, $data, $applyToCopies) ) {
 						$gallery->save();
+					}
 				}
 				$func->locationReset("&gallery_id={$gallery->id}&imgs=1#gallery-{$gallery->id}");
 				$admpage->manageGalleries();
