@@ -11,8 +11,9 @@ class flgalleryMedia extends flgalleryBaseClass
 		$plugin->getUserInfo();
 
 		$action = empty($_REQUEST['action']) ? '' : $_REQUEST['action'];
-		if (!empty($_REQUEST['doaction2']))
+		if (!empty($_REQUEST['doaction2'])) {
 			$action = empty($_REQUEST['action2']) ? '' : $_REQUEST['action2'];
+		}
 
 		$album_id = empty($_REQUEST['album_id']) ? 0 : (int)$_REQUEST['album_id'];
 
@@ -36,10 +37,11 @@ class flgalleryMedia extends flgalleryBaseClass
 				break;
 
 			case 'editAlbum':
-				if (!empty($album_id))
+				if (!empty($album_id)) {
 					$media->editAlbum($album_id);
-				else
+				} else {
 					$media->mainPage('albums');
+				}
 				break;
 
 			case 'updateAlbum':
@@ -54,8 +56,9 @@ class flgalleryMedia extends flgalleryBaseClass
 					}
 					$func->locationReset('&action=editAlbum&album_id=' . $album_id);
 					$media->editAlbum($album_id);
-				} else
+				} else {
 					$media->mainPage('albums');
+				}
 				break;
 
 			case 'deleteAlbum':
@@ -139,8 +142,9 @@ class flgalleryMedia extends flgalleryBaseClass
 						$media->editAlbum($album_id);
 					}
 				} else {
-					if (!empty($album_id))
+					if (!empty($album_id)) {
 						$tab = 'albums';
+					}
 
 					$func->locationReset('&tab=' . $tab);
 					$media->mainPage($tab);
@@ -176,8 +180,9 @@ class flgalleryMedia extends flgalleryBaseClass
 						$admpage->head('Gallery Options', 'gallery-options');
 						$admpage->galleryOptions(new flgalleryGallery($gallery_id), array('noExportXML' => true));
 					}
-				} else
+				} else {
 					$media->mainPage('albums');
+				}
 				break;
 
 			case 'changeGalleryOptions':
@@ -185,17 +190,18 @@ class flgalleryMedia extends flgalleryBaseClass
 					if (!empty($_REQUEST['gallery'])) {
 						$gallery = new flgalleryGallery($_REQUEST['gallery_id']);
 						foreach ($_REQUEST['gallery'] as $key => $value) {
-							if (isset($gallery->$key))
+							if (isset($gallery->$key)) {
 								$gallery->$key = $value;
+							}
 						}
 						$gallery->save();
 					}
 					if (!empty($_REQUEST['settings'])) {
 						$gallery->getSettings();
 						foreach ($gallery->settingsInfo as $key => $param) {
-							if (isset($_REQUEST['settings'][$key]))
+							if (isset($_REQUEST['settings'][$key])) {
 								$gallery->settings[$key] = trim($_REQUEST['settings'][$key]);
-							else {
+							} else {
 								if ((string)$param->input['type'] == 'checkbox') {
 									$values = explode('|', (string)$param->input['value']);
 									$gallery->settings[$key] = trim($values[1]);
@@ -237,8 +243,9 @@ class flgalleryMedia extends flgalleryBaseClass
 
 		echo "<script type='text/javascript' src='{$plugin->jsURL}/albums-list.js'></script>\n";
 
-		if (!$tab)
+		if (!$tab) {
 			$tab = empty($_REQUEST['tab']) ? 'albums' : $_REQUEST['tab'];
+		}
 
 		$admpage->tabmenu(
 			array(
@@ -273,8 +280,8 @@ class flgalleryMedia extends flgalleryBaseClass
 
 		if (empty($_REQUEST['orderBy'])) {
 			$cookie = unserialize(base64_decode($plugin->userCookie));
-			$_REQUEST['orderBy'] = &$cookie['albumsList']['orderBy'];
-			$_REQUEST['order'] = &$cookie['albumsList']['order'];
+			$_REQUEST['orderBy'] =& $cookie['albumsList']['orderBy'];
+			$_REQUEST['order'] =& $cookie['albumsList']['order'];
 		}
 
 		$orderDefault = 'created';
@@ -296,8 +303,9 @@ class flgalleryMedia extends flgalleryBaseClass
 			'modified' => 'Modified',
 			'size' => 'Size',
 		);
-		if (!array_key_exists($orderBy, $orderCols))
+		if (!array_key_exists($orderBy, $orderCols)) {
 			$order = $orderDefault;
+		}
 
 		$albums = $wpdb->get_results("
 			SELECT
@@ -369,8 +377,9 @@ class flgalleryMedia extends flgalleryBaseClass
 					}
 				}
 
-				if (!empty($album->preview))
+				if (!empty($album->preview)) {
 					$album->preview = "<img src='{$album->preview}' alt='{$album->title}' title='' height='80' />";
+				}
 
 				$album->href = $admpage->href;
 
@@ -447,7 +456,7 @@ class flgalleryMedia extends flgalleryBaseClass
 					</span>
 				</label>
 			</li>
-			<?php
+		<?php
 		}
 		return ob_get_clean();
 	}
@@ -562,8 +571,9 @@ class flgalleryMedia extends flgalleryBaseClass
 					ORDER BY `title` ASC
 				");
 				if ($albums !== false && count($albums)) {
-					foreach ($albums as $row)
+					foreach ($albums as $row) {
 						$album->selectAlbum .= "\n\t\t\t<option value='{$row->id}'>{$row->title}</option>";
+					}
 				}
 			}
 			$album->jsURL = $plugin->jsURL;
@@ -661,10 +671,12 @@ class flgalleryMedia extends flgalleryBaseClass
 					// Delete thumbnails
 					$func->recurse($plugin->tmpDir, '#^img-' . preg_quote($fname[1], '#') . '\..+#i', 'unlink');
 				}
-			} else
+			} else {
 				return false;
-		} else
+			}
+		} else {
 			return false;
+		}
 
 		return $image->id;
 	}
@@ -686,8 +698,9 @@ class flgalleryMedia extends flgalleryBaseClass
 			$image->album_id = isset($a['album_id']) ? $a['album_id'] : $image->album_id;
 			$image->gallery_id = isset($a['gallery_id']) ? $a['gallery_id'] : $image->gallery_id;
 
-			if (isset($a['order']))
+			if (isset($a['order'])) {
 				$image->order = $a['order'];
+			}
 
 			$wpdb->insert($plugin->dbImages, get_object_vars($image));
 		}
@@ -707,16 +720,19 @@ class flgalleryMedia extends flgalleryBaseClass
 	{
 		include FLGALLERY_GLOBALS;
 		global $startText;
-		if (empty($startText))
+		if (empty($startText)) {
 			$startText = "Start Upload";
+		}
 
 		$admpage->head('Add Pictures', 'addMediaPage');
 
-		if (!empty($a['album_id']))
+		if (!empty($a['album_id'])) {
 			$objectID = '&amp;album_id=' . ((int)$_REQUEST['album_id']);
+		}
 
-		if (!empty($a['gallery_id']))
+		if (!empty($a['gallery_id'])) {
 			$objectID = '&amp;gallery_id=' . ((int)$_REQUEST['gallery_id']);
+		}
 
 		$tab = empty($_REQUEST['tab']) ? 'swfupload' : $_REQUEST['tab'];
 		$admpage->tabmenu(
@@ -783,8 +799,9 @@ class flgalleryMedia extends flgalleryBaseClass
 
 		$out = $tpl->parse('media/add-swfupload', $a);
 
-		if ($echo)
+		if ($echo) {
 			echo $out;
+		}
 
 		return $out;
 	}
@@ -807,8 +824,9 @@ class flgalleryMedia extends flgalleryBaseClass
 
 		$out = $tpl->parse('media/add-stdupload', $a);
 
-		if ($echo)
+		if ($echo) {
 			echo $out;
+		}
 
 		return $out;
 	}
@@ -827,8 +845,9 @@ class flgalleryMedia extends flgalleryBaseClass
 
 		$out = $tpl->parse('media/add-url', $a);
 
-		if ($echo)
+		if ($echo) {
 			echo $out;
+		}
 
 		return $out;
 	}
@@ -847,8 +866,9 @@ class flgalleryMedia extends flgalleryBaseClass
 
 		$out = $tpl->parse('media/add-archive', $a);
 
-		if ($echo)
+		if ($echo) {
 			echo $out;
+		}
 
 		return $out;
 	}
@@ -868,8 +888,9 @@ class flgalleryMedia extends flgalleryBaseClass
 
 		$out = $tpl->parse('media/add-directory', $a);
 
-		if ($echo)
+		if ($echo) {
 			echo $out;
+		}
 
 		return $out;
 	}
@@ -888,8 +909,9 @@ class flgalleryMedia extends flgalleryBaseClass
 
 		$out = $tpl->parse('media/add-wpmedia', $a);
 
-		if ($echo)
+		if ($echo) {
 			echo $out;
+		}
 
 		return $out;
 	}
@@ -980,8 +1002,9 @@ class flgalleryMedia extends flgalleryBaseClass
 			}
 
 			$files = $func->upload('stdUpload_file', $destDir, $destNames);
-			if (!empty($files))
+			if (!empty($files)) {
 				$added = array_merge($added, $files);
+			}
 		}
 
 		// Add URLs
@@ -996,23 +1019,25 @@ class flgalleryMedia extends flgalleryBaseClass
 			}
 
 			$files = $func->copyURLs($this->files, $destDir, $destNames);
-			if (!empty($files))
+			if (!empty($files)) {
 				$added = array_merge($added, $files);
+			}
 		}
 
 		// Upload Archive
 		if (!empty($_FILES['zipUpload_file'])) {
 			require_once ABSPATH . 'wp-admin/includes/class-pclzip.php';
 
-			$data = &$_FILES['zipUpload_file'];
+			$data =& $_FILES['zipUpload_file'];
 			foreach ($data as $key => $value) {
-				if (!is_array($value))
+				if (!is_array($value)) {
 					$data[$key] = (array)$value;
+				}
 			}
 
 			foreach ($data['name'] as $key => $name) {
 				if (!$data['error'][$key]) {
-					$archiveName = &$data['tmp_name'][$key];
+					$archiveName =& $data['tmp_name'][$key];
 					$tmpDirs[] = $tmpDir = $plugin->uploadsDir . '/' . mt_rand();
 
 					$archive = new PclZip($archiveName);
@@ -1026,11 +1051,13 @@ class flgalleryMedia extends flgalleryBaseClass
 		}
 
 		// Import from Folder
-		if (!isset($importFolder_path))
+		if (!isset($importFolder_path)) {
 			$importFolder_path =& $_POST['importFolder_path'];
+		}
 
-		if (!isset($importFolder_delete))
+		if (!isset($importFolder_delete)) {
 			$importFolder_delete =& $_POST['importFolder_delete'];
+		}
 
 		if (!empty($importFolder_path)) {
 			$path = ABSPATH . $importFolder_path;
@@ -1043,8 +1070,9 @@ class flgalleryMedia extends flgalleryBaseClass
 			}
 
 			$files = $func->copyFiles($this->files, $destDir, $destNames, !empty($importFolder_delete));
-			if (!empty($files))
+			if (!empty($files)) {
 				$added = array_merge($added, $files);
+			}
 
 			if (!empty($_POST['importFolder_delete_dir'])) {
 				$tmpDirs[] = ABSPATH . $importFolder_path;
@@ -1064,8 +1092,9 @@ class flgalleryMedia extends flgalleryBaseClass
 		// Delete temporary directories
 		if (!empty($tmpDirs)) {
 			foreach ($tmpDirs as $dir) {
-				if (is_dir($dir))
+				if (is_dir($dir)) {
 					@rmdir($dir);
+				}
 			}
 		}
 

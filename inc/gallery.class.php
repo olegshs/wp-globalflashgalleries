@@ -99,8 +99,9 @@ class flgalleryGallery extends flgalleryBaseClass
 			include FLGALLERY_GLOBALS;
 
 			$conditions = array('id' => $this->id);
-			if ($plugin->userLevel < 5)
+			if ($plugin->userLevel < 5) {
 				$conditions['author'] = $plugin->userID;
+			}
 
 			$update = $wpdb->update(
 				$plugin->dbGalleries,
@@ -162,8 +163,9 @@ class flgalleryGallery extends flgalleryBaseClass
 			$this->error($wpdb->last_error);
 			$this->debug($wpdb->last_query, array('Error', $this->errorN));
 			return false;
-		} else
+		} else {
 			return $wpdb->insert_id;
+		}
 
 	}
 
@@ -230,8 +232,9 @@ class flgalleryGallery extends flgalleryBaseClass
 							array('order' => $imageOrder),
 							array('id' => $image->id)
 						);
-						if ($upd !== false)
+						if ($upd !== false) {
 							$result[$image->id] = $imageOrder;
+						}
 					}
 
 					return $result;
@@ -260,8 +263,9 @@ class flgalleryGallery extends flgalleryBaseClass
 							array('order' => $n++),
 							array('id' => $image->id)
 						);
-						if ($upd !== false)
+						if ($upd !== false) {
 							$result[$image->id] = $order;
+						}
 					}
 
 					return $result;
@@ -314,7 +318,7 @@ class flgalleryGallery extends flgalleryBaseClass
 
 				if (!empty($settingsXml->group)) {
 					if (defined('FLGALLERY_PHP5')) {
-						$groups = &$settingsXml->group;
+						$groups =& $settingsXml->group;
 					} else {
 						if (!is_array($settingsXml->group)) {
 							$groups = array($settingsXml->group);
@@ -353,7 +357,7 @@ class flgalleryGallery extends flgalleryBaseClass
 
 				if (!empty($settingsXml->param)) {
 					if (defined('FLGALLERY_PHP5')) {
-						$params = &$settingsXml->param;
+						$params =& $settingsXml->param;
 					} else {
 						if (!is_array($settingsXml->param)) {
 							$params = array($settingsXml->param);
@@ -523,10 +527,11 @@ class flgalleryGallery extends flgalleryBaseClass
 
 		$height = $this->height;
 
-		if (!defined('WP_ADMIN'))
+		if (!defined('WP_ADMIN')) {
 			$url .= '&frontend=1';
-		else
+		} else {
 			$height += 25;
+		}
 
 		return "window.open('{$url}', '{$plugin->name}', 'location=no,menubar=no,resizable=no,scrollbars=no,status=no,toolbar=no,left='+(screen.availWidth-{$this->width})/2+',top='+(screen.availHeight-{$height})/2+',width={$this->width},height={$height}'); return false;";
 	}
@@ -576,9 +581,9 @@ class flgalleryGallery extends flgalleryBaseClass
 		}
 
 		$flash = $func->flash(
-			$plugin->name . '-' . $this->id,    // id
-			$this->getSwf(),                // url
-			$this->width,                    // dimensions
+			$plugin->name . '-' . $this->id, // id
+			$this->getSwf(), // url
+			$this->width, // dimensions
 			$this->height,
 			array(
 				'flashVars' => 'XMLFile=' . rawurlencode($xmlFile),

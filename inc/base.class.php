@@ -31,35 +31,30 @@ class flgalleryBaseClass
 	{
 		$this->preInit();
 
-		if ( method_exists($this, 'init') )
-		{
+		if (method_exists($this, 'init')) {
 			$args = func_get_args();
-			return call_user_func_array( array(&$this, 'init'), $args );
+			return call_user_func_array(array(&$this, 'init'), $args);
 		}
 	}
 
-	function set( $a, $b = false )
+	function set($a, $b = false)
 	{
-		if ( is_object($a) )
+		if (is_object($a)) {
 			$a = get_object_vars($a);
-
-		if ( $b === false && is_array($a) && count($a) )
-		{
-			foreach ($a as $key => $value)
-				$this->$key = $value;
 		}
-		else
-		{
-			if ( is_string($a) && !empty($a) )
-			{
-				$this->$a = $b;
+
+		if ($b === false && is_array($a) && count($a)) {
+			foreach ($a as $key => $value) {
+				$this->$key = $value;
 			}
-			else
-			{
-				if ( is_array($a) && count($a) )
-				{
-					foreach ($a as $key)
+		} else {
+			if (is_string($a) && !empty($a)) {
+				$this->$a = $b;
+			} else {
+				if (is_array($a) && count($a)) {
+					foreach ($a as $key) {
 						$this->$key = $b;
+					}
 				}
 			}
 		}
@@ -67,8 +62,7 @@ class flgalleryBaseClass
 
 	function error($msg)
 	{
-		if ( !empty($msg) )
-		{
+		if (!empty($msg)) {
 			global $flgalleryErrors, $flgalleryErrorN;
 
 			$this->errorN = ++$flgalleryErrorN;
@@ -77,10 +71,10 @@ class flgalleryBaseClass
 			return $msg;
 		}
 	}
+
 	function warning($msg)
 	{
-		if ( !empty($msg) )
-		{
+		if (!empty($msg)) {
 			global $flgalleryWarnings, $flgalleryWarningN;
 
 			$this->warningN = ++$flgalleryWarningN;
@@ -89,19 +83,18 @@ class flgalleryBaseClass
 			return $msg;
 		}
 	}
+
 	function debug($msg, $for = NULL)
 	{
-		if ( !empty($msg) )
-		{
+		if (!empty($msg)) {
 			global $flgalleryDebug, $flgalleryDebugN;
 
 			$this->debugN = ++$flgalleryDebugN;
 
-			if ( is_array($for) )
-			{
-				$for = $for[0].' '.$for[1];
+			if (is_array($for)) {
+				$for = $for[0] . ' ' . $for[1];
 			}
-			$flgalleryDebug[$this->className][] = "{$flgalleryDebugN}. " .($for ? "($for) " : ''). $msg;
+			$flgalleryDebug[$this->className][] = "{$flgalleryDebugN}. " . ($for ? "($for) " : '') . $msg;
 
 			return $msg;
 		}

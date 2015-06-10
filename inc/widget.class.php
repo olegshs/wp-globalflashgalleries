@@ -10,8 +10,7 @@ class flgalleryWidget extends WP_Widget
 			array(
 				'description' => 'Global Flash Galleries'
 			),
-			array(
-			)
+			array()
 		);
 	}
 
@@ -40,8 +39,8 @@ class flgalleryWidget extends WP_Widget
 			}
 
 			echo
-				'<div class="textwidget">'.
-					$plugin->flashGallery($a).
+				'<div class="textwidget">' .
+					$plugin->flashGallery($a) .
 				'</div>';
 		}
 	}
@@ -77,8 +76,7 @@ class flgalleryWidget extends WP_Widget
 					SELECT `id`, `name`
 					FROM `{$plugin->dbGalleries}`
 				");
-				foreach ($galleries as $gallery)
-				{
+				foreach ($galleries as $gallery) {
 ?>
 					<option value="<?php echo $gallery->id; ?>"<?php if ($gallery->id == $selectedGallery) echo ' selected="selected"' ?>><?php echo esc_html($gallery->name); ?></option>
 <?php
@@ -122,5 +120,4 @@ class flgalleryWidget extends WP_Widget
 		//]]></script>
 <?php
 	}
-
 }

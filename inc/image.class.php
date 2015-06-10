@@ -53,8 +53,9 @@ class flgalleryImage extends flgalleryBaseClass
 				$this->size = filesize($fullPath);
 				$save = true;
 			}
-			if ($save)
+			if ($save) {
 				$this->save();
+			}
 
 			return true;
 		} else {
@@ -79,8 +80,9 @@ class flgalleryImage extends flgalleryBaseClass
 				$this->debug("SQL: {$wpdb->last_query}", array('Error', $this->errorN));
 				return false;
 			}
-		} else
+		} else {
 			return false;
+		}
 
 		return $this->id;
 	}
@@ -92,44 +94,57 @@ class flgalleryImage extends flgalleryBaseClass
 
 			$a = array();
 
-			if (isset($this->album_id))
+			if (isset($this->album_id)) {
 				$a['album_id'] = (int)$this->album_id;
+			}
 
-			if (isset($this->gallery_id))
+			if (isset($this->gallery_id)) {
 				$a['gallery_id'] = (int)$this->gallery_id;
+			}
 
-			if (isset($this->order))
+			if (isset($this->order)) {
 				$a['order'] = (int)$this->order;
+			}
 
-			if (isset($this->type))
+			if (isset($this->type)) {
 				$a['type'] = $this->type;
+			}
 
-			if (isset($this->path))
+			if (isset($this->path)) {
 				$a['path'] = $this->path;
+			}
 
-			if (isset($this->name))
+			if (isset($this->name)) {
 				$a['name'] = $this->name;
+			}
 
-			if (isset($this->title))
+			if (isset($this->title)) {
 				$a['title'] = $this->title;
+			}
 
-			if (isset($this->description))
+			if (isset($this->description)) {
 				$a['description'] = $this->description;
+			}
 
-			if (isset($this->link))
+			if (isset($this->link)) {
 				$a['link'] = $this->link;
+			}
 
-			if (isset($this->target))
+			if (isset($this->target)) {
 				$a['target'] = $this->target;
+			}
 
-			if (isset($this->width))
+			if (isset($this->width)) {
 				$a['width'] = (int)$this->width;
+			}
 
-			if (isset($this->height))
+			if (isset($this->height)) {
 				$a['height'] = (int)$this->height;
+			}
 
-			if (isset($this->size))
+			if (isset($this->size)) {
 				$a['size'] = (int)$this->size;
+			}
 
 			$update = $wpdb->update($plugin->dbImg, $a, array('id' => $this->id));
 			if ($update === false) {
@@ -137,8 +152,9 @@ class flgalleryImage extends flgalleryBaseClass
 				$this->debug("SQL: {$wpdb->last_query}", array('Error', $this->errorN));
 				return false;
 			}
-		} else
+		} else {
 			return false;
+		}
 
 		return $this->id;
 	}
@@ -239,24 +255,28 @@ class flgalleryImage extends flgalleryBaseClass
 		include FLGALLERY_GLOBALS;
 
 		$newPath = $this->_resized($size);
-		if ($newPath == false)
+		if ($newPath == false) {
 			$newPath = $plugin->imgDir . '/' . $this->path;
+		}
 
 		return $url ? $func->url($newPath) : $newPath;
 	}
 
 	function _resized($size, $ignoreDeadline = false)
 	{
-		if (empty($size['width']) && empty($size['height']))
+		if (empty($size['width']) && empty($size['height'])) {
 			return false;
+		}
 
 		include FLGALLERY_GLOBALS;
 
-		if ($this->inBlacklist($this->path) !== false)
+		if ($this->inBlacklist($this->path) !== false) {
 			return false;
+		}
 
-		if (!$this->check())
+		if (!$this->check()) {
 			return false;
+		}
 
 		$newWidth = round(empty($size['width']) ? $this->width * ($size['height'] / $this->height) : $size['width']);
 		$newHeight = round(empty($size['height']) ? $this->height * ($size['width'] / $this->width) : $size['height']);
@@ -268,8 +288,9 @@ class flgalleryImage extends flgalleryBaseClass
 		$newPath = $plugin->tmpDir . "/img-{$fname[1]}.{$newWidth}x{$newHeight}{$fname[2]}";
 
 		if (!file_exists($newPath)) {
-			if ($plugin->stats->deadline())
+			if ($plugin->stats->deadline()) {
 				return false;
+			}
 
 			switch ($this->type) {
 				case 'image/gif':
@@ -297,11 +318,13 @@ class flgalleryImage extends flgalleryBaseClass
 				if ($func->getFreeMemory() < $memoryNeed) {
 					$currentLimit = $func->mToBytes(@ini_get('memory_limit'));
 					$newLimit = $memoryNeed + memory_get_usage() + 1048576;
-					if ($newLimit > $currentLimit)
+					if ($newLimit > $currentLimit) {
 						@ini_set('memory_limit', $newLimit);
+					}
 				}
-				if ($func->getFreeMemory() < $memoryNeed)
+				if ($func->getFreeMemory() < $memoryNeed) {
 					return false;
+				}
 
 				$this->addToBlacklist($this->path);
 
@@ -333,12 +356,14 @@ class flgalleryImage extends flgalleryBaseClass
 
 				imagedestroy($dstImage);
 
-				if (!$res)
+				if (!$res) {
 					return false;
+				}
 
 				$this->removeFromBlacklist($this->path);
-			} else
+			} else {
 				return false;
+			}
 		}
 
 		return $newPath;

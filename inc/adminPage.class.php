@@ -11,15 +11,16 @@ class flgalleryAdminPage extends flgalleryBaseClass
 	{
 		include FLGALLERY_GLOBALS;
 
-		if ( !empty($_REQUEST) )
-			$this->debug('REQUEST: '.esc_html(var_export($_REQUEST, true)));
+		if (!empty($_REQUEST)) {
+			$this->debug('REQUEST: ' . esc_html(var_export($_REQUEST, true)));
+		}
 
 		echo "\n\n<!-- begin {$plugin->name} -->\n";
 		echo "<link rel='stylesheet' type='text/css' href='{$plugin->url}/css/admin.css' />\n";
 		echo
 			'<div class="wrap">' .
-			( !empty($class) ? "<div class='{$plugin->name}'><div class='{$class}'>" : '' ).
-			"\n\n<h2>". __($name, $plugin->name) . "</h2>\n\n";
+			(!empty($class) ? "<div class='{$plugin->name}'><div class='{$class}'>" : '') .
+			"\n\n<h2>" . __($name, $plugin->name) . "</h2>\n\n";
 ?>
 		<script type="text/javascript">//<![CDATA[
 			var flgallery = {
@@ -37,45 +38,47 @@ class flgalleryAdminPage extends flgalleryBaseClass
 		include FLGALLERY_GLOBALS;
 
 		$primary = '';
-		if ( is_array($title) )
-		{
-			if ( !empty($title[2]) || $title[1] === true )
+		if (is_array($title)) {
+			if (!empty($title[2]) || $title[1] === true) {
 				$primary = '-primary button';
+			}
 
-			if ( !empty($title[1]) && is_string($title[1]) )
+			if (!empty($title[1]) && is_string($title[1])) {
 				$description = $title[1];
+			}
 
 			$title = $title[0];
 		}
 		$title = __($title, $plugin->name);
 
 		$out =
-			"\n<form class='actionButton' id='action-{$action}' action='{$admpage->href}' method='post'>\n".
+			"\n<form class='actionButton' id='action-{$action}' action='{$admpage->href}' method='post'>\n" .
 			"\t<input type='hidden' name='action' value='{$action}' />\n";
-		if ( !empty($a) )
-		{
-			if ( is_object($a) )
-				$a = get_object_vars($a);
 
-			if ( is_array($a) )
-			{
-				foreach ($a as $name => $value)
-				{
+		if (!empty($a)) {
+			if (is_object($a)) {
+				$a = get_object_vars($a);
+			}
+
+			if (is_array($a)) {
+				foreach ($a as $name => $value) {
 					$out .= "\t<input type='hidden' name='{$name}' value='{$value}' />\n";
 				}
 			}
 		}
+
 		$atts = '';
-		if ( is_array($attributes) && count($attributes) )
-		{
-			foreach ($attributes as $name => $value)
+		if (is_array($attributes) && count($attributes)) {
+			foreach ($attributes as $name => $value) {
 				$atts .= " {$name}='{$value}'";
+			}
 		}
+
 		$out .=
 			"\t<input type='submit' class='button{$primary}' id='button-{$action}' value='{$title}'" .
 			(!empty($description) ? " title='{$description}'" : '') .
 			$atts .
-			(!empty($confirm) ? " onclick='return confirm(\"".str_replace('"', '\"' , $confirm)."\");'" : '') .
+			(!empty($confirm) ? " onclick='return confirm(\"" . str_replace('"', '\"', $confirm) . "\");'" : '') .
 			" />\n" .
 			"</form>\n";
 
@@ -194,7 +197,7 @@ class flgalleryAdminPage extends flgalleryBaseClass
 		$tpl->t(
 			'manage/galleries-panel',
 			array(
-				'addNewGallery' => $admpage->actionButton( array('+ New Gallery', true), 'addNewGallery' )
+				'addNewGallery' => $admpage->actionButton(array('+ New Gallery', true), 'addNewGallery')
 			)
 		);
 
@@ -206,21 +209,23 @@ class flgalleryAdminPage extends flgalleryBaseClass
 	function newGallery($a = array(), $data = array())
 	{
 		include FLGALLERY_GLOBALS;
-		$galleryInfo = &$plugin->galleryInfo;
+		$galleryInfo =& $plugin->galleryInfo;
 
-		if ( empty($a['name']) )
+		if (empty($a['name'])) {
 			$a['name'] = 'New Gallery';
+		}
 
-		if ( empty($a['type']) )
+		if (empty($a['type'])) {
 			$a['type'] = 'Art';
+		}
 ?>
 		<form id="newGalleryForm" action="" method="post">
 <?php
-			if ( !empty($data) && is_array($data) )
-			{
-				foreach ($data as $name => $value)
-					echo "<input type='hidden' name='{$name}' value='{$value}' />\n";
+		if (!empty($data) && is_array($data)) {
+			foreach ($data as $name => $value) {
+				echo "<input type='hidden' name='{$name}' value='{$value}' />\n";
 			}
+		}
 ?>
 		<table width="100%">
 			<tr class="name field" valign="top">
@@ -232,12 +237,11 @@ class flgalleryAdminPage extends flgalleryBaseClass
 				<td class="value">
 					<div><select id="galleryType" name="gallery[type]" tabindex="20">
 <?php
-						foreach ($galleryInfo as $type => $gallery)
-						{
+						foreach ($galleryInfo as $type => $gallery) {
 							$atts = '';
-							if ($type == $a['type'])
+							if ($type == $a['type']) {
 								$atts = " selected='selected'";
-
+							}
 							echo "<option value='{$type}'{$atts}>{$gallery['title']}</option>\n";
 						}
 					?></select></div>
@@ -262,8 +266,7 @@ class flgalleryAdminPage extends flgalleryBaseClass
 		<script type="text/javascript">//<![CDATA[
 			var galleryInfo = {
 <?php
-				foreach ($galleryInfo as $key => $info)
-				{
+				foreach ($galleryInfo as $key => $info) {
 					echo
 						"\t\t'{$key}': {\n".
 						"			title: '{$info['title']}',\n".
@@ -322,8 +325,8 @@ class flgalleryAdminPage extends flgalleryBaseClass
 			$paginate = $tpl->parse('paginate', array(
 				'count' => $itemsCount,
 				'links' => paginate_links(array(
-					'base' => $this->href.'%_%',    // http://example.com/all_posts.php%_% : %_% is replaced by format (below)
-					'format' => '&paged=%#%',       // ?page=%#% : %#% is replaced by the page number
+					'base' => $this->href . '%_%', // http://example.com/all_posts.php%_% : %_% is replaced by format (below)
+					'format' => '&paged=%#%', // ?page=%#% : %#% is replaced by the page number
 					'total' => $pagesCount,
 					'current' => $currentPage,
 					'show_all' => false,
@@ -333,20 +336,19 @@ class flgalleryAdminPage extends flgalleryBaseClass
 					'end_size' => 1,
 					'mid_size' => 2,
 					'type' => 'plain',
-					'add_args' => false,    // array of query args to add
+					'add_args' => false, // array of query args to add
 					'add_fragment' => ''
 				))
 			));
 		}
 
-		if (!empty($paginate))
+		if (!empty($paginate)) {
 			echo "<div style='margin-top:-2em;'>{$paginate}</div>";
+		}
 
-		if ( !empty($galleries) )
-		{
+		if (!empty($galleries)) {
 			$galleriesHTML = '';
-			foreach ($galleries as $gal)
-			{
+			foreach ($galleries as $gal) {
 				$this->galleriesCount++;
 				$gallery = new flgalleryGallery($gal->id);
 				$gallery->typeTitle = esc_html($plugin->galleryInfo[$gallery->type]['title']);
@@ -355,39 +357,39 @@ class flgalleryAdminPage extends flgalleryBaseClass
 			$tpl->t('manage/galleries-list', array('galleries' => $galleriesHTML));
 		}
 
-		if (!empty($paginate))
+		if (!empty($paginate)) {
 			echo $paginate;
+		}
 ?>
 
 		<script type="text/javascript" src="<?php echo $plugin->url; ?>/js/manage.js"></script>
 <?php
-		if ($gallery_id && $showImgs)
+		if ($gallery_id && $showImgs) {
 			$func->js("jQuery(document).ready(function($) {
 				flgallery.showPictures('gallery-{$gallery_id}');
 			});");
+		}
 	}
 
 	function galleryPreview(&$gallery, $template, $echo = true)
 	{
-		if ( defined('WP_ADMIN') && $gallery->id )
-		{
+		if (defined('WP_ADMIN') && $gallery->id) {
 			include FLGALLERY_GLOBALS;
 			$out = '';
 
 			$imagesHTML = '';
-			if (!empty($_REQUEST['imgs']) && (int)$_REQUEST['gallery_id'] == $gallery->id)
-			{
+			if (!empty($_REQUEST['imgs']) && (int)$_REQUEST['gallery_id'] == $gallery->id) {
 				$imagesHTML = $this->getGalleryItemsHtml($gallery);
 			}
 			$imagesCount = $gallery->getItemsCount();
 
-			$created = sprintf( __("%s @ %s", $plugin->name),
-				mysql2date( $plugin->dateFormat, get_date_from_gmt($gallery->created) ),
-				mysql2date( $plugin->timeFormat, get_date_from_gmt($gallery->created) )
+			$created = sprintf(__("%s @ %s", $plugin->name),
+				mysql2date($plugin->dateFormat, get_date_from_gmt($gallery->created)),
+				mysql2date($plugin->timeFormat, get_date_from_gmt($gallery->created))
 			);
-			$modified = sprintf( __("%s @ %s", $plugin->name),
-				mysql2date( $plugin->dateFormat, get_date_from_gmt($gallery->modified) ),
-				mysql2date( $plugin->timeFormat, get_date_from_gmt($gallery->modified) )
+			$modified = sprintf(__("%s @ %s", $plugin->name),
+				mysql2date($plugin->dateFormat, get_date_from_gmt($gallery->modified)),
+				mysql2date($plugin->timeFormat, get_date_from_gmt($gallery->modified))
 			);
 
 			$out .= $tpl->parse(
@@ -401,16 +403,16 @@ class flgalleryAdminPage extends flgalleryBaseClass
 						'modified' => $modified,
 						'authorName' => esc_html($gallery->authorName),
 						'deleteGallery' => $admpage->actionButton(
-							array('Delete', 'Delete Gallery'),
-							'deleteGallery',
-							array('gallery_id' => $gallery->id),
-							sprintf(__('Delete Gallery? \n\n%s. "%s" by %s', $plugin->name), $gallery->id, esc_html($gallery->name), esc_html($gallery->authorName))
-						),
+								array('Delete', 'Delete Gallery'),
+								'deleteGallery',
+								array('gallery_id' => $gallery->id),
+								sprintf(__('Delete Gallery? \n\n%s. "%s" by %s', $plugin->name), $gallery->id, esc_html($gallery->name), esc_html($gallery->authorName))
+							),
 						'options' => $admpage->actionButton(
-							array('Options', 'Customize Flash Gallery'),
-							'galleryOptions',
-							array('gallery_id' => $gallery->id)
-						),
+								array('Options', 'Customize Flash Gallery'),
+								'galleryOptions',
+								array('gallery_id' => $gallery->id)
+							),
 						'pluginURL' => esc_html($plugin->url),
 						'imgURL' => esc_html($plugin->imgURL),
 						'href' => esc_html($admpage->href),
@@ -424,7 +426,9 @@ class flgalleryAdminPage extends flgalleryBaseClass
 				)
 			);
 
-			if ($echo) echo $out;
+			if ($echo) {
+				echo $out;
+			}
 			return $out;
 		}
 		return false;
@@ -437,21 +441,20 @@ class flgalleryAdminPage extends flgalleryBaseClass
 		$imagesHTML = '';
 
 		$images = $gallery->getItems();
-		if ($images !== false)
-		{
+		if ($images !== false) {
 			$nonce = wp_create_nonce('deleteImage');
 
-			foreach ($images as $img)
-			{
+			foreach ($images as $img) {
 				$image = new flgalleryImage($img);
 				$thumbnail = $image->resized(array('height' => 120));
 
 				$img->galleryID = $gallery->id;
-				$img->url = esc_html($plugin->imgURL.'/'.$img->path);
+				$img->url = esc_html($plugin->imgURL . '/' . $img->path);
 				$img->previewURL = $thumbnail ? esc_html($func->url($thumbnail)) : esc_html($img->url);
 				$img->href = esc_html($admpage->href);
-				if ( empty($img->title) )
+				if (empty($img->title)) {
 					$img->title = esc_html($func->filenameToTitle($img->name));
+				}
 
 				$img->title = esc_html($img->title);
 				$img->description = esc_html($img->description);
@@ -465,41 +468,38 @@ class flgalleryAdminPage extends flgalleryBaseClass
 		return $imagesHTML;
 	}
 
-	function galleryOptions( $gallery, $options = array() )
+	function galleryOptions($gallery, $options = array())
 	{
 		include FLGALLERY_GLOBALS;
 		global $flgalleryProducts;
 
-		if ( $gallery->getSettings() )
-		{
+		if ($gallery->getSettings()) {
 			$types = '';
-			foreach ($plugin->galleryInfo as $key => $value)
-			{
+			foreach ($plugin->galleryInfo as $key => $value) {
 				$selected = $key == $gallery->type ? " selected='selected'" : '';
 				$types .= "<option value='{$key}'{$selected}>{$value['title']}</option>\n";
 			}
 
-			$flash = $plugin->flashGallery( array('id' => $gallery->id) );
+			$flash = $plugin->flashGallery(array('id' => $gallery->id));
 
-			if ( empty($flgalleryProducts[$gallery->getSignature()]) )
-			{
+			if (empty($flgalleryProducts[$gallery->getSignature()])) {
 				$trialNotice = sprintf(
 					__('Order the full version of %s to remove the copyright banner and make it possible to display more than %d&nbsp;pictures.', $plugin->name),
-					'<a href="http://flash-gallery.com/wordpress-plugin/order/" target="_blank">'.
-						$plugin->galleryInfo[$gallery->type]['title'].
+					'<a href="http://flash-gallery.com/wordpress-plugin/order/" target="_blank">' .
+					$plugin->galleryInfo[$gallery->type]['title'] .
 					'</a>',
 					$plugin->limitations[$gallery->type]
 				);
-			}
-			else
+			} else {
 				$trialNotice = '';
+			}
 
 			$settingsTplDir = $gallery->isLegacy() ? 'settings.legacy' : 'settings';
 
 			$a = array_merge(
 				array(
 					'flash' => $flash,
-					'flash_id' => $plugin->name.'-'.$gallery->id,
+					'flash_id' => $plugin->name . '-' . $gallery->id,
 					'gallery_id' => $gallery->id,
 					'types' => $types,
 					'name' => esc_html($gallery->name),
@@ -507,18 +507,18 @@ class flgalleryAdminPage extends flgalleryBaseClass
 					'width2' => $gallery->width + 32,
 					'height' => $gallery->height,
 					'settingsPanel' => $plugin->tpl->parse(
-						"{$settingsTplDir}/{$gallery->type}",
-						$gallery->settingsForm
-					),
+							"{$settingsTplDir}/{$gallery->type}",
+							$gallery->settingsForm
+						),
 					'trialNotice' => $trialNotice,
 					'pluginURL' => esc_html($plugin->url)
 				),
 				$options
 			);
 			$tpl->t('options/gallery', $a);
-		}
-		else
+		} else {
 			return false;
+		}
 	}
 
 	function editImage($image_id)
@@ -528,8 +528,7 @@ class flgalleryAdminPage extends flgalleryBaseClass
 		$image = new flgalleryImage($image_id);
 		$image->load();
 
-		if ( $image->id )
-		{
+		if ($image->id) {
 			$image->title = esc_html($image->title);
 			$image->description = esc_html($image->description);
 			$image->link = esc_html($image->link);
@@ -539,13 +538,12 @@ class flgalleryAdminPage extends flgalleryBaseClass
 			$image->target_self = $image->target == '_self';
 
 			if (strpos($image->path, '/') === 0) {
-				$image->src = esc_html(FLGALLERY_SITE_URL.$image->path);
-			}
-			else {
-				$image->src = esc_html($plugin->imgURL.'/'.$image->path);
+				$image->src = esc_html(FLGALLERY_SITE_URL . $image->path);
+			} else {
+				$image->src = esc_html($plugin->imgURL . '/' . $image->path);
 			}
 
-			if ( empty($image->title) ) {
+			if (empty($image->title)) {
 				$image->title = esc_html($func->filenameToTitle($image->name));
 			}
 
@@ -561,8 +559,7 @@ class flgalleryAdminPage extends flgalleryBaseClass
 		include FLGALLERY_GLOBALS;
 
 		echo "<ul class='tab-menu'>\n";
-		foreach ($items as $name => $title)
-		{
+		foreach ($items as $name => $title) {
 			$class = $name == $current ? 'selected' : '';
 			echo "\t<li class='{$class}'><a href='{$admpage->href}{$query}&amp;tab={$name}'>{$title}</a></li>\n";
 		}
@@ -577,14 +574,19 @@ class flgalleryAdminPage extends flgalleryBaseClass
 		$this->debug("{$plugin->stats->queries} queries, {$plugin->stats->time} seconds");
 
 		echo "<div id='flgallery-info'>\n";
-			if ($plugin->printErrors) $plugin->admin->printErrors();
-			if ($plugin->printWarnings) $plugin->admin->printWarnings();
-			if ($plugin->printDebug) $plugin->admin->printDebug();
+		if ($plugin->printErrors) {
+			$plugin->admin->printErrors();
+		}
+		if ($plugin->printWarnings) {
+			$plugin->admin->printWarnings();
+		}
+		if ($plugin->printDebug) {
+			$plugin->admin->printDebug();
+		}
 		echo "\n</div>\n";
 
 		echo "\n\n</div></div></div><!-- end {$plugin->name} -->\n\n";
 	}
-
 }
 
 }
