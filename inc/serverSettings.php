@@ -55,10 +55,8 @@ if (is_array($mysqlinfo)) $sql_mode = str_replace(',', ', ', $mysqlinfo[0]->Valu
 if (empty($sql_mode)) $sql_mode = __('Not set', FLGALLERY_NAME);
 
 // Get PHP Version
-if ( version_compare(PHP_VERSION, '4.3.0', '<') )
+if ( version_compare(PHP_VERSION, '5.2', '<') )
 	$php_version = sprintf('<strong class="red">%s</strong>', PHP_VERSION);
-elseif ( version_compare(PHP_VERSION, '5.2.6', '<') || version_compare(PHP_VERSION, '5.4.0', '>') )
-	$php_version = sprintf('<strong class="orange">%s</strong>', PHP_VERSION);
 else
 	$php_version = PHP_VERSION;
 
