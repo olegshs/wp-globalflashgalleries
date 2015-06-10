@@ -317,7 +317,7 @@ class flgalleryPlugin extends flgalleryBaseClass
 	function scripts()
 	{
 		wp_enqueue_script('jquery');
-		wp_enqueue_script('swfobject', $this->jsDir . '/swfobject/swfobject.js', array(), '2.2');
+		wp_enqueue_script('swfobject');
 
 		if (function_exists('flgallery_commercial_getJS') && ($url = flgallery_commercial_getJS())) {
 			wp_enqueue_script('altgallery', $url, array('jquery', 'swfobject'), null, true);
