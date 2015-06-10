@@ -98,7 +98,7 @@ class flgalleryAdminPage extends flgalleryBaseClass
 				'contentURL' => $plugin->contentURL,
 				'imgDir' => $plugin->imgDir,
 				'imgURL' => $plugin->imgURL,
-				'uninstall' => $this->actionButton('Uninstall Plugin', 'uninstallPlugin', NULL, 'All plugin data, galleries, images and other media \nwill be PERMANENTLY REMOVED from server!\n\nAre you sure?'),
+				'uninstall' => $this->actionButton('Uninstall Plugin', 'uninstallPlugin', NULL, 'All plugin data, galleries, images and other media will be PERMANENTLY REMOVED from server!\n\nAre you sure?'),
 				'canUninstall' => current_user_can('delete_plugins')
 			)
 		);
