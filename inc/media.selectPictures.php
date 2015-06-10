@@ -40,7 +40,7 @@ $albums = $wpdb->get_results("
 	<li class="select-album" id="select-album-<?php echo $album->id; ?>" style="clear:left; margin:15px 0 20px;">
 		<input class="select-album" type="checkbox" name="albums[]" value="<?php echo $album->id; ?>" style="vertical-align:baseline;" />
 		<span>
-			<a class="select-album" href="#select-album-<?php echo $album->id; ?>" style="font-size:18px; text-decoration:none; border-bottom:1px dotted; color:#21759b;"><?php echo $album->title; ?></a>
+			<a class="select-album" href="#select-album-<?php echo $album->id; ?>" style="font-size:18px; text-decoration:none; border-bottom:1px dotted; color:#21759b;"><?php echo esc_html($album->title); ?></a>
 			<span class="album-count" style="font-size:14px; color:#555;">(<?php echo $imagesCount; ?>)</span>
 			<small style="margin:0 0.5em;"><a href="?page=flgallery/media&amp;action=addMediaPage&amp;album_id=<?php echo $album->id; ?>" style="color:#777;">Add Pictures</a></small>
 		</span>

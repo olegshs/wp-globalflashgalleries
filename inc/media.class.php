@@ -477,15 +477,27 @@ class flgalleryMedia extends flgalleryBaseClass
 			$imageObject = new flgalleryImage($image);
 
 			$previewURL = $imageObject->resized(array('height' => 64), true);
+
+			if ($l = strlen($image->title)) {
+				$imageNameTitle = esc_html($image->title);
+				if ($l > 20) {
+					$imageNameShort = esc_html(substr($image->title, 0, 19)).'&hellip;';
+				} else {
+					$imageNameShort = esc_html($image->title);
+				}
+			} else {
+				$imageNameTitle = esc_html($image->name);
+				$imageNameShort = esc_html($func->shortFilename($image->name, 20, ''));
+			}
 ?>
 			<li style="float:left; width:150px; height:90px; overflow:hidden; margin:15px;">
 				<label for="select-image-<?php echo $image->id; ?>">
 					<span class="select-image-preview" style="display:block;">
-						<img src="<?php echo $previewURL; ?>" alt="<?php echo $image->name; ?>" />
+						<img src="<?php echo esc_html($previewURL); ?>" alt="<?php echo $imageNameTitle; ?>" />
 					</span>
 					<span class="select-image" style="white-space:nowrap;">
 						<input type="checkbox" class="select-image" id="select-image-<?php echo $image->id; ?>" name="images[]" value="<?php echo $image->id; ?>" />
-						<small title="<?php echo $image->name; ?>" style="font-size:10px;"><?php echo $func->shortFilename($image->name, 20, ''); ?></small>
+						<small title="<?php echo $imageNameTitle; ?>" style="font-size:10px;"><?php echo $imageNameShort; ?></small>
 					</span>
 				</label>
 			</li>
