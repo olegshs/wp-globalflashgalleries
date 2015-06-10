@@ -399,24 +399,25 @@ class flgalleryAdminPage extends flgalleryBaseClass
 				array_merge(
 					get_object_vars($gallery),
 					array(
-						'title' => $gallery->name,
+						'title' => esc_html($gallery->name),
 						'url_title' => urlencode($gallery->name),
 						'created' => $created,
 						'modified' => $modified,
+						'authorName' => esc_html($gallery->authorName),
 						'deleteGallery' => $admpage->actionButton(
 							array('Delete', 'Delete Gallery'),
 							'deleteGallery',
 							array('gallery_id' => $gallery->id),
-							sprintf(__('Delete Gallery? \n\n%s. "%s" by %s', $plugin->name), $gallery->id, $gallery->name, $gallery->authorName)
+							sprintf(__('Delete Gallery? \n\n%s. "%s" by %s', $plugin->name), $gallery->id, esc_html($gallery->name), esc_html($gallery->authorName))
 						),
 						'options' => $admpage->actionButton(
 							array('Options', 'Customize Flash Gallery'),
 							'galleryOptions',
 							array('gallery_id' => $gallery->id)
 						),
-						'pluginURL' => $plugin->url,
-						'imgURL' => $plugin->imgURL,
-						'href' => $admpage->href,
+						'pluginURL' => esc_html($plugin->url),
+						'imgURL' => esc_html($plugin->imgURL),
+						'href' => esc_html($admpage->href),
 						'full' => !empty($_REQUEST['imgs']) && (int)$_REQUEST['gallery_id'] == $gallery->id ? 'full' : NULL,
 						'images' => $imagesHTML,
 						'galleryInfo' => $plugin->galleryInfo[$gallery->type],
@@ -450,14 +451,14 @@ class flgalleryAdminPage extends flgalleryBaseClass
 				$thumbnail = $image->resized(array('height' => 120));
 
 				$img->galleryID = $gallery->id;
-				$img->url = $plugin->imgURL .'/'. $img->path;
-				$img->previewURL = $thumbnail ? $func->url($thumbnail) : $img->url;
-				$img->href = $admpage->href;
+				$img->url = esc_html($plugin->imgURL.'/'.$img->path);
+				$img->previewURL = $thumbnail ? esc_html($func->url($thumbnail)) : esc_html($img->url);
+				$img->href = esc_html($admpage->href);
 				if ( empty($img->title) )
-					$img->title = $func->filenameToTitle($img->name);
+					$img->title = esc_html($func->filenameToTitle($img->name));
 
-				$img->title = esc_html(stripslashes( $img->title ));
-				$img->description = esc_html(stripslashes( $img->description ));
+				$img->title = esc_html($img->title);
+				$img->description = esc_html($img->description);
 
 				$img->nonce = $nonce;
 
@@ -482,14 +483,8 @@ class flgalleryAdminPage extends flgalleryBaseClass
 				$types .= "<option value='{$key}'{$selected}>{$value['title']}</option>\n";
 			}
 
-			$images = $wpdb->get_results("
-				SELECT `id`
-				FROM `{$plugin->dbImages}`
-				WHERE `gallery_id` = '{$gallery->id}'
-			");
 			$flash = $plugin->flashGallery( array('id' => $gallery->id) );
 
-			$swfURL = $gallery->getSwf();
 			if ( empty($flgalleryProducts[$gallery->getSignature()]) )
 			{
 				$trialNotice = sprintf(
@@ -511,7 +506,7 @@ class flgalleryAdminPage extends flgalleryBaseClass
 					'flash_id' => $plugin->name.'-'.$gallery->id,
 					'gallery_id' => $gallery->id,
 					'types' => $types,
-					'name' => $gallery->name,
+					'name' => esc_html($gallery->name),
 					'width' => $gallery->width,
 					'width2' => $gallery->width + 32,
 					'height' => $gallery->height,
@@ -520,7 +515,7 @@ class flgalleryAdminPage extends flgalleryBaseClass
 						$gallery->settingsForm
 					),
 					'trialNotice' => $trialNotice,
-					'pluginURL' => $plugin->url
+					'pluginURL' => esc_html($plugin->url)
 				),
 				$options
 			);
@@ -539,23 +534,24 @@ class flgalleryAdminPage extends flgalleryBaseClass
 
 		if ( $image->id )
 		{
-			$image->title = esc_html(stripslashes( $image->title ));
-			$image->description = esc_html(stripslashes( $image->description ));
-			$image->link = esc_html(stripslashes( $image->link ));
-			$image->imgURL = $plugin->imgURL;
-			$image->href = $admpage->href;
+			$image->title = esc_html($image->title);
+			$image->description = esc_html($image->description);
+			$image->link = esc_html($image->link);
+			$image->imgURL = esc_html($plugin->imgURL);
+			$image->href = esc_html($admpage->href);
 			$image->target_blank = empty($image->target) || $image->target == '_blank';
 			$image->target_self = $image->target == '_self';
 
 			if (strpos($image->path, '/') === 0) {
-				$image->src = FLGALLERY_SITE_URL.$image->path;
+				$image->src = esc_html(FLGALLERY_SITE_URL.$image->path);
 			}
 			else {
-				$image->src = $plugin->imgURL.'/'.$image->path;
+				$image->src = esc_html($plugin->imgURL.'/'.$image->path);
 			}
 
-			if ( empty($image->title) )
-				$image->title = $func->filenameToTitle($image->name);
+			if ( empty($image->title) ) {
+				$image->title = esc_html($func->filenameToTitle($image->name));
+			}
 
 			$tpl->t('manage/image-edit', $image);
 

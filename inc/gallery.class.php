@@ -85,8 +85,9 @@ class flgalleryGallery extends flgalleryBaseClass
 			{
 				foreach ($gallery as $key => $val)
 				{
-					if ( isset($this->$key) )
-						$this->$key = esc_html(stripslashes($val));
+					if (isset($this->$key)) {
+						$this->$key = $val;
+					}
 				}
 				$author = get_userdata($this->author);
 				$this->authorName = $author->display_name;
@@ -339,8 +340,9 @@ class flgalleryGallery extends flgalleryBaseClass
 			");
 			if ( $results !== false )
 			{
-				foreach ($results as $res)
-					$this->settings[$res->name] = esc_html(stripslashes($res->value));
+				foreach ($results as $res) {
+					$this->settings[$res->name] = esc_html($res->value);
+				}
 
 				$settingsXml = $this->getSettingsXml();
 
@@ -784,11 +786,11 @@ class flgalleryGallery extends flgalleryBaseClass
 					}
 
 					$item = array(
-						'source' => $img->source,
-						'thumbnail' => $img->thumbnail,
-						'description' => esc_html(stripslashes( $description )),
-						'link' => esc_html(stripslashes( $img->link )),
-						'target' => $img->target
+						'source' => esc_html($img->source),
+						'thumbnail' => esc_html($img->thumbnail),
+						'description' => esc_html($description),
+						'link' => esc_html($img->link),
+						'target' => esc_html($img->target)
 					);
 
 					if ( !empty($a['multipleAlbums']) )
@@ -810,9 +812,9 @@ class flgalleryGallery extends flgalleryBaseClass
 
 						$a['albums'] .= $plugin->tpl->parse($albumTemplate, array(
 							'icon' => '',
-							'thumbnailsFolder' => $plugin->imgURL.'/',
-							'imagesFolder' => $plugin->imgURL.'/',
-							'description' => esc_html(stripslashes( $description )),
+							'thumbnailsFolder' => esc_html($plugin->imgURL.'/'),
+							'imagesFolder' => esc_html($plugin->imgURL.'/'),
+							'description' => esc_html($description),
 							'items' => $items
 						));
 					}

@@ -48,8 +48,11 @@ class flgalleryMedia extends flgalleryBaseClass
 				{
 					if ( !empty($album_id) )
 					{
-						$data = $_POST['album'];
-						$data['modified'] = $now = $func->now();
+						$data = array(
+							'title' => stripslashes($_POST['album']['title']),
+							'description' => stripslashes($_POST['album']['description']),
+							'modified' => $func->now()
+						);
 						$wpdb->update( $plugin->dbAlbums, $data, array('id' => $album_id) );
 					}
 					$func->locationReset('&action=editAlbum&album_id='.$album_id);
@@ -79,7 +82,14 @@ class flgalleryMedia extends flgalleryBaseClass
 				{
 					$image_id = (int)$_POST['image_id'];
 					$applyToCopies = !empty($_POST['applyToCopies']);
-					$media->saveImage($image_id, $_POST['image'], $applyToCopies);
+					$data = array(
+						'name' => stripslashes($_POST['image']['name']),
+						'title' => stripslashes($_POST['image']['title']),
+						'description' => stripslashes($_POST['image']['description']),
+						'link' => stripslashes($_POST['image']['link']),
+						'target' => stripslashes($_POST['image']['target'])
+					);
+					$media->saveImage($image_id, $data, $applyToCopies);
 				}
 				$func->locationReset('&action=editAlbum&album_id='.$album_id);
 				$media->editAlbum($album_id);
@@ -385,6 +395,9 @@ class flgalleryMedia extends flgalleryBaseClass
 
 			foreach ($albums as $album)
 			{
+				$album->title = esc_html($album->title);
+				$album->description = esc_html($album->description);
+
 				$album->count = 0;
 
 				$images = $wpdb->get_results("
@@ -425,7 +438,7 @@ class flgalleryMedia extends flgalleryBaseClass
 
 				$album->addPictures = $admpage->actionButton( 'Add Pictures', 'addMediaPage', array('album_id'=>$album->id) );
 				$album->createGallery = $admpage->actionButton( 'Create Gallery', 'albumToGallery', array('album_id'=>$album->id), NULL, $createAtts );
-				$album->delete = $admpage->actionButton( 'Delete Album', 'deleteAlbum', array('album_id'=>$album->id), 'Delete Album?\n\n"'.$album->title.'"\n' );
+				$album->delete = $admpage->actionButton( 'Delete Album', 'deleteAlbum', array('album_id'=>$album->id), 'Delete Album?\n\n"'.esc_html($album->title).'"\n' );
 
 				$album->created =
 					mysql2date( $plugin->dateFormat, get_date_from_gmt($album->created) ). "<br />".
@@ -553,6 +566,9 @@ class flgalleryMedia extends flgalleryBaseClass
 		{
 			$admpage->head('Album Properties', 'album');
 
+			$album->title = esc_html($album->title);
+			$album->description = esc_html($album->description);
+
 			$album->selectAlbum = '';
 
 			$picturesHTML = '';
@@ -572,11 +588,13 @@ class flgalleryMedia extends flgalleryBaseClass
 				{
 					$image = new flgalleryImage($picture);
 
+					$picture->title = esc_html($picture->title);
+					$picture->description = esc_html($picture->description);
 					$picture->size = round($picture->size / 1024) .'&nbsp;KB';
-					$picture->url = $plugin->imgURL .'/'. $picture->path;
-					$thumbnail = $image->resized(array('height' => 80));
-					$picture->previewURL = $thumbnail ? $func->url($thumbnail) : $picture->url;
-					$picture->href = $admpage->href .'&amp;album_id='. $album_id;
+					$picture->url = esc_html($plugin->imgURL.'/'.$picture->path);
+					$thumbnail = esc_html($image->resized(array('height' => 80)));
+					$picture->previewURL = $thumbnail ? esc_html($func->url($thumbnail)) : esc_html($picture->url);
+					$picture->href = esc_html($admpage->href.'&amp;album_id='.$album_id);
 					$picture->nonce = $nonce;
 
 					$picturesHTML .= $tpl->parse('album/picture', $picture);

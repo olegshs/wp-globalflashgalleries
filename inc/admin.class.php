@@ -196,12 +196,14 @@ class flgalleryAdmin extends flgalleryBaseClass
 					{
 						foreach ($_POST['gallery'] as $key => $value)
 						{
-							if ( isset($gallery->$key) )
-								$gallery->$key = $value;
+							if (isset($gallery->$key)) {
+								$gallery->$key = stripslashes($value);
+							}
 						}
 						$gallery->save();
-						if ( $_POST['gallery']['type'] != $gallery_type )
+						if ( $_POST['gallery']['type'] != $gallery_type ) {
 							$typeChanged = true;
+						}
 					}
 
 					if ( !empty($_POST['settings']) && !$typeChanged )
@@ -209,10 +211,9 @@ class flgalleryAdmin extends flgalleryBaseClass
 						$gallery->getSettings();
 						foreach ($gallery->settingsInfo as $key => $param)
 						{
-							if ( isset($_POST['settings'][$key]) )
-								$gallery->settings[$key] = trim($_POST['settings'][$key]);
-							else
-							{
+							if ( isset($_POST['settings'][$key]) ) {
+								$gallery->settings[$key] = trim(stripslashes($_POST['settings'][$key]));
+							} else {
 								$paramInputAtt = $param->input->attributes();
 								if ( (string)$paramInputAtt->type == 'checkbox' )
 								{
