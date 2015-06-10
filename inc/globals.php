@@ -13,5 +13,3 @@ if ( defined('WP_ADMIN') )
 	$admpage = &$flgalleryPlugin->admin->page;
 	$media = &$flgalleryPlugin->media;
 }
-
-?>

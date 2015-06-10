@@ -640,4 +640,4 @@ class flgalleryAdmin extends flgalleryBaseClass
 	}
 }
 
-} ?>
+}

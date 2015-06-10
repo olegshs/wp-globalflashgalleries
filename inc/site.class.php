@@ -13,5 +13,3 @@ class flgallerySite extends flgalleryBaseClass
 		$this->url = rtrim(get_option('siteurl'), '/');
 	}
 }
-
-?>

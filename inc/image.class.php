@@ -344,5 +344,3 @@ class flgalleryImage extends flgalleryBaseClass
 		return $newPath;
 	}
 }
-
-?>

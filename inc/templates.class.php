@@ -232,5 +232,3 @@ class flgalleryTemplates extends flgalleryBaseClass
 		return is_array($b) ? false : $b;
 	}
 }
-
-?>

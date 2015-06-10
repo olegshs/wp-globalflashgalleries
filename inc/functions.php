@@ -64,5 +64,3 @@ function print_pre($var)
 	print '</pre>';
 }
 endif;
-
-?>

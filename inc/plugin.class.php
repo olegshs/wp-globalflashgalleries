@@ -560,5 +560,3 @@ class flgalleryPlugin extends flgalleryBaseClass
 	}
 
 }
-
-?>

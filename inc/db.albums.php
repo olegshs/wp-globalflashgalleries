@@ -19,5 +19,3 @@ $query = "
 		KEY `modified` (`modified`)
 	){$charset_collate}
 ";
-
-?>

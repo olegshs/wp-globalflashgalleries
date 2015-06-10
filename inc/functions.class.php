@@ -618,5 +618,3 @@ class flgalleryFunctions extends flgalleryBaseClass
 	}
 
 }
-
-?>

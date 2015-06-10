@@ -12,5 +12,3 @@ $query = "
 		KEY `gallery_id` (`gallery_id`, `gallery_type`)
 	){$charset_collate}
 ";
-
-?>

@@ -27,5 +27,3 @@ $query = "
 		KEY `size` (`size`)
 	){$charset_collate}
 ";
-
-?>

@@ -1112,5 +1112,3 @@ class flgalleryMedia extends flgalleryBaseClass
 		echo json_encode($items);
 	}
 }
-
-?>

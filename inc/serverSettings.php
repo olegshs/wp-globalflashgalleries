@@ -126,6 +126,3 @@ if ( function_exists('gd_info') )
 }
 else
 	$gd_version = '<strong class="red">'.__('N/A', FLGALLERY_NAME).'</strong>';
-
-
-?>

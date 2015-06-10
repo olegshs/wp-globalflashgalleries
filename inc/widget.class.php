@@ -124,5 +124,3 @@ class flgalleryWidget extends WP_Widget
 	}
 
 }
-
-?>
