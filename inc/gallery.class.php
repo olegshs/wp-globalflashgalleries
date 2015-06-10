@@ -24,29 +24,28 @@ class flgalleryGallery extends flgalleryBaseClass
 	{
 		include FLGALLERY_GLOBALS;
 
-		if ($plugin->userLevel >= 5)
+		if ($plugin->userLevel >= 5) {
 			$this->auth = ' 1 ';
-		else
+		} else {
 			$this->auth = " `{$plugin->dbGalleries}`.`author`='{$plugin->userID}' ";
-
-		if ( is_object($a) )
-			$a = get_object_vars($a);
-		elseif ( !is_array($a) )
-			$a = array('id' => $a);
-
-		if ( !empty($a['id']) )
-		{
-			$this->id = (int)$a['id'];
-			if ( !$this->load() )
-				$this->id = 0;
 		}
-		else
-		{
+
+		if (is_object($a)) {
+			$a = get_object_vars($a);
+		} elseif (!is_array($a)) {
+			$a = array('id' => $a);
+		}
+
+		if (!empty($a['id'])) {
+			$this->id = (int)$a['id'];
+			if (!$this->load()) {
+				$this->id = 0;
+			}
+		} else {
 			$this->create($a);
 		}
 
-		if ($this->id)
-		{
+		if ($this->id) {
 			$filename = "{$this->id}.xml";
 			$this->xmlFilePath = "{$plugin->xmlDir}/{$plugin->blogID}/{$filename}";
 			$this->xmlFileURL = "{$plugin->xmlURL}/{$plugin->blogID}/{$filename}";
@@ -66,8 +65,7 @@ class flgalleryGallery extends flgalleryBaseClass
 
 	function load()
 	{
-		if ($this->id)
-		{
+		if ($this->id) {
 			include FLGALLERY_GLOBALS;
 
 			$gallery = $wpdb->get_row("
@@ -75,16 +73,12 @@ class flgalleryGallery extends flgalleryBaseClass
 				FROM `{$plugin->dbGalleries}`
 				WHERE `id` = '{$this->id}'
 			");
-			if ( empty($gallery) )
-			{
-				$this->error( sprintf(__('Unable to load Gallery #%s (DB Error: %s)', $plugin->name), $this->id, $wpdb->last_error) );
-				$this->debug( "SQL: {$wpdb->last_query}", array('Error', $this->errorN) );
+			if (empty($gallery)) {
+				$this->error(sprintf(__('Unable to load Gallery #%s (DB Error: %s)', $plugin->name), $this->id, $wpdb->last_error));
+				$this->debug("SQL: {$wpdb->last_query}", array('Error', $this->errorN));
 				return false;
-			}
-			else
-			{
-				foreach ($gallery as $key => $val)
-				{
+			} else {
+				foreach ($gallery as $key => $val) {
 					if (isset($this->$key)) {
 						$this->$key = $val;
 					}
@@ -92,20 +86,19 @@ class flgalleryGallery extends flgalleryBaseClass
 				$author = get_userdata($this->author);
 				$this->authorName = $author->display_name;
 			}
-		}
-		else
+		} else {
 			return false;
+		}
 
 		return $this->id;
 	}
 
 	function save()
 	{
-		if ($this->id)
-		{
+		if ($this->id) {
 			include FLGALLERY_GLOBALS;
 
-			$conditions = array( 'id' => $this->id );
+			$conditions = array('id' => $this->id);
 			if ($plugin->userLevel < 5)
 				$conditions['author'] = $plugin->userID;
 
@@ -123,20 +116,17 @@ class flgalleryGallery extends flgalleryBaseClass
 				),
 				$conditions
 			);
-			if ($update === false)
-			{
+			if ($update === false) {
 				$this->error($wpdb->last_error);
 				$this->debug($wpdb->last_query, array('Error', $this->errorN));
 				return false;
-			}
-			else
-			{
+			} else {
 				$this->clearXmlCache();
 				return $this->id;
 			}
-		}
-		else
+		} else {
 			return $this->saveNew();
+		}
 	}
 
 	function saveNew()
@@ -147,8 +137,7 @@ class flgalleryGallery extends flgalleryBaseClass
 			SELECT MAX(`order`) as `order`
 			FROM `{$plugin->dbGalleries}`
 		");
-		if ( $order === false )
-		{
+		if ($order === false) {
 			$order = 0;
 			$this->warning($wpdb->last_error);
 			$this->debug($wpdb->last_query);
@@ -169,21 +158,18 @@ class flgalleryGallery extends flgalleryBaseClass
 				'height' => $this->height
 			)
 		);
-		if ( $insert === false )
-		{
+		if ($insert === false) {
 			$this->error($wpdb->last_error);
 			$this->debug($wpdb->last_query, array('Error', $this->errorN));
 			return false;
-		}
-		else
+		} else
 			return $wpdb->insert_id;
 
 	}
 
 	function delete()
 	{
-		if ($this->id)
-		{
+		if ($this->id) {
 			include FLGALLERY_GLOBALS;
 
 			$this->clearXmlCache();
@@ -192,8 +178,7 @@ class flgalleryGallery extends flgalleryBaseClass
 				DELETE FROM `{$plugin->dbGalleries}`
 				WHERE `id` = '{$this->id}' AND {$this->auth}
 			");
-			if ($res !== false)
-			{
+			if ($res !== false) {
 				$delImages = $wpdb->query("
 					DELETE FROM `{$plugin->dbImages}`
 					WHERE `gallery_id` = '{$this->id}'
@@ -205,11 +190,9 @@ class flgalleryGallery extends flgalleryBaseClass
 				");
 
 				return $delImages !== false && $delSettings !== false;
-			}
-			else
-			{
-				$this->error( sprintf(__('Unable to delete Gallery #%s (DB Error: %s)', $plugin->name), $this->id, $wpdb->last_error) );
-				$this->debug( "SQL: {$wpdb->last_query}", array('Error', $this->errorN) );
+			} else {
+				$this->error(sprintf(__('Unable to delete Gallery #%s (DB Error: %s)', $plugin->name), $this->id, $wpdb->last_error));
+				$this->debug("SQL: {$wpdb->last_query}", array('Error', $this->errorN));
 			}
 		}
 		return false;
@@ -217,13 +200,13 @@ class flgalleryGallery extends flgalleryBaseClass
 
 	function arrange($order)
 	{
-		if ($this->id)
-		{
+		if ($this->id) {
 			include FLGALLERY_GLOBALS;
 
-			if ( is_array($order) )
-			{
-				$IDs = "`id`='". implode("' OR `id`='", $order). "'";
+			if (is_array($order)) {
+				$order = array_map('intval', $order);
+
+				$IDs = "`id`='" . implode("' OR `id`='", $order) . "'";
 
 				$images = $wpdb->get_results("
 					SELECT `id`, `order`
@@ -231,8 +214,7 @@ class flgalleryGallery extends flgalleryBaseClass
 					WHERE ({$IDs})
 					ORDER BY `id`
 				");
-				if ( $images !== false )
-				{
+				if ($images !== false) {
 					$minOrder = (int)$wpdb->get_var("
 						SELECT MIN(`order`)
 						FROM `{$plugin->dbImages}`
@@ -241,25 +223,21 @@ class flgalleryGallery extends flgalleryBaseClass
 
 					$result = array();
 
-					foreach ($images as $image)
-					{
+					foreach ($images as $image) {
 						$imageOrder = array_search($image->id, $order) + $minOrder;
 						$upd = $wpdb->update(
 							$plugin->dbImages,
 							array('order' => $imageOrder),
 							array('id' => $image->id)
 						);
-						if ( $upd !== false)
+						if ($upd !== false)
 							$result[$image->id] = $imageOrder;
 					}
 
 					return $result;
 				}
-			}
-			else if ( is_string($order) )
-			{
-				switch ($order)
-				{
+			} elseif (is_string($order)) {
+				switch ($order) {
 					case 'desc':
 						$order = 'DESC';
 						break;
@@ -272,19 +250,17 @@ class flgalleryGallery extends flgalleryBaseClass
 					WHERE `gallery_id` = '{$this->id}'
 					ORDER BY `title` {$order}, `name` {$order}
 				");
-				if ($images !== false)
-				{
+				if ($images !== false) {
 					$result = array();
 
 					$n = 0;
-					foreach ($images as $image)
-					{
+					foreach ($images as $image) {
 						$upd = $wpdb->update(
 							$plugin->dbImages,
 							array('order' => $n++),
 							array('id' => $image->id)
 						);
-						if ( $upd !== false)
+						if ($upd !== false)
 							$result[$image->id] = $order;
 					}
 
@@ -299,21 +275,17 @@ class flgalleryGallery extends flgalleryBaseClass
 	{
 		include FLGALLERY_GLOBALS;
 
-		if ( empty($plugin->galleryInfo[$this->type]['settings']) )
-		{
+		if (empty($plugin->galleryInfo[$this->type]['settings'])) {
 			$settingsDir = $this->isLegacy() ? 'settings.legacy' : 'settings';
 
-			if ( defined('FLGALLERY_PHP5') )
-			{
+			if (defined('FLGALLERY_PHP5')) {
 				// PHP 5
-				$settings = simplexml_load_file(FLGALLERY_PLUGIN_DIR."/{$settingsDir}/{$this->type}.xml");
-			}
-			else
-			{
+				$settings = simplexml_load_file(FLGALLERY_PLUGIN_DIR . "/{$settingsDir}/{$this->type}.xml");
+			} else {
 				// PHP 4
-				require_once FLGALLERY_INCLUDE.'/simplexml.class.php';
+				require_once FLGALLERY_INCLUDE . '/simplexml.class.php';
 				$simplexml = new simplexml();
-				$settings = $simplexml->xml_load_file(FLGALLERY_PLUGIN_DIR."/{$settingsDir}/{$this->type}.xml");
+				$settings = $simplexml->xml_load_file(FLGALLERY_PLUGIN_DIR . "/{$settingsDir}/{$this->type}.xml");
 			}
 
 			$plugin->galleryInfo[$this->type]['settings'] = $settings;
@@ -326,62 +298,52 @@ class flgalleryGallery extends flgalleryBaseClass
 	{
 		include FLGALLERY_GLOBALS;
 
-		if ( $reload || empty($this->settings) )
-		{
+		if ($reload || empty($this->settings)) {
 			$results = $wpdb->get_results("
-				SELECT *
-				FROM
-					`{$plugin->dbGalleries}`,
-					`{$plugin->dbSettings}`
-				WHERE
-					`{$plugin->dbGalleries}`.`id` = {$plugin->dbSettings}.`gallery_id` AND
-					`{$plugin->dbSettings}`.`gallery_id` = '{$this->id}' AND
-					`{$plugin->dbSettings}`.`gallery_type` = '{$this->type}'
+				SELECT `name`, `value`
+				FROM `{$plugin->dbSettings}`
+				WHERE `{$plugin->dbSettings}`.`gallery_id` = '{$this->id}'
+				AND `{$plugin->dbSettings}`.`gallery_type` = '{$this->type}'
 			");
-			if ( $results !== false )
-			{
+			if ($results !== false) {
 				foreach ($results as $res) {
 					$this->settings[$res->name] = esc_html($res->value);
 				}
 
 				$settingsXml = $this->getSettingsXml();
 
-				if ( !empty($settingsXml->group) )
-				{
-					if ( defined('FLGALLERY_PHP5') )
-					{
+				if (!empty($settingsXml->group)) {
+					if (defined('FLGALLERY_PHP5')) {
 						$groups = &$settingsXml->group;
-					}
-					else
-					{
-						if ( !is_array($settingsXml->group) )
-							$groups = array( $settingsXml->group );
-						else
+					} else {
+						if (!is_array($settingsXml->group)) {
+							$groups = array($settingsXml->group);
+						} else {
 							$groups = $settingsXml->group;
+						}
 					}
 
-					foreach ( $groups as $group )
-					{
+					foreach ($groups as $group) {
 						$groupAtt = $group->attributes();
-						foreach ( $group->items->param as $param )
-						{
-							if ( is_object($param) )
+						foreach ($group->items->param as $param) {
+							if (is_object($param)) {
 								$paramAtt = $param->attributes();
-							else
+							} else {
 								$paramAtt = (object)$param;
+							}
 
 							$name = (string)$groupAtt->name . '.' . (string)$paramAtt->name;
 
-							if ( !isset($this->settings[$name]) )
+							if (!isset($this->settings[$name])) {
 								$this->settings[$name] = (string)$paramAtt->default;
+							}
 
-							if ( defined('WP_ADMIN') )
-							{
+							if (defined('WP_ADMIN')) {
 								$this->settingsInfo[$name] = $param;
 
 								$this->settingsForm[$name] = array(
-									'title' => esc_html( (string)$param->title ),
-									'description' => isset($param->description) ? esc_html( (string)$param->description ) : '',
+									'title' => esc_html((string)$param->title),
+									'description' => isset($param->description) ? esc_html((string)$param->description) : '',
 									'input' => $func->input($param->input, $name, "settings[$name]", $this->settings[$name])
 								);
 							}
@@ -389,49 +351,44 @@ class flgalleryGallery extends flgalleryBaseClass
 					}
 				}
 
-				if ( !empty($settingsXml->param) )
-				{
-					if ( defined('FLGALLERY_PHP5') )
-					{
+				if (!empty($settingsXml->param)) {
+					if (defined('FLGALLERY_PHP5')) {
 						$params = &$settingsXml->param;
-					}
-					else
-					{
-						if ( !is_array($settingsXml->param) )
-							$params = array( $settingsXml->param );
-						else
+					} else {
+						if (!is_array($settingsXml->param)) {
+							$params = array($settingsXml->param);
+						} else {
 							$params = $settingsXml->param;
+						}
 					}
 
-					foreach ( $params as $param )
-					{
-						if ( is_object($param) )
+					foreach ($params as $param) {
+						if (is_object($param)) {
 							$paramAtt = $param->attributes();
-						else
+						} else {
 							$paramAtt = (object)$param;
+						}
 
 						$name = (string)$paramAtt->name;
 
-						if ( !isset($this->settings[$name]) )
+						if (!isset($this->settings[$name])) {
 							$this->settings[$name] = (string)$paramAtt->default;
+						}
 
-						if ( defined('WP_ADMIN') )
-						{
+						if (defined('WP_ADMIN')) {
 							$this->settingsInfo[$name] = $param;
 
 							$this->settingsForm[$name] = array(
-								'title' => esc_html( (string)$param->title ),
-								'description' => isset($param->description) ? esc_html( (string)$param->description ) : '',
+								'title' => esc_html((string)$param->title),
+								'description' => isset($param->description) ? esc_html((string)$param->description) : '',
 								'input' => $func->input($param->input, $name, "settings[$name]", $this->settings[$name])
 							);
 						}
 					}
 				}
-			}
-			else
-			{
-				$this->error( sprintf(__('Unable to load Gallery #%s Settings (DB Error: %s)', $plugin->name), $this->id, $wpdb->last_error) );
-				$this->debug( "SQL: {$wpdb->last_query}", array('Error', $this->errorN) );
+			} else {
+				$this->error(sprintf(__('Unable to load Gallery #%s Settings (DB Error: %s)', $plugin->name), $this->id, $wpdb->last_error));
+				$this->debug("SQL: {$wpdb->last_query}", array('Error', $this->errorN));
 				return false;
 			}
 		}
@@ -440,30 +397,24 @@ class flgalleryGallery extends flgalleryBaseClass
 
 	function saveSettings()
 	{
-		if ( $this->getSettings(false) )
-		{
+		if ($this->getSettings(false)) {
 			include FLGALLERY_GLOBALS;
 
 			$results = $wpdb->get_results("
 				SELECT `id`, `name`
 				FROM `{$plugin->dbSettings}`
-				WHERE
-					`gallery_id` = '{$this->id}' AND
-					`gallery_type` = '{$this->type}'
+				WHERE `gallery_id` = '{$this->id}'
+				AND `gallery_type` = '{$this->type}'
 			");
-			if ($results)
-			{
-				foreach ($results as $res)
-				{
+			if ($results) {
+				foreach ($results as $res) {
 					$keys[$res->name] = $res->id;
 				}
 			}
 
-			foreach ($this->settings as $name => $value)
-			{
-				if ( isset($keys[$name]) )
-				{
-					$update = $wpdb->update(
+			foreach ($this->settings as $name => $value) {
+				if (isset($keys[$name])) {
+					$wpdb->update(
 						$plugin->dbSettings,
 						array(
 							'value' => $value
@@ -472,10 +423,8 @@ class flgalleryGallery extends flgalleryBaseClass
 							'id' => $keys[$name]
 						)
 					);
-				}
-				else
-				{
-					$insert = $wpdb->insert(
+				} else {
+					$wpdb->insert(
 						$plugin->dbSettings,
 						array(
 							'gallery_id' => $this->id,
@@ -494,17 +443,15 @@ class flgalleryGallery extends flgalleryBaseClass
 
 	function resetSettings()
 	{
-		if ($this->id)
-		{
+		if ($this->id) {
 			include FLGALLERY_GLOBALS;
 
 			$this->clearXmlCache();
 
 			return $wpdb->query("
 				DELETE FROM `{$plugin->dbSettings}`
-				WHERE
-					`gallery_id` = '{$this->id}' AND
-					`gallery_type` = '{$this->type}'
+				WHERE `gallery_id` = '{$this->id}'
+				AND `gallery_type` = '{$this->type}'
 			");
 		}
 	}
@@ -526,8 +473,7 @@ class flgalleryGallery extends flgalleryBaseClass
 
 	function getItemsCount()
 	{
-		if ( empty($this->itemsCount) )
-		{
+		if (empty($this->itemsCount)) {
 			include FLGALLERY_GLOBALS;
 
 			$this->itemsCount = (int)$wpdb->get_var("
@@ -541,24 +487,24 @@ class flgalleryGallery extends flgalleryBaseClass
 
 	function getSwf()
 	{
-		if ( empty($this->swfURL) )
-		{
+		if (empty($this->swfURL)) {
 			include FLGALLERY_GLOBALS;
 
 			$src = $plugin->galleryInfo[$this->type]['src'];
 
-			if ( function_exists('flgallery_commercial_getSWF') )
+			if (function_exists('flgallery_commercial_getSWF')) {
 				return $this->swfURL = flgallery_commercial_getSWF($src);
+			}
 
 			$c = $this->getSignature();
-			if ( !empty($plugin->points[$c]) )
-			{
-				$path = '/swf/'.$src;
-				$stat = stat( FLGALLERY_PLUGIN_DIR.$path );
-				if ( md5((string)$stat[7]) != $plugin->points[$c] )
+			if (!empty($plugin->points[$c])) {
+				$path = '/swf/' . $src;
+				$stat = stat(FLGALLERY_PLUGIN_DIR . $path);
+				if (md5((string)$stat[7]) != $plugin->points[$c]) {
 					return '';
+				}
 
-				return $this->swfURL = FLGALLERY_PLUGIN_URL.$path;
+				return $this->swfURL = FLGALLERY_PLUGIN_URL . $path;
 			}
 		}
 		return $this->swfURL;
@@ -566,7 +512,7 @@ class flgalleryGallery extends flgalleryBaseClass
 
 	function getPopupUrl()
 	{
-		return admin_url('admin-ajax.php')."?action=flgalleryPopup&gallery_id={$this->id}";
+		return admin_url('admin-ajax.php') . "?action=flgalleryPopup&gallery_id={$this->id}";
 	}
 
 	function getPopupJs()
@@ -577,7 +523,7 @@ class flgalleryGallery extends flgalleryBaseClass
 
 		$height = $this->height;
 
-		if ( !defined('WP_ADMIN') )
+		if (!defined('WP_ADMIN'))
 			$url .= '&frontend=1';
 		else
 			$height += 25;
@@ -585,19 +531,16 @@ class flgalleryGallery extends flgalleryBaseClass
 		return "window.open('{$url}', '{$plugin->name}', 'location=no,menubar=no,resizable=no,scrollbars=no,status=no,toolbar=no,left='+(screen.availWidth-{$this->width})/2+',top='+(screen.availHeight-{$height})/2+',width={$this->width},height={$height}'); return false;";
 	}
 
-	function getPopupLink( $text )
+	function getPopupLink($text)
 	{
 		$url = esc_html($this->getPopupUrl());
 		$onclick = $this->getPopupJs();
 
-		if ( preg_match('/(.*?)#(.*?)#(.*)/s', html_entity_decode($text, ENT_QUOTES), $m) )
-		{
+		if (preg_match('/(.*?)#(.*?)#(.*)/s', html_entity_decode($text, ENT_QUOTES), $m)) {
 			$text_before = $m[1];
 			$text = $m[2];
 			$text_after = $m[3];
-		}
-		else
-		{
+		} else {
 			$text_before = '';
 			$text_after = '';
 		}
@@ -610,11 +553,9 @@ class flgalleryGallery extends flgalleryBaseClass
 		include FLGALLERY_GLOBALS;
 
 		$items = $this->getItems();
-		if ( $items !== false )
-		{
+		if ($items !== false) {
 			$altContent = "\n";
-			foreach ($items as $item)
-			{
+			foreach ($items as $item) {
 				$image = new flgalleryImage($item);
 				$thumbnail = $image->resized(array('height' => 120), true);
 
@@ -623,26 +564,24 @@ class flgalleryGallery extends flgalleryBaseClass
 
 				$altContent .= "\t\t<li style=\"display:inline;\"><a href=\"{$plugin->imgURL}/{$item->path}\"><img src=\"{$thumbnail}\" alt=\"{$item->title}\" /></a>{$item->description}</li>\n";
 			}
-			$altContent = '<div class="flgallery-altcontent"><ol style="list-style:none;">'.$altContent."\t</ol></div>";
-		}
-		else
-		{
+			$altContent = '<div class="flgallery-altcontent"><ol style="list-style:none;">' . $altContent . "\t</ol></div>";
+		} else {
 			$altContent = '<a class="flgallery-altcontent" href="http://www.adobe.com/go/getflashplayer" rel="nofollow"><img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash player" /></a>';
 		}
 
 		if (file_exists($this->xmlFilePath)) {
 			$xmlFile = $this->xmlFileURL;
 		} else {
-			$xmlFile = admin_url('admin-ajax.php')."?action=flgalleryXml&gallery_id={$this->id}&blog_id={$plugin->blogID}";
+			$xmlFile = admin_url('admin-ajax.php') . "?action=flgalleryXml&gallery_id={$this->id}&blog_id={$plugin->blogID}";
 		}
 
 		$flash = $func->flash(
-			$plugin->name.'-'.$this->id,	// id
-			$this->getSwf(),				// url
-			$this->width,					// dimensions
+			$plugin->name . '-' . $this->id,    // id
+			$this->getSwf(),                // url
+			$this->width,                    // dimensions
 			$this->height,
 			array(
-				'flashVars' => 'XMLFile='.rawurlencode($xmlFile),
+				'flashVars' => 'XMLFile=' . rawurlencode($xmlFile),
 				'allowFullScreen' => 'true',
 				'allowScriptAccess' => 'always',
 				'quality' => 'high',
@@ -664,17 +603,21 @@ class flgalleryGallery extends flgalleryBaseClass
 		$this->getSettings();
 		if (isset($this->settings['background.transparent']) && $this->settings['background.transparent'] == 'false') {
 			$background = '';
-			if ( !empty($this->settings['background.color']) )
+
+			if (!empty($this->settings['background.color'])) {
 				$background .= " #{$this->settings['background.color']}";
+			}
 
-			if ( !empty($this->settings['background.image']) )
+			if (!empty($this->settings['background.image'])) {
 				$background .= " url({$this->settings['background.image']}) no-repeat center";
+			}
 
-			if ( !empty($background) )
+			if (!empty($background)) {
 				$style .= " background:{$background};";
+			}
 		}
 
-		$html = '<div class="flgallery-'.$this->id.' flgallery-'.strtolower($this->type).' flgallery-embed" style="'.$style.'">'.$flash.$altgallery.'</div>';
+		$html = '<div class="flgallery-' . $this->id . ' flgallery-' . strtolower($this->type) . ' flgallery-embed" style="' . $style . '">' . $flash . $altgallery . '</div>';
 
 		$html = preg_replace('/[\r\n\s\t]+/', ' ', $html);
 		$html = preg_replace('/\s*([<>])\s*/', '$1', $html);
@@ -684,8 +627,7 @@ class flgalleryGallery extends flgalleryBaseClass
 
 	function getXml()
 	{
-		if ($this->id)
-		{
+		if ($this->id) {
 			include FLGALLERY_GLOBALS;
 
 			$plugin->lastGalleryType = $this->type;
@@ -702,44 +644,43 @@ class flgalleryGallery extends flgalleryBaseClass
 				WHERE `gallery_id` = '{$this->id}'
 				ORDER BY `order`
 			");
-			if ($images !== false)
-			{
+			if ($images !== false) {
 				$a = $this->getSettings();
 				$a['loader'] = 'true';
 				$a['items'] = '';
 
-				if ( $this->type == 'PhotoFlow' && $a['colorScheme'] == 'custom' )
+				if ($this->type == 'PhotoFlow' && $a['colorScheme'] == 'custom') {
 					$a['custom'] = 'true';
+				}
 
-				if ( $this->type == 'Zen' && $a['initialState'] == 'Show Albums' )
+				if ($this->type == 'Zen' && $a['initialState'] == 'Show Albums') {
 					$a['multipleAlbums'] = true;
+				}
 
 				$maxImageWidth = 2880;
 				$maxImageHeight = $this->type == 'PhotoFlow' ? 1440 : 2880;
 
 				$thumbSize = $this->getThumbSize();
 
-				if ($thumbSize['width'] >= $thumbSize['height'])
+				if ($thumbSize['width'] >= $thumbSize['height']) {
 					$thumbSize['height'] = 0;
-				else
+				} else {
 					$thumbSize['width'] = 0;
+				}
 
 				$thumbSize['width'] *= 2;
 				$thumbSize['height'] *= 2;
 
-				foreach ($images as $img)
-				{
+				foreach ($images as $img) {
 					if (strpos($img->path, '/') === 0) {
-						$img->source = FLGALLERY_SITE_URL.$img->path;
-					}
-					else {
-						$img->source = $plugin->imgURL.'/'.$img->path;
+						$img->source = FLGALLERY_SITE_URL . $img->path;
+					} else {
+						$img->source = $plugin->imgURL . '/' . $img->path;
 					}
 
 					$img->thumbnail = $img->source;
 
-					if ( !$plugin->stats->deadline() )
-					{
+					if (!$plugin->stats->deadline()) {
 						$image = new flgalleryImage($img);
 
 						$size = $image->scale('fill',
@@ -757,24 +698,20 @@ class flgalleryGallery extends flgalleryBaseClass
 							$img->source = $image->resized($size, true, true);
 						}
 
-						if (($thumbSize['width'] || $thumbSize['height']) && ($thumbSize['width'] < $img->width && $thumbSize['height'] < $img->height))
-						{
+						if (($thumbSize['width'] || $thumbSize['height']) && ($thumbSize['width'] < $img->width && $thumbSize['height'] < $img->height)) {
 							$thumbnail = $image->resized($thumbSize, true, true);
 							$img->thumbnail = empty($thumbnail) ? $img->source : $thumbnail;
 						}
 					}
 
-					if ( !empty($img->description) )
-					{
-						$description = ( !empty($img->title) ? rtrim($img->title, '. ') . '. ' : '' ) . $img->description;
-					}
-					else
-					{
-						if ( !empty($img->title) )
+					if (!empty($img->description)) {
+						$description = (!empty($img->title) ? rtrim($img->title, '. ') . '. ' : '') . $img->description;
+					} else {
+						if (!empty($img->title)) {
 							$description = $img->title;
-						else
+						} else {
 							$description = '';
-							//$description = $func->filenameToTitle($img->name);
+						}
 					}
 
 					if (
@@ -793,17 +730,16 @@ class flgalleryGallery extends flgalleryBaseClass
 						'target' => esc_html($img->target)
 					);
 
-					if ( !empty($a['multipleAlbums']) )
+					if (!empty($a['multipleAlbums'])) {
 						$albumItems[$img->album_id] .= $plugin->tpl->parse($itemTemplate, $item);
-					else
+					} else {
 						$a['items'] .= $plugin->tpl->parse($itemTemplate, $item);
+					}
 				}
 
-				if ( !empty($a['multipleAlbums']) )
-				{
+				if (!empty($a['multipleAlbums'])) {
 					$a['albums'] = '';
-					foreach ( $albumItems as $album_id => $items )
-					{
+					foreach ($albumItems as $album_id => $items) {
 						$description = $wpdb->get_var("
 							SELECT `title`
 							FROM `{$plugin->dbAlbums}`
@@ -812,8 +748,8 @@ class flgalleryGallery extends flgalleryBaseClass
 
 						$a['albums'] .= $plugin->tpl->parse($albumTemplate, array(
 							'icon' => '',
-							'thumbnailsFolder' => esc_html($plugin->imgURL.'/'),
-							'imagesFolder' => esc_html($plugin->imgURL.'/'),
+							'thumbnailsFolder' => esc_html($plugin->imgURL . '/'),
+							'imagesFolder' => esc_html($plugin->imgURL . '/'),
 							'description' => esc_html($description),
 							'items' => $items
 						));
@@ -836,14 +772,12 @@ class flgalleryGallery extends flgalleryBaseClass
 
 	function getThumbSize()
 	{
-		switch ($this->type)
-		{
+		switch ($this->type) {
 			case 'Art':
 				if ($this->settings['preview.usePreview'] == 'true') {
 					$width = $this->settings['preview.width'];
 					$height = $this->settings['preview.height'];
-				}
-				else {
+				} else {
 					$width = $this->settings['thumbnail.width'];
 					$height = $this->settings['thumbnail.height'];
 				}
@@ -880,8 +814,9 @@ class flgalleryGallery extends flgalleryBaseClass
 
 	function getSignature()
 	{
-		if ( empty($this->signature) )
+		if (empty($this->signature)) {
 			$this->signature = md5("{$this->type}.swf");
+		}
 
 		return $this->signature;
 	}
@@ -895,16 +830,13 @@ class flgalleryGallery extends flgalleryBaseClass
 
 	function cacheXml($xml)
 	{
-		if ($this->id)
-		{
+		if ($this->id) {
 			$xmlDir = dirname($this->xmlFilePath);
-			if ( !file_exists($xmlDir) )
-			{
+			if (!file_exists($xmlDir)) {
 				mkdir($xmlDir, 0777, true);
 			}
 
-			if ( $fp = fopen($this->xmlFilePath, 'w') )
-			{
+			if ($fp = fopen($this->xmlFilePath, 'w')) {
 				$w = fwrite($fp, $xml);
 				fclose($fp);
 				return $w;
@@ -915,14 +847,11 @@ class flgalleryGallery extends flgalleryBaseClass
 
 	function clearXmlCache()
 	{
-		if ($this->id)
-		{
-			if ( file_exists($this->xmlFilePath) )
+		if ($this->id) {
+			if (file_exists($this->xmlFilePath)) {
 				return unlink($this->xmlFilePath);
+			}
 		}
 		return false;
 	}
-
 }
-
-?>

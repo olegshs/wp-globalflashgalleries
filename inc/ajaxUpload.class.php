@@ -33,8 +33,6 @@ class flgalleryAjaxUpload
 		$extension_whitelist = array("jpg", "gif", "png");	// Allowed file extensions
 
 		$MAX_FILENAME_LENGTH = 260;
-		$file_name = "";
-		$file_extension = "";
 		$uploadErrors = array(
 				0 => "There is no error, the file uploaded with success",
 				1 => "The uploaded file exceeds the upload_max_filesize directive in php.ini",
@@ -66,6 +64,7 @@ class flgalleryAjaxUpload
 
 		// Validate file name (for our purposes we'll just remove invalid characters)
 		$file_name = basename($_FILES[$upload_name]['name']);
+		$file_name = sanitize_file_name($file_name);
 		if (strlen($file_name) == 0 || strlen($file_name) > $MAX_FILENAME_LENGTH) {
 			$this->error("Invalid file name");
 		}

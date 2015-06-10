@@ -8,7 +8,7 @@
 <?php
 
 $albums = $wpdb->get_results("
-	SELECT *
+	SELECT `id`, `title`
 	FROM `{$plugin->dbAlbums}`
 	ORDER BY `title` ASC
 ");
@@ -28,9 +28,8 @@ $albums = $wpdb->get_results("
 		$imagesCount = (int)$wpdb->get_var("
 			SELECT COUNT(*)
 			FROM `{$plugin->dbImages}`
-			WHERE
-				`album_id` = '{$album->id}' AND
-				`gallery_id` = 0
+			WHERE `album_id` = '{$album->id}'
+			AND `gallery_id` = 0
 			ORDER BY `order` ASC
 		");
 

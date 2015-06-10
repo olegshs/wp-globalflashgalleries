@@ -301,9 +301,7 @@ class flgalleryAdminPage extends flgalleryBaseClass
 		$itemsCount = (int)$wpdb->get_var("
 			SELECT COUNT(*)
 			FROM `{$plugin->dbGalleries}`
-			WHERE
-				`author` = '{$plugin->userID}' OR
-				{$plugin->userLevel} >= 5
+			WHERE (`author` = '{$plugin->userID}' OR {$plugin->userLevel} >= 5)
 		");
 		$itemsPerPage = 10;
 		$pagesCount = ceil($itemsCount / $itemsPerPage);
@@ -314,9 +312,7 @@ class flgalleryAdminPage extends flgalleryBaseClass
 		$query = "
 			SELECT `id`, `author`
 			FROM `{$plugin->dbGalleries}`
-			WHERE
-				`author` = '{$plugin->userID}' OR
-				{$plugin->userLevel} >= 5
+			WHERE (`author` = '{$plugin->userID}' OR {$plugin->userLevel} >= 5)
 			ORDER BY `order` DESC, `created` DESC
 			LIMIT {$limit}, {$itemsPerPage}
 		";

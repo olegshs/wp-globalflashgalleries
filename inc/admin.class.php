@@ -187,54 +187,49 @@ class flgalleryAdmin extends flgalleryBaseClass
 				break;
 
 			case 'changeGalleryOptions':
-				if ( !empty($_POST['OK']) || !empty($_POST['update']) || !empty($_POST['exportXML']) )
-				{
+				if (!empty($_POST['OK']) || !empty($_POST['update']) || !empty($_POST['exportXML'])) {
 					$gallery_type = $gallery->type;
 					$typeChanged = false;
 
-					if ( !empty($_POST['gallery']) )
-					{
-						foreach ($_POST['gallery'] as $key => $value)
-						{
-							if (isset($gallery->$key)) {
-								$gallery->$key = stripslashes($value);
-							}
-						}
+					if (!empty($_POST['gallery'])) {
+						$gallery->name = sanitize_text_field(stripslashes($_POST['gallery']['name']));
+						$gallery->type = sanitize_text_field(stripslashes($_POST['gallery']['type']));
+						$gallery->width = (int)$_POST['gallery']['width'];
+						$gallery->height = (int)$_POST['gallery']['height'];
+
 						$gallery->save();
-						if ( $_POST['gallery']['type'] != $gallery_type ) {
+
+						if ($gallery->type != $gallery_type) {
 							$typeChanged = true;
 						}
 					}
 
-					if ( !empty($_POST['settings']) && !$typeChanged )
-					{
+					if (!empty($_POST['settings']) && !$typeChanged) {
 						$gallery->getSettings();
-						foreach ($gallery->settingsInfo as $key => $param)
-						{
-							if ( isset($_POST['settings'][$key]) ) {
-								$gallery->settings[$key] = trim(stripslashes($_POST['settings'][$key]));
+
+						foreach ($gallery->settingsInfo as $key => $param) {
+							if (isset($_POST['settings'][$key])) {
+								$gallery->settings[$key] = sanitize_text_field(stripslashes($_POST['settings'][$key]));
 							} else {
 								$paramInputAtt = $param->input->attributes();
-								if ( (string)$paramInputAtt->type == 'checkbox' )
-								{
-									$values = explode( '|', (string)$paramInputAtt->value );
+								if ((string)$paramInputAtt->type == 'checkbox') {
+									$values = explode('|', (string)$paramInputAtt->value);
 									$gallery->settings[$key] = trim($values[1]);
 								}
 							}
 						}
+
 						$gallery->saveSettings();
 					}
 
-					if ( !empty($_POST['update']) )
-					{
+					if (!empty($_POST['update'])) {
 						$admpage->head('Gallery Options', 'gallery-options');
 						$func->locationReset("&action=galleryOptions&gallery_id={$gallery->id}");
 						$admpage->galleryOptions($gallery);
 						break;
 					}
 
-					if ( !empty($_POST['exportXML']) )
-					{
+					if (!empty($_POST['exportXML'])) {
 						$admpage->manageGalleries();
 						$xmlUrl = admin_url('admin-ajax.php')."?action=flgalleryXml&gallery_id={$gallery->id}&blog_id={$plugin->blogID}&download";
 						$func->redirect($xmlUrl);
@@ -242,8 +237,7 @@ class flgalleryAdmin extends flgalleryBaseClass
 					}
 				}
 
-				if ( !empty($_POST['resetOptions']) )
-				{
+				if (!empty($_POST['resetOptions'])) {
 					$gallery->resetSettings();
 
 					$admpage->head('Gallery Options', 'gallery-options');
@@ -274,11 +268,11 @@ class flgalleryAdmin extends flgalleryBaseClass
 					$image_id = (int)$_POST['image_id'];
 					$applyToCopies = !empty($_POST['applyToCopies']);
 					$data = array(
-						'name' => stripslashes($_POST['image']['name']),
-						'title' => stripslashes($_POST['image']['title']),
-						'description' => stripslashes($_POST['image']['description']),
-						'link' => stripslashes($_POST['image']['link']),
-						'target' => stripslashes($_POST['image']['target'])
+						'name' => sanitize_file_name(stripslashes($_POST['image']['name'])),
+						'title' => sanitize_text_field(stripslashes($_POST['image']['title'])),
+						'description' => sanitize_text_field(stripslashes($_POST['image']['description'])),
+						'link' => sanitize_text_field(stripslashes($_POST['image']['link'])),
+						'target' => sanitize_text_field(stripslashes($_POST['image']['target']))
 					);
 					if ( $media->saveImage($image_id, $data, $applyToCopies) ) {
 						$gallery->save();
@@ -479,8 +473,7 @@ class flgalleryAdmin extends flgalleryBaseClass
 			$order = $wpdb->get_var("
 				SELECT {$max}(`order`)
 				FROM `{$plugin->dbImages}`
-				WHERE
-					`gallery_id` = '{$gallery_id}'
+				WHERE `gallery_id` = '{$gallery_id}'
 			");
 			if ( $order === false )
 			{
@@ -533,6 +526,8 @@ class flgalleryAdmin extends flgalleryBaseClass
 	{
 		include FLGALLERY_GLOBALS;
 
+		$image_id = (int)$image_id;
+
 		$image = $wpdb->get_row("
 			SELECT `type`, `name`, `path`
 			FROM `{$plugin->dbImages}`
@@ -568,26 +563,26 @@ class flgalleryAdmin extends flgalleryBaseClass
 	{
 		include FLGALLERY_GLOBALS;
 
+		$image_id = (int)$image_id;
+
 		$image = $wpdb->get_row("
 			SELECT *
 			FROM `{$plugin->dbImages}`
 			WHERE `id` = '{$image_id}'
 		");
-		if ($image)
-		{
+		if ($image) {
 			$res = $wpdb->query("
 				DELETE FROM `{$plugin->dbImages}`
 				WHERE `id` = '{$image_id}'
 			");
-			if ($res !== false)
-			{
-				$copies = $wpdb->get_results("
+			if ($res !== false) {
+				$copies = $wpdb->get_results($wpdb->prepare("
 					SELECT *
 					FROM `{$plugin->dbImages}`
-					WHERE `path` = '{$image->path}'
-				");
-				if ( $copies !== false && count($copies) == 0 )
-				{
+					WHERE `path` = %s
+				", $image->path));
+
+				if ($copies !== false && count($copies) == 0) {
 					preg_match('/(.*)(\..*)/', $image->path, $fname);
 
 					if (strpos($image->path, '/') === 0) {
@@ -601,14 +596,15 @@ class flgalleryAdmin extends flgalleryBaseClass
 					$func->recurse($plugin->tmpDir, '#^img-'.preg_quote($fname[1]).'\..+#i', 'unlink');
 				}
 
-				if ($gallery)
+				if ($gallery) {
 					$gallery->save();
-			}
-			else
+				}
+			} else {
 				return false;
-		}
-		else
+			}
+		} else {
 			return false;
+		}
 
 		return $image->id;
 	}

@@ -74,7 +74,7 @@ class flgalleryWidget extends WP_Widget
 			<select class="widefat" id="<?php echo $this->get_field_id('gallery'); ?>" name="<?php echo $this->get_field_name('gallery'); ?>">
 <?php
 				$galleries = $wpdb->get_results("
-					SELECT *
+					SELECT `id`, `name`
 					FROM `{$plugin->dbGalleries}`
 				");
 				foreach ($galleries as $gallery)
