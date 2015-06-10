@@ -26,10 +26,3 @@ define('FLGALLERY_TEMP', 'tmp');                    // temporary files
 
 // Settings
 define('flgallery_defaultImageQuality', 85);        // JPEG quality of resized images
-
-// PHP version
-if (version_compare(PHP_VERSION, '5.1', '>=')) {
-	define('FLGALLERY_PHP5', true);
-} else {
-	define('FLGALLERY_PHP4', true);
-}

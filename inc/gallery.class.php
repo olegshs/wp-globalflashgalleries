@@ -286,16 +286,7 @@ class flgalleryGallery extends flgalleryBaseClass
 		if (empty($plugin->galleryInfo[$this->type]['settings'])) {
 			$settingsDir = $this->isLegacy() ? 'settings.legacy' : 'settings';
 
-			if (defined('FLGALLERY_PHP5')) {
-				// PHP 5
-				$settings = simplexml_load_file(FLGALLERY_PLUGIN_DIR . "/{$settingsDir}/{$this->type}.xml");
-			} else {
-				// PHP 4
-				require_once FLGALLERY_INCLUDE . '/simplexml.class.php';
-				$simplexml = new simplexml();
-				$settings = $simplexml->xml_load_file(FLGALLERY_PLUGIN_DIR . "/{$settingsDir}/{$this->type}.xml");
-			}
-
+			$settings = simplexml_load_file(FLGALLERY_PLUGIN_DIR . "/{$settingsDir}/{$this->type}.xml");
 			$plugin->galleryInfo[$this->type]['settings'] = $settings;
 		}
 
@@ -321,15 +312,7 @@ class flgalleryGallery extends flgalleryBaseClass
 				$settingsXml = $this->getSettingsXml();
 
 				if (!empty($settingsXml->group)) {
-					if (defined('FLGALLERY_PHP5')) {
-						$groups =& $settingsXml->group;
-					} else {
-						if (!is_array($settingsXml->group)) {
-							$groups = array($settingsXml->group);
-						} else {
-							$groups = $settingsXml->group;
-						}
-					}
+					$groups =& $settingsXml->group;
 
 					foreach ($groups as $group) {
 						$groupAtt = $group->attributes();
@@ -360,15 +343,7 @@ class flgalleryGallery extends flgalleryBaseClass
 				}
 
 				if (!empty($settingsXml->param)) {
-					if (defined('FLGALLERY_PHP5')) {
-						$params =& $settingsXml->param;
-					} else {
-						if (!is_array($settingsXml->param)) {
-							$params = array($settingsXml->param);
-						} else {
-							$params = $settingsXml->param;
-						}
-					}
+					$params =& $settingsXml->param;
 
 					foreach ($params as $param) {
 						if (is_object($param)) {

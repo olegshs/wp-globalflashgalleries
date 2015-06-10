@@ -161,15 +161,7 @@ class flgalleryPlugin extends flgalleryBaseClass
 
 	function initGalleryInfo()
 	{
-		if (defined('FLGALLERY_PHP5')) {
-			// PHP 5
-			$galleries = simplexml_load_file(FLGALLERY_PLUGIN_DIR . '/galleries.xml');
-		} else {
-			// PHP 4
-			require_once FLGALLERY_INCLUDE . '/simplexml.class.php';
-			$simplexml = new simplexml();
-			$galleries = $simplexml->xml_load_file(FLGALLERY_PLUGIN_DIR . '/galleries.xml');
-		}
+		$galleries = simplexml_load_file(FLGALLERY_PLUGIN_DIR . '/galleries.xml');
 
 		foreach ($galleries->gallery as $gallery) {
 			$galleryAtt = $gallery->attributes();
@@ -177,11 +169,11 @@ class flgalleryPlugin extends flgalleryBaseClass
 			$galleryDemoAtt = $gallery->demo->attributes();
 
 			$this->galleryInfo[(string)$galleryAtt->name] = array(
-				'src' => (string)$galleryAtt->src,
+				'src' => esc_html((string)$galleryAtt->src),
 				'title' => esc_html((string)$gallery->title),
 				'description' => esc_html((string)$gallery->description),
-				'preview' => urlencode((string)$galleryPreviewAtt->src),
-				'demo' => urlencode((string)$galleryDemoAtt->href)
+				'preview' => esc_html((string)$galleryPreviewAtt->src),
+				'demo' => esc_html((string)$galleryDemoAtt->href)
 			);
 		}
 
