@@ -27,7 +27,11 @@ function stdUpload_cancel(element) {
 		var id = parseInt(element.id.match(/\d+/));
 
 		document.getElementById('stdUpload_title-id-' + id).value =
-			(element.value.match(/^(.*[\/\\]|)(.*)\.(.*?)$/)[2]).replace(/[_-]/g, ' ').replace(/\s+/g, ' ').replace(/^\s\s*/, '').replace(/\s\s*$/, '');
+			(element.value.match(/^(.*[\/\\]|)(.*)\.(.*?)$/)[2])
+				.replace(/[_-]/g, ' ')
+				.replace(/\s+/g, ' ')
+				.replace(/^\s\s*/, '')
+				.replace(/\s\s*$/, '');
 
 		if (changedItems[id] == undefined) {
 			changedItems[id] = true;
