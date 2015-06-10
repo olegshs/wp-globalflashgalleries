@@ -48,14 +48,14 @@ class flgalleryWidget extends WP_Widget
 
 	function update($new_instance, $old_instance)
 	{
-		if (empty($new_instance['text'])) {
+		if (!strlen($new_instance['text'])) {
 			$new_instance['text'] = __('To view the gallery in a popup window, #click here#.');
 		}
 
 		return $new_instance;
 	}
 
-	function form( $instance )
+	function form($instance)
 	{
 		include FLGALLERY_GLOBALS;
 
