@@ -582,7 +582,7 @@ class flgalleryGallery extends flgalleryBaseClass
 
 		$altgallery = $tpl->parse('altgallery', array_merge(get_object_vars($this), array(
 			'pluginURL' => $plugin->url,
-			'xmlFile' => $xmlFile
+			'xmlFile' => $this->xmlFileURL
 		)));
 
 		$style = "width: {$this->width}px; height: {$this->height}px; overflow: hidden;";

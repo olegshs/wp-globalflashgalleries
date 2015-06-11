@@ -12,10 +12,14 @@ class flgalleryGalleryPopup
 		}
 
 		$gallery = new flgalleryGallery($gallery_id);
+
+		if (!file_exists($gallery->xmlFilePath)) {
+			$gallery->getXml();
+		}
+
 		$gallery->width = '100%';
 		$gallery->height = '100%';
 
-		$swfURL = $gallery->getSwf();
 		if (empty($_REQUEST['frontend']) && empty($flgalleryProducts[$gallery->getSignature()])) {
 			$trialNotice = sprintf(
 				__('Order the full version of %s to make it possible to display more than %d&nbsp;pictures.', 'flgallery'),
@@ -32,7 +36,7 @@ class flgalleryGalleryPopup
 		remove_action('wp_head', '_admin_bar_bump_cb');
 		remove_action('wp_footer', 'wp_admin_bar_render', 1000);
 		add_filter('show_admin_bar', '__return_false');
-		?>
+?>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
