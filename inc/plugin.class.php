@@ -310,11 +310,19 @@ class flgalleryPlugin extends flgalleryBaseClass
 	{
 		wp_enqueue_script('jquery');
 		wp_enqueue_script('swfobject');
+		wp_enqueue_script('altgallery', $this->getJsGalleryUrl(), array('jquery', 'swfobject'), null, true);
+	}
 
+	function getJsGalleryUrl()
+	{
 		if (function_exists('flgallery_commercial_getJS') && ($url = flgallery_commercial_getJS())) {
-			wp_enqueue_script('altgallery', $url, array('jquery', 'swfobject'), null, true);
+			$file = preg_replace('/^' . preg_quote(FLGALLERY_SITE_URL, '/') . '/', FLGALLERY_SITE_DIR, $url);
+			if (file_exists($file) && ($mtime = filemtime($file))) {
+				$url .= '?ver=' . date('Ymd', $mtime);
+			}
+			return $url;
 		} else {
-			wp_enqueue_script('altgallery', $this->jsURL . '/altgallery.js', array('jquery', 'swfobject'), FLGALLERY_JS_VERSION, true);
+			return $this->jsURL . '/altgallery.js' . '?ver=' . FLGALLERY_JS_VERSION;
 		}
 	}
 

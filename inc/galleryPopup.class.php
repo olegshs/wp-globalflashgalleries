@@ -36,8 +36,7 @@ class flgalleryGalleryPopup
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title><?php echo $gallery->name; ?></title>
-<?php wp_head(); ?>
+<title><?php echo esc_html($gallery->name); ?></title>
 <style type="text/css">
 body, * html body {
 	margin: 0 !important;
@@ -71,6 +70,9 @@ html {
 	height: 100%;
 }
 </style>
+<script type="text/javascript" src="<?php echo includes_url('js/jquery/jquery.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo includes_url('js/swfobject.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo $flgalleryPlugin->getJsGalleryUrl(); ?>"></script>
 </head>
 
 <body>
