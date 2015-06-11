@@ -219,7 +219,7 @@ jQuery(document).ready(function ($) {
 		title: 'Publish Gallery',
 		autoOpen: false,
 		modal: true,
-		width: 400,
+		width: 420,
 		resizable: false,
 		buttons: {
 			'OK': function () {
