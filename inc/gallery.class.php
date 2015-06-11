@@ -185,17 +185,23 @@ class flgalleryGallery extends flgalleryBaseClass
 				WHERE `id` = '{$this->id}' AND {$this->auth}
 			");
 			if ($res !== false) {
-				$delImages = $wpdb->query("
-					DELETE FROM `{$plugin->dbImages}`
-					WHERE `gallery_id` = '{$this->id}'
-				");
-
-				$delSettings = $wpdb->query("
+				$wpdb->query("
 					DELETE FROM `{$plugin->dbSettings}`
 					WHERE `gallery_id` = '{$this->id}'
 				");
 
-				return $delImages !== false && $delSettings !== false;
+				$images = $wpdb->get_results("
+					SELECT `id`
+					FROM `{$plugin->dbImages}`
+					WHERE `gallery_id` = '{$this->id}'
+				");
+				if ($images !== false) {
+					foreach ($images as $image) {
+						$media->deleteImage($image->id);
+					}
+				}
+
+				return true;
 			} else {
 				$this->error(sprintf(__('Unable to delete Gallery #%s (DB Error: %s)', $plugin->name), $this->id, $wpdb->last_error));
 				$this->debug("SQL: {$wpdb->last_query}", array('Error', $this->errorN));
