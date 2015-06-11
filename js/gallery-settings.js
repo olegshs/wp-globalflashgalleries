@@ -153,7 +153,7 @@
 
 			$('#flash-preview').resizable({
 				autoHide: true,
-				alsoResize: '#flash-preview .inside2',
+				alsoResize: '#flash-preview .flgallery-embed',
 				handles: 'e, se, s, sw, w',
 				start: function (event, ui) {
 					resizeDeltaX = ui.size.width - $('#gallery\\.width').val();
