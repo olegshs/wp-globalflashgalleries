@@ -216,6 +216,7 @@ jQuery(document).ready(function ($) {
 	);
 
 	$('.flgallery .publishDialog').dialog({
+		dialogClass: 'flgallery-dialog',
 		title: 'Publish Gallery',
 		autoOpen: false,
 		modal: true,
@@ -230,6 +231,7 @@ jQuery(document).ready(function ($) {
 
 
 	$('.flgallery .selectPictures').dialog({
+		dialogClass: 'flgallery-dialog',
 		title: 'Select Pictures',
 		autoOpen: false,
 		modal: true,

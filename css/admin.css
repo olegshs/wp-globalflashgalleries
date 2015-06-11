@@ -6,11 +6,14 @@ body.wait * {
     position: fixed;
     z-index: 99;
 }
-.ui-dialog {
+.flgallery-dialog .ui-dialog {
     z-index: 100;
 }
-.ui-dialog-titlebar .ui-button-text {
+.flgallery-dialog .ui-dialog-titlebar .ui-button-text {
 	display: none !important;
+}
+.flgallery-dialog .ui-dialog-buttonpane {
+	text-align: right;
 }
 
 .flgallery {
