@@ -4,7 +4,7 @@ class flgalleryGalleryPopup
 {
 	function render()
 	{
-		global $flgalleryPlugin;
+		global $flgalleryPlugin, $flgalleryProducts;
 
 		$gallery_id = (int)$_REQUEST['gallery_id'];
 		if (empty($gallery_id)) {
