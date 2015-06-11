@@ -575,7 +575,7 @@ class flgalleryAdmin extends flgalleryBaseClass
 					}
 
 					// Delete thumbnails
-					$func->recurse($plugin->tmpDir, '#^img-' . preg_quote($fname[1]) . '\..+#i', 'unlink');
+					$func->recurse($plugin->tmpDir, '#^img-' . preg_quote($fname[1], '#') . '\..+#i', 'unlink');
 				}
 
 				if ($gallery) {

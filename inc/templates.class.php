@@ -83,7 +83,7 @@ class flgalleryTemplates extends flgalleryBaseClass
 
 	function _fast($text, &$a, &$tags, &$cache)
 	{
-		$qtags = array(preg_quote($tags[0]), preg_quote($tags[1]));
+		$qtags = array(preg_quote($tags[0], '#'), preg_quote($tags[1], '#'));
 
 		/*
 			{TRUE var} ... {/TRUE}

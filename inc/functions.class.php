@@ -14,9 +14,9 @@ class flgalleryFunctions extends flgalleryBaseClass
 	function url($path, $plugin = false)
 	{
 		if ($plugin) {
-			$path = preg_replace('/^' . $this->preg_pluginDir . '[\\/\\\\]*(.*)$/', FLGALLERY_PLUGIN_URL . '/$1', str_replace('\\', '/', $path));
+			$path = preg_replace('/^' . $this->preg_pluginDir . '[\\/\\\\]*/', FLGALLERY_PLUGIN_URL . '/', str_replace('\\', '/', $path));
 		} else {
-			$path = preg_replace('/^' . $this->preg_siteDir . '[\\/\\\\]*(.*)$/', FLGALLERY_SITE_URL . '/$1', str_replace('\\', '/', $path));
+			$path = preg_replace('/^' . $this->preg_siteDir . '[\\/\\\\]*/', FLGALLERY_SITE_URL . '/', str_replace('\\', '/', $path));
 		}
 
 		return $path;

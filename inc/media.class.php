@@ -809,8 +809,8 @@ class flgalleryMedia extends flgalleryBaseClass
 		$a['pluginURL'] = $plugin->url;
 		$a['jsURL'] = $plugin->jsURL;
 		$a['href'] = $admpage->href;
-		$a['uploadsPath'] = preg_replace('#^' . preg_quote(FLGALLERY_SITE_URL) . '/(.*)#', '$1', $plugin->uploadsURL) . '/' . $upload_id;
-		$a['contentPath'] = preg_replace('#^' . preg_quote(FLGALLERY_CONTENT_URL) . '/(.*)#', '$1', $plugin->uploadsURL) . '/' . $upload_id;
+		$a['uploadsPath'] = preg_replace('#^' . preg_quote(FLGALLERY_SITE_URL, '#') . '/#', '', $plugin->uploadsURL) . '/' . $upload_id;
+		$a['contentPath'] = preg_replace('#^' . preg_quote(FLGALLERY_CONTENT_URL, '#') . '/#', '', $plugin->uploadsURL) . '/' . $upload_id;
 		$a['auth_cookie'] = is_ssl() ? $_COOKIE[SECURE_AUTH_COOKIE] : $_COOKIE[AUTH_COOKIE];
 		$a['file_size_limit'] = wp_max_upload_size() . 'b';
 
@@ -900,7 +900,7 @@ class flgalleryMedia extends flgalleryBaseClass
 		$startText = 'Import';
 
 		$a['jsURL'] = $plugin->jsURL;
-		$a['uploadsPath'] = preg_replace('#^' . preg_quote(FLGALLERY_SITE_URL) . '/(.*)#', '$1', $plugin->uploadsURL);
+		$a['uploadsPath'] = preg_replace('#^' . preg_quote(FLGALLERY_SITE_URL, '#') . '/#', '', $plugin->uploadsURL);
 		$a['href'] = $admpage->href;
 
 		$out = $tpl->parse('media/add-directory', $a);
@@ -1063,7 +1063,7 @@ class flgalleryMedia extends flgalleryBaseClass
 				}
 			}
 
-			$importFolder_path = preg_replace('#^' . preg_quote(ABSPATH) . '(.*)#', '$1', $plugin->uploadsDir);
+			$importFolder_path = preg_replace('#^' . preg_quote(ABSPATH, '#') . '#', '', $plugin->uploadsDir);
 			$importFolder_delete = true;
 		}
 
