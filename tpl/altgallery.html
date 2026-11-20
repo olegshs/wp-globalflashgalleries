@@ -1,34 +1,43 @@
 <script type="text/javascript">
-jQuery(document).ready(function($) {
-	if (!swfobject.hasFlashPlayerVersion('9.0.45.0')) {
-		altgallery({
-			type: '{type}',
-			width: '{width}',
-			height: '{height}',
-			images: { folder: '{pluginURL}/img/' },
-			config: '{xmlFile}',
-			configType: 'xml',
-			fullscreen: 'never',
-			callback: function(gallery) {
-				var container = gallery.canvas.element.parents('.flgallery-embed');
-				var parent = container.parent();
-				var initialWidth = container.width();
-				var prevWidth;
-				container.css({
-					width: '',
-					height: ''
-				});
-				function scale() {
-					var parentWidth = parent.width();
-					if (parentWidth != prevWidth) {
-						gallery.canvas.scale(parentWidth / initialWidth);
-						prevWidth = parentWidth;
-					}
-				}
-				scale();
-				$(window).resize(scale);
+(function () {
+	function init() {
+		if (typeof window.altgallery != 'function') {
+			return;
+		}
+		var options = {options};
+		options.callback = function (gallery) {
+			var $ = jQuery;
+			if (/%$/.test(options.width)) {
+				return;
 			}
-		}, '#flgallery-{id} .flgallery-altcontent');
+			var container = gallery.canvas.element.parents('.flgallery-embed').first();
+			var initialWidth = gallery.canvas.width();
+			var initialHeight = gallery.canvas.height();
+			var prevScale = 1;
+			if (!(initialWidth > 0 && initialHeight > 0)) {
+				return;
+			}
+			function scale() {
+				container.css('width', '');
+				var k = Math.min(1, container.width() / initialWidth);
+				if (k > 0 && Math.abs(k - prevScale) > 0.001) {
+					gallery.canvas.scale(k);
+					prevScale = k;
+				}
+				container.css({
+					width: Math.round(initialWidth * prevScale) + 'px',
+					height: Math.round(initialHeight * prevScale) + 'px'
+				});
+			}
+			scale();
+			$(window).on('resize', scale);
+		};
+		altgallery(options, {selector});
 	}
-});
+	if (document.readyState == 'loading') {
+		document.addEventListener('DOMContentLoaded', init);
+	} else {
+		init();
+	}
+})();
 </script>

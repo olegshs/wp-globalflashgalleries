@@ -1,0 +1,31 @@
+<div class="addmedia-html5upload" id="html5Upload"
+	data-ajax-url="{ajaxURL}"
+	data-nonce="{nonce}"
+	data-upload-id="{upload_id}"
+	data-max-file-size="{max_file_size}">
+
+	<input type="hidden" name="html5Upload_id" value="{upload_id}" />
+
+	<div class="select-files">
+		<label class="button button-hero" for="html5Upload_files">Select Files&hellip;</label>
+		<input type="file" class="screen-reader-text" id="html5Upload_files" accept=".jpg,.jpeg,.png,.gif,image/jpeg,image/png,image/gif" multiple="multiple" />
+		<div class="tip">You can select several pictures at once or drag and drop them here. Maximum file size is {max_file_size_text}.</div>
+	</div>
+
+	<table id="uploadQueue" cellspacing="0" style="display:none;">
+		<thead>
+			<tr>
+				<th class="name">File name</th>
+				<th class="size">Size</th>
+				<th class="progress">&nbsp;</th>
+				<th class="cancel">&nbsp;</th>
+			</tr>
+		</thead>
+		<tbody>
+		</tbody>
+	</table>
+
+	<div id="uploadStatus" style="margin:1em 0;"></div>
+</div>
+
+<script type="text/javascript" src="{jsURL}/add-html5upload.js"></script>

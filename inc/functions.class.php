@@ -4,6 +4,8 @@ class flgalleryFunctions extends flgalleryBaseClass
 {
 	var $echo = 'auto'; // auto | always | never
 	var $templates = array();
+	var $preg_pluginDir = '';
+	var $preg_siteDir = '';
 
 	function init()
 	{
@@ -160,7 +162,7 @@ class flgalleryFunctions extends flgalleryBaseClass
 						'min' => $input['min'],
 						'max' => $input['max'],
 						'step' => isset($input['step']) ? $input['step'] : 1,
-						'width' => 100
+						'width' => 150
 					)
 				);
 
@@ -197,45 +199,6 @@ class flgalleryFunctions extends flgalleryBaseClass
 
 				return $args['before'] . $this->xmlElement('input', $a);
 		}
-	}
-
-	function flash($id, $movie, $width, $height, $params = array(), $altContent = '<a href="http://www.adobe.com/go/getflashplayer" rel="nofollow">Get Adobe Flash player</a>', $echo = true)
-	{
-		include FLGALLERY_GLOBALS;
-
-		$xmlFile = '';
-
-		$paramsHTML = '';
-		$atts = '';
-		if (count($params)) {
-			foreach ($params as $name => $value) {
-				if (strcasecmp($name, 'flashVars') === 0) {
-					parse_str($value, $flashVars);
-					if (isset($flashVars['XMLFile'])) {
-						$xmlFile = $flashVars['XMLFile'];
-					}
-				}
-
-				$paramsHTML .= "\n\t<param name=\"{$name}\" value=\"{$value}\" />";
-				$atts .= "\n\t\t{$name}=\"{$value}\"";
-			}
-		}
-
-		return
-			$tpl->t('flash',
-				array(
-					'id' => $id,
-					'movie' => $movie,
-					'width' => $width,
-					'height' => $height,
-					'params' => $paramsHTML,
-					'atts' => $atts,
-					'pluginURL' => $plugin->url,
-					'altContent' => $altContent,
-					'xmlFile' => $xmlFile
-				),
-				$echo
-			);
 	}
 
 	function js($script, $echo = true)
@@ -276,6 +239,8 @@ class flgalleryFunctions extends flgalleryBaseClass
 	function locationReset($queryString = '', $exit = false, $echo = true)
 	{
 		global $flgalleryErrors, $flgalleryWarnings;
+
+		$out = '';
 
 		if ((!FLGALLERY_ERRORS || empty($flgalleryErrors)) && (!FLGALLERY_WARNINGS || empty($flgalleryWarnings))) {
 			include FLGALLERY_GLOBALS;
@@ -339,8 +304,11 @@ class flgalleryFunctions extends flgalleryBaseClass
 
 	function filenameToTitle($name)
 	{
-		preg_match('/(.*)\..*$/', urldecode(basename($name)), $m);
-		return preg_replace('#[_-]+#', ' ', $m[1]);
+		$name = urldecode(basename((string)$name));
+		if (preg_match('/(.*)\..*$/', $name, $m)) {
+			$name = $m[1];
+		}
+		return preg_replace('#[_-]+#', ' ', $name);
 	}
 
 	function now()
@@ -405,7 +373,9 @@ class flgalleryFunctions extends flgalleryBaseClass
 
 	function copyFiles($source, $destDir, $destination, $move = false)
 	{
-		if (!is_array($destination)) {
+		$result = array();
+
+		if (!is_array($source)) {
 			$source = (array)$source;
 		}
 
@@ -427,13 +397,15 @@ class flgalleryFunctions extends flgalleryBaseClass
 					}
 				}
 			}
-			return $result;
 		}
+		return $result;
 	}
 
 	function copyURLs($source, $destDir, $destination)
 	{
-		if (!is_array($destination)) {
+		$result = array();
+
+		if (!is_array($source)) {
 			$source = (array)$source;
 		}
 
@@ -443,24 +415,30 @@ class flgalleryFunctions extends flgalleryBaseClass
 
 		if (count($source) && count($destination) && is_dir($destDir)) {
 			foreach ($source as $key => $url) {
-				if (get_headers($url)) {
-					$data = file_get_contents($url);
-					$destName =& $destination[$key];
-					if (file_put_contents($destDir . '/' . $destName, $data)) {
-						$result[$key] = $destName;
-					} else {
-						$result[$key] = false;
-					}
+				if (!preg_match('#^https?://#i', $url)) {
+					$url = 'http://' . $url;
+				}
+
+				$response = wp_safe_remote_get($url, array('timeout' => 30));
+				if (is_wp_error($response) || wp_remote_retrieve_response_code($response) != 200) {
+					$this->error(esc_html($url) . ' : ' . (is_wp_error($response) ? esc_html($response->get_error_message()) : 'HTTP ' . (int)wp_remote_retrieve_response_code($response)));
+					continue;
+				}
+
+				$destName = isset($destination[$key]) ? $destination[$key] : '';
+				if ($destName !== '' && file_put_contents($destDir . '/' . $destName, wp_remote_retrieve_body($response))) {
+					$result[$key] = $destName;
+				} else {
+					$result[$key] = false;
 				}
 			}
-			return $result;
 		}
+		return $result;
 	}
 
 	function fileExt($path)
 	{
-		$path_info = pathinfo($path);
-		return strtolower($path_info['extension']);
+		return strtolower((string)pathinfo((string)$path, PATHINFO_EXTENSION));
 	}
 
 	function fileMime($path)
@@ -476,9 +454,6 @@ class flgalleryFunctions extends flgalleryBaseClass
 			case 'jpg':
 			case 'jpeg':
 				return 'image/jpeg';
-
-			case 'swf':
-				return 'application/x-shockwave-flash';
 
 			default:
 				return 'application/octet-stream';
@@ -496,9 +471,6 @@ class flgalleryFunctions extends flgalleryBaseClass
 
 			case 'image/jpeg':
 				return '.jpg';
-
-			case 'application/x-shockwave-flash':
-				return '.swf';
 
 			default:
 				return '';
@@ -559,6 +531,11 @@ class flgalleryFunctions extends flgalleryBaseClass
 
 	function mToBytes($size)
 	{
+		// memory_limit = -1 means "no limit"
+		if (trim((string)$size) === '-1') {
+			return PHP_INT_MAX;
+		}
+
 		$k = array(
 			'' => 1,
 			'B' => 1,
@@ -567,7 +544,7 @@ class flgalleryFunctions extends flgalleryBaseClass
 			'G' => 1073741824,
 			'T' => 1099511627776
 		);
-		if (preg_match('/([\d\.]+)\s*([BKMGT]|)\w*/i', $size, $m)) {
+		if (preg_match('/([\d\.]+)\s*([BKMGT]|)\w*/i', (string)$size, $m)) {
 			return (float)$m[1] * $k[strtoupper($m[2])];
 		} else {
 			return $size;
@@ -584,14 +561,16 @@ class flgalleryFunctions extends flgalleryBaseClass
 			'G' => 1073741824,
 			'T' => 1099511627776
 		);
-		$u = trim($units);
-		$u = $u[0];
+		$u = strtoupper(substr(trim($units), 0, 1));
+		if (!isset($k[$u])) {
+			$u = '';
+		}
 		return round($size / $k[$u], $precision) . $units;
 	}
 
 	function bytesToK($size, $units = 'K', $precision = 0)
 	{
-		return bytesToM($size, $units, $precision);
+		return $this->bytesToM($size, $units, $precision);
 	}
 
 	function getFreeMemory()

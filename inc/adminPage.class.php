@@ -16,7 +16,6 @@ class flgalleryAdminPage extends flgalleryBaseClass
 		}
 
 		echo "\n\n<!-- begin {$plugin->name} -->\n";
-		echo "<link rel='stylesheet' type='text/css' href='{$plugin->url}/css/admin.css' />\n";
 		echo
 			'<div class="wrap">' .
 			(!empty($class) ? "<div class='{$plugin->name}'><div class='{$class}'>" : '') .
@@ -24,9 +23,9 @@ class flgalleryAdminPage extends flgalleryBaseClass
 ?>
 		<script type="text/javascript">//<![CDATA[
 			var flgallery = {
-				pluginURL: '<?php echo $plugin->url; ?>',
-				adminAjax: '<?php echo admin_url('admin-ajax.php'); ?>',
-				requestPage: '<?php if (isset($_REQUEST['page'])) echo addslashes($_REQUEST['page']); ?>'
+				pluginURL: '<?php echo esc_js($plugin->url); ?>',
+				adminAjax: '<?php echo esc_js(admin_url('admin-ajax.php')); ?>',
+				requestPage: '<?php if (isset($_REQUEST['page'])) echo esc_js(sanitize_text_field(wp_unslash($_REQUEST['page']))); ?>'
 			};
 		//]]>
 		</script>
@@ -62,7 +61,7 @@ class flgalleryAdminPage extends flgalleryBaseClass
 
 			if (is_array($a)) {
 				foreach ($a as $name => $value) {
-					$out .= "\t<input type='hidden' name='{$name}' value='{$value}' />\n";
+					$out .= "\t<input type='hidden' name='" . esc_attr($name) . "' value='" . esc_attr($value) . "' />\n";
 				}
 			}
 		}
@@ -98,7 +97,7 @@ class flgalleryAdminPage extends flgalleryBaseClass
 				'contentURL' => $plugin->contentURL,
 				'imgDir' => $plugin->imgDir,
 				'imgURL' => $plugin->imgURL,
-				'uninstall' => $this->actionButton('Uninstall Plugin', 'uninstallPlugin', NULL, 'All plugin data, galleries, images and other media will be PERMANENTLY REMOVED from server!\n\nAre you sure?'),
+				'uninstall' => $this->actionButton('Uninstall Plugin', 'uninstallPlugin', array('_wpnonce' => wp_create_nonce('flgallery-uninstall')), 'All plugin data, galleries, images and other media will be PERMANENTLY REMOVED from server!\n\nAre you sure?'),
 				'canUninstall' => current_user_can('delete_plugins')
 			)
 		);
@@ -118,7 +117,7 @@ class flgalleryAdminPage extends flgalleryBaseClass
 						</tr>
 						<tr class="even">
 							<th><?php _e('Server', $plugin->name); ?><span>:</span></th>
-							<td><?php echo $_SERVER["SERVER_SOFTWARE"]; ?></td>
+							<td><?php echo esc_html($_SERVER['SERVER_SOFTWARE'] ?? ''); ?></td>
 						</tr>
 						<tr>
 							<th><?php _e('PHP Version', $plugin->name); ?><span>:</span></th>
@@ -131,10 +130,6 @@ class flgalleryAdminPage extends flgalleryBaseClass
 						<tr>
 							<th><?php _e('SQL Mode', $plugin->name); ?><span>:</span></th>
 							<td><?php echo $sql_mode; ?></td>
-						</tr>
-						<tr class="even">
-							<th><?php _e('PHP Safe Mode', $plugin->name); ?><span>:</span></th>
-							<td><?php echo $safe_mode; ?></td>
 						</tr>
 						<tr>
 							<th><?php _e('PHP Allow URL fopen', $plugin->name); ?><span>:</span></th>
@@ -194,13 +189,6 @@ class flgalleryAdminPage extends flgalleryBaseClass
 
 		$this->head('Galleries', 'manage');
 
-		$tpl->t(
-			'manage/galleries-panel',
-			array(
-				'addNewGallery' => $admpage->actionButton(array('+ New Gallery', true), 'addNewGallery')
-			)
-		);
-
 		$this->galleriesList();
 
 		$func->js("flgallery.galleriesCount = {$this->galleriesCount};");
@@ -223,14 +211,14 @@ class flgalleryAdminPage extends flgalleryBaseClass
 <?php
 		if (!empty($data) && is_array($data)) {
 			foreach ($data as $name => $value) {
-				echo "<input type='hidden' name='{$name}' value='{$value}' />\n";
+				echo "<input type='hidden' name='" . esc_attr($name) . "' value='" . esc_attr($value) . "' />\n";
 			}
 		}
 ?>
 		<table width="100%">
 			<tr class="name field" valign="top">
 				<td class="label"><label for="galleryName"><?php _e('Name', $plugin->name); ?></label></td>
-				<td class="value" width="100%"><input type="text" id="galleryName" name="gallery[name]" value="<?php echo $a['name']; ?>" tabindex="10" /></td>
+				<td class="value" width="100%"><input type="text" id="galleryName" name="gallery[name]" value="<?php echo esc_attr($a['name']); ?>" tabindex="10" /></td>
 			</tr>
 			<tr class="type field" valign="top">
 				<td class="label"><label for="galleryType"><?php _e('Type', $plugin->name); ?></label></td>
@@ -264,7 +252,7 @@ class flgalleryAdminPage extends flgalleryBaseClass
 		</table>
 		</form>
 		<script type="text/javascript">//<![CDATA[
-			var galleryInfo = <?php echo json_encode($galleryInfo) ?>;
+			var galleryInfo = <?php echo wp_json_encode($galleryInfo) ?>;
 			jQuery(document).ready(function($) {
 				$('#galleryType').change(
 					function() {
@@ -294,8 +282,9 @@ class flgalleryAdminPage extends flgalleryBaseClass
 			WHERE (`author` = '{$plugin->userID}' OR {$plugin->userLevel} >= 5)
 		");
 		$itemsPerPage = 10;
-		$pagesCount = ceil($itemsCount / $itemsPerPage);
+		$pagesCount = max(1, (int)ceil($itemsCount / $itemsPerPage));
 		$currentPage = !empty($_GET['paged']) ? (int)$_GET['paged'] : 1;
+		$currentPage = max(1, min($pagesCount, $currentPage));
 
 		$limit = ($currentPage - 1) * $itemsPerPage;
 
@@ -308,44 +297,27 @@ class flgalleryAdminPage extends flgalleryBaseClass
 		";
 		$galleries = $wpdb->get_results($query);
 
-		if ($pagesCount > 1) {
-			$paginate = $tpl->parse('paginate', array(
-				'count' => $itemsCount,
-				'links' => paginate_links(array(
-					'base' => $this->href . '%_%', // http://example.com/all_posts.php%_% : %_% is replaced by format (below)
-					'format' => '&paged=%#%', // ?page=%#% : %#% is replaced by the page number
-					'total' => $pagesCount,
-					'current' => $currentPage,
-					'show_all' => false,
-					'prev_next' => true,
-					'prev_text' => '<big style="font-size:18px;" title="Previous Page">&larr;</big>',
-					'next_text' => '<big style="font-size:18px;" title="Next Page">&rarr;</big>',
-					'end_size' => 1,
-					'mid_size' => 2,
-					'type' => 'plain',
-					'add_args' => false, // array of query args to add
-					'add_fragment' => ''
-				))
-			));
-		}
-
-		if (!empty($paginate)) {
-			echo "<div style='margin-top:-2em;'>{$paginate}</div>";
-		}
+		$tpl->t(
+			'manage/galleries-panel',
+			array(
+				'addNewGallery' => $admpage->actionButton(array('+ New Gallery', true), 'addNewGallery'),
+				'pagination' => $pagesCount > 1 ? $this->pagination('top', $itemsCount, $pagesCount, $currentPage) : ''
+			)
+		);
 
 		if (!empty($galleries)) {
 			$galleriesHTML = '';
 			foreach ($galleries as $gal) {
 				$this->galleriesCount++;
 				$gallery = new flgalleryGallery($gal->id);
-				$gallery->typeTitle = esc_html($plugin->galleryInfo[$gallery->type]['title']);
+				$gallery->typeTitle = isset($plugin->galleryInfo[$gallery->type]) ? $plugin->galleryInfo[$gallery->type]['title'] : esc_html($gallery->type);
 				$galleriesHTML .= $this->galleryPreview($gallery, 'manage/gallery', false);
 			}
 			$tpl->t('manage/galleries-list', array('galleries' => $galleriesHTML));
 		}
 
-		if (!empty($paginate)) {
-			echo $paginate;
+		if ($pagesCount > 1) {
+			echo $this->pagination('bottom', $itemsCount, $pagesCount, $currentPage);
 		}
 ?>
 
@@ -358,6 +330,80 @@ class flgalleryAdminPage extends flgalleryBaseClass
 		}
 	}
 
+	/**
+	 * Pagination in the style of WordPress list tables (same markup as WP_List_Table::pagination(),
+	 * so it is styled by WordPress and uses its translations).
+	 *
+	 * @param string $which 'top' (with a page number input) or 'bottom'
+	 */
+	function pagination($which, $totalItems, $totalPages, $currentPage)
+	{
+		$url = function ($page) {
+			return esc_url($page > 1 ? add_query_arg('paged', $page, $this->href) : $this->href);
+		};
+		$link = function ($class, $page, $label, $symbol) use ($url) {
+			return sprintf(
+				'<a class="%s button" href="%s"><span class="screen-reader-text">%s</span><span aria-hidden="true">%s</span></a>',
+				$class, $url($page), $label, $symbol
+			);
+		};
+		$disabled = function ($symbol) {
+			return '<span class="tablenav-pages-navspan button disabled" aria-hidden="true">' . $symbol . '</span>';
+		};
+
+		$totalPagesHtml = '<span class="total-pages">' . number_format_i18n($totalPages) . '</span>';
+
+		if ($which == 'bottom') {
+			$currentPageHtml = $currentPage;
+			$pagingInput =
+				'<span class="screen-reader-text">' . __('Current Page') . '</span>' .
+				'<span id="table-paging" class="paging-input"><span class="tablenav-paging-text">' .
+					sprintf(_x('%1$s of %2$s', 'paging'), $currentPageHtml, $totalPagesHtml) .
+				'</span></span>';
+		} else {
+			$currentPageHtml = sprintf(
+				'<label for="current-page-selector" class="screen-reader-text">%s</label>' .
+				'<input class="current-page" id="current-page-selector" type="text" name="paged" value="%s" size="%d" aria-describedby="table-paging" />' .
+				'<span class="tablenav-paging-text">',
+				__('Current Page'),
+				$currentPage,
+				strlen($totalPages)
+			);
+			$pagingInput =
+				'<span class="paging-input">' .
+					sprintf(_x('%1$s of %2$s', 'paging'), $currentPageHtml, $totalPagesHtml) .
+				'</span></span>';
+		}
+
+		$links = array(
+			$currentPage > 1 ? $link('first-page', 1, __('First page'), '&laquo;') : $disabled('&laquo;'),
+			$currentPage > 1 ? $link('prev-page', $currentPage - 1, __('Previous page'), '&lsaquo;') : $disabled('&lsaquo;'),
+			$pagingInput,
+			$currentPage < $totalPages ? $link('next-page', $currentPage + 1, __('Next page'), '&rsaquo;') : $disabled('&rsaquo;'),
+			$currentPage < $totalPages ? $link('last-page', $totalPages, __('Last page'), '&raquo;') : $disabled('&raquo;'),
+		);
+
+		$html =
+			'<div class="tablenav-pages">' .
+				'<span class="displaying-num">' . sprintf(_n('%s item', '%s items', $totalItems), number_format_i18n($totalItems)) . '</span>' .
+				'<span class="pagination-links">' . implode("\n", $links) . '</span>' .
+			'</div>';
+
+		if ($which == 'top') {
+			// Typing a page number and pressing Enter opens that page, as in WordPress list tables
+			parse_str((string)parse_url($this->href, PHP_URL_QUERY), $query);
+			$hidden = '';
+			foreach ($query as $name => $value) {
+				if (is_string($value)) {
+					$hidden .= '<input type="hidden" name="' . esc_attr($name) . '" value="' . esc_attr($value) . '" />';
+				}
+			}
+			$html = '<form method="get" action="' . esc_url(admin_url('admin.php')) . '">' . $hidden . $html . '</form>';
+		}
+
+		return '<div class="tablenav ' . esc_attr($which) . '">' . $html . '<br class="clear" /></div>';
+	}
+
 	function galleryPreview(&$gallery, $template, $echo = true)
 	{
 		if (defined('WP_ADMIN') && $gallery->id) {
@@ -365,7 +411,8 @@ class flgalleryAdminPage extends flgalleryBaseClass
 			$out = '';
 
 			$imagesHTML = '';
-			if (!empty($_REQUEST['imgs']) && (int)$_REQUEST['gallery_id'] == $gallery->id) {
+			$showImages = !empty($_REQUEST['imgs']) && (int)($_REQUEST['gallery_id'] ?? 0) == $gallery->id;
+			if ($showImages) {
 				$imagesHTML = $this->getGalleryItemsHtml($gallery);
 			}
 			$imagesCount = $gallery->getItemsCount();
@@ -396,16 +443,16 @@ class flgalleryAdminPage extends flgalleryBaseClass
 								sprintf(__('Delete Gallery? \n\n%s. "%s" by %s', $plugin->name), $gallery->id, esc_html($gallery->name), esc_html($gallery->authorName))
 							),
 						'options' => $admpage->actionButton(
-								array('Options', 'Customize Flash Gallery'),
+								array('Options', 'Customize Gallery'),
 								'galleryOptions',
 								array('gallery_id' => $gallery->id)
 							),
 						'pluginURL' => esc_html($plugin->url),
 						'imgURL' => esc_html($plugin->imgURL),
 						'href' => esc_html($admpage->href),
-						'full' => !empty($_REQUEST['imgs']) && (int)$_REQUEST['gallery_id'] == $gallery->id ? 'full' : NULL,
+						'full' => $showImages ? 'full' : NULL,
 						'images' => $imagesHTML,
-						'galleryInfo' => $plugin->galleryInfo[$gallery->type],
+						'galleryInfo' => isset($plugin->galleryInfo[$gallery->type]) ? $plugin->galleryInfo[$gallery->type] : array('preview' => '', 'title' => ''),
 						'popupJS' => $gallery->getPopupJs(),
 						'hasItems' => $imagesCount > 0,
 						'moreThanOneItem' => $imagesCount > 1
@@ -421,14 +468,14 @@ class flgalleryAdminPage extends flgalleryBaseClass
 		return false;
 	}
 
-	function getGalleryItemsHtml(&$gallery)
+	function getGalleryItemsHtml($gallery)
 	{
 		include FLGALLERY_GLOBALS;
 
 		$imagesHTML = '';
 
-		$images = $gallery->getItems();
-		if ($images !== false) {
+		$images = $gallery ? $gallery->getItems() : array();
+		if (!empty($images)) {
 			$nonce = wp_create_nonce('deleteImage');
 
 			foreach ($images as $img) {
@@ -467,9 +514,9 @@ class flgalleryAdminPage extends flgalleryBaseClass
 				$types .= "<option value='{$key}'{$selected}>{$value['title']}</option>\n";
 			}
 
-			$flash = $plugin->flashGallery(array('id' => $gallery->id));
+			$preview = $gallery->getHtml();
 
-			if (empty($flgalleryProducts[$gallery->getSignature()])) {
+			if (empty($flgalleryProducts[$gallery->getSignature()]) && isset($plugin->limitations[$gallery->type])) {
 				$trialNotice = sprintf(
 					__('Order the full version of %s to remove the copyright banner and make it possible to display more than %d&nbsp;pictures.', $plugin->name),
 					'<a href="http://flash-gallery.com/wordpress-plugin/order/" target="_blank">' .
@@ -485,17 +532,16 @@ class flgalleryAdminPage extends flgalleryBaseClass
 
 			$a = array_merge(
 				array(
-					'flash' => $flash,
-					'flash_id' => $plugin->name . '-' . $gallery->id,
+					'preview' => $preview,
 					'gallery_id' => $gallery->id,
 					'types' => $types,
 					'name' => esc_html($gallery->name),
-					'width' => $gallery->width,
-					'width2' => $gallery->width + 32,
-					'height' => $gallery->height,
+					'width' => (int)$gallery->width,
+					'width2' => (int)$gallery->width + 32,
+					'height' => (int)$gallery->height,
 					'settingsPanel' => $plugin->tpl->parse(
 							"{$settingsTplDir}/{$gallery->type}",
-							$gallery->settingsForm
+							(array)$gallery->settingsForm
 						),
 					'trialNotice' => $trialNotice,
 					'pluginURL' => esc_html($plugin->url)
@@ -513,9 +559,8 @@ class flgalleryAdminPage extends flgalleryBaseClass
 		include FLGALLERY_GLOBALS;
 
 		$image = new flgalleryImage($image_id);
-		$image->load();
 
-		if ($image->id) {
+		if ($image->load()) {
 			$image->title = esc_html($image->title);
 			$image->description = esc_html($image->description);
 			$image->link = esc_html($image->link);
@@ -548,7 +593,7 @@ class flgalleryAdminPage extends flgalleryBaseClass
 		echo "<ul class='tab-menu'>\n";
 		foreach ($items as $name => $title) {
 			$class = $name == $current ? 'selected' : '';
-			echo "\t<li class='{$class}'><a href='{$admpage->href}{$query}&amp;tab={$name}'>{$title}</a></li>\n";
+			echo "\t<li class='{$class}'><a href='" . esc_attr($admpage->href) . "{$query}&amp;tab={$name}'>{$title}</a></li>\n";
 		}
 		echo "</ul>\n";
 	}

@@ -3,11 +3,12 @@
 if (!function_exists('flgallery_versionValue')) :
 function flgallery_versionValue($version)
 {
+	// "0.15.2b" => 150200 (non-numeric suffixes are ignored)
 	$value = 0;
-	$ver = explode('.', $version);
+	$ver = explode('.', (string)$version);
 	$l = count($ver) - 1;
 	for ($i = $l; $i >= 0; $i--) {
-		$value += $ver[$i] * pow(100, 3 - $i);
+		$value += (int)$ver[$i] * pow(100, 3 - $i);
 	}
 
 	return $value;
@@ -15,16 +16,22 @@ function flgallery_versionValue($version)
 endif;
 
 if (!function_exists('flgallery_clearXmlCache')) :
-function flgallery_clearXmlCache( $name = '' )
+/**
+ * Deletes all cached gallery XML files (wp-content/flgallery/xml/<blog_id>/<gallery_id>.xml).
+ */
+function flgallery_clearXmlCache( $path = '' )
 {
-	$xmlDir = WP_CONTENT_DIR . '/' . FLGALLERY_CONTENT . '/' . FLGALLERY_XML;
+	if ($path === '') {
+		$path = WP_CONTENT_DIR . '/' . FLGALLERY_CONTENT . '/' . FLGALLERY_XML;
+	}
 
-	$path =& $xmlDir;
 	if (is_dir($path) && ($dir = opendir($path))) {
 		while (false !== ($filename = readdir($dir))) {
 			if ($filename != '.' && $filename != '..') {
 				$file = $path . '/' . $filename;
-				if (is_file($file)) {
+				if (is_dir($file)) {
+					flgallery_clearXmlCache($file);
+				} elseif (is_file($file)) {
 					unlink($file);
 				}
 			}
@@ -34,24 +41,6 @@ function flgallery_clearXmlCache( $name = '' )
 	} else {
 		return false;
 	}
-}
-endif;
-
-if (!function_exists('file_put_contents')) :
-function file_put_contents($filename, $data)
-{
-	$fp = @fopen($filename, 'wb');
-	$res = @fwrite($fp, $data);
-	@fclose($fp);
-
-	return $res;
-}
-endif;
-
-if (!function_exists('memory_get_usage')) :
-function memory_get_usage($real_usage = false)
-{
-	return false;
 }
 endif;
 

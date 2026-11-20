@@ -1,109 +1,97 @@
 <?php
 
+/**
+ * AJAX endpoint of the multi-file uploader ("Add Pictures" > "Multi-file Uploader").
+ *
+ * Each picture is uploaded separately into wp-content/flgallery/uploads/<upload_id>/;
+ * when the form is submitted, flgalleryMedia::addFiles() imports that folder and deletes it.
+ */
 class flgalleryAjaxUpload
 {
+	var $extensionWhitelist = array('jpg', 'jpeg', 'gif', 'png');
+
 	function upload()
 	{
-		error_reporting(0);
-
-		global $current_user;
-
-		// Flash often fails to send cookies with the POST or upload, so we need to pass it in GET or POST instead
-		if (is_ssl() && empty($_COOKIE[SECURE_AUTH_COOKIE]) && !empty($_REQUEST['auth_cookie'])) {
-			$_COOKIE[SECURE_AUTH_COOKIE] = $_REQUEST['auth_cookie'];
-			$current_user = null;
-		} elseif (empty($_COOKIE[AUTH_COOKIE]) && !empty($_REQUEST['auth_cookie'])) {
-			$_COOKIE[AUTH_COOKIE] = $_REQUEST['auth_cookie'];
-			$current_user = null;
-		}
-
 		if (!current_user_can('upload_files')) {
-			$this->error(__('You do not have permission to upload files.'));
+			$this->error(__('You do not have permission to upload files.'), 403);
 		}
 
-		// Settings
-		$path = $_GET['upload_path'];
-		if (preg_match('#[/\\\\]\.#', $path)) {
-			$this->error('Invalid path');
+		if (!check_ajax_referer('flgallery-upload', 'nonce', false)) {
+			$this->error(__('The link you followed has expired.'), 403);
 		}
 
-		$save_path = FLGALLERY_CONTENT_DIR.'/'.$path.'/';
-		$upload_name = "Filedata";
-		$max_file_size_in_bytes = 2147483647;				// 2GB in bytes
-		$extension_whitelist = array("jpg", "gif", "png");	// Allowed file extensions
+		$upload_id = isset($_REQUEST['upload_id']) ? preg_replace('/\D/', '', (string)$_REQUEST['upload_id']) : '';
+		if ($upload_id === '') {
+			$this->error('Invalid upload ID');
+		}
 
-		$MAX_FILENAME_LENGTH = 260;
+		$save_path = FLGALLERY_CONTENT_DIR . '/' . FLGALLERY_UPLOADS . '/' . $upload_id;
+		$upload_name = 'file';
+
 		$uploadErrors = array(
-				0 => "There is no error, the file uploaded with success",
-				1 => "The uploaded file exceeds the upload_max_filesize directive in php.ini",
-				2 => "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form",
-				3 => "The uploaded file was only partially uploaded",
-				4 => "No file was uploaded",
-				6 => "Missing a temporary folder"
+			UPLOAD_ERR_INI_SIZE => 'The uploaded file exceeds the upload_max_filesize directive in php.ini',
+			UPLOAD_ERR_FORM_SIZE => 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form',
+			UPLOAD_ERR_PARTIAL => 'The uploaded file was only partially uploaded',
+			UPLOAD_ERR_NO_FILE => 'No file was uploaded',
+			UPLOAD_ERR_NO_TMP_DIR => 'Missing a temporary folder',
+			UPLOAD_ERR_CANT_WRITE => 'Failed to write file to disk',
+			UPLOAD_ERR_EXTENSION => 'File upload stopped by extension',
 		);
 
 		// Validate the upload
-		if (!isset($_FILES[$upload_name])) {
-			$this->error("No upload found in \$_FILES for " . $upload_name);
-		} else if (isset($_FILES[$upload_name]["error"]) && $_FILES[$upload_name]["error"] != 0) {
-			$this->error($uploadErrors[$_FILES[$upload_name]["error"]]);
-		} else if (!isset($_FILES[$upload_name]["tmp_name"]) || !is_uploaded_file($_FILES[$upload_name]["tmp_name"])) {
-			$this->error("Upload failed is_uploaded_file test.");
-		} else if (!isset($_FILES[$upload_name]['name'])) {
-			$this->error("File has no name.");
+		if (!isset($_FILES[$upload_name]) || is_array($_FILES[$upload_name]['name'])) {
+			$this->error('No file was uploaded');
 		}
 
-		// Validate the file size (Warning: the largest files supported by this code is 2GB)
-		$file_size = filesize($_FILES[$upload_name]["tmp_name"]);
-		if (!$file_size || $file_size > $max_file_size_in_bytes) {
-			$this->error("File exceeds the maximum allowed size");
-		}
-		if ($file_size <= 0) {
-			$this->error("File size outside allowed lower bound");
+		$file = $_FILES[$upload_name];
+
+		if (!empty($file['error'])) {
+			$this->error(isset($uploadErrors[$file['error']]) ? $uploadErrors[$file['error']] : 'Upload error');
 		}
 
-		// Validate file name (for our purposes we'll just remove invalid characters)
-		$file_name = basename($_FILES[$upload_name]['name']);
-		$file_name = sanitize_file_name($file_name);
-		if (strlen($file_name) == 0 || strlen($file_name) > $MAX_FILENAME_LENGTH) {
-			$this->error("Invalid file name");
+		if (empty($file['tmp_name']) || !is_uploaded_file($file['tmp_name'])) {
+			$this->error('Upload failed is_uploaded_file test.');
 		}
 
-		// Validate that we won't over-write an existing file
-		if (file_exists($save_path.$file_name)) {
-			$this->error("File with this name already exists");
+		if (!filesize($file['tmp_name'])) {
+			$this->error('File is empty');
 		}
 
-		// Validate file extension
-		$path_info = pathinfo($_FILES[$upload_name]['name']);
-		$file_extension = $path_info["extension"];
-		$is_valid_extension = false;
-		foreach ($extension_whitelist as $extension) {
-			if (strcasecmp($file_extension, $extension) == 0) {
-				$is_valid_extension = true;
-				break;
-			}
-		}
-		if (!$is_valid_extension) {
-			$this->error("Invalid file extension");
+		// Validate file name and extension
+		$file_name = sanitize_file_name(basename((string)$file['name']));
+		if (strlen($file_name) == 0 || strlen($file_name) > 255) {
+			$this->error('Invalid file name');
 		}
 
-		if (!file_exists($save_path)) {
-			mkdir($save_path, 0777, true);
+		$file_extension = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
+		if (!in_array($file_extension, $this->extensionWhitelist, true)) {
+			$this->error('Invalid file extension');
 		}
 
-		if (move_uploaded_file($_FILES[$upload_name]["tmp_name"], $save_path.$file_name)) {
-			chmod($save_path.$file_name, 0666);
+		// Validate that it is really a picture
+		$imageSize = @getimagesize($file['tmp_name']);
+		if (empty($imageSize) || !in_array($imageSize['mime'], array('image/jpeg', 'image/gif', 'image/png'), true)) {
+			$this->error('The file is not a JPEG, PNG or GIF picture');
 		}
-		else {
-			$this->error("File could not be saved.");
+
+		if (!wp_mkdir_p($save_path)) {
+			$this->error('Unable to create upload directory');
 		}
+
+		// Don't overwrite files uploaded earlier
+		$file_name = wp_unique_filename($save_path, $file_name);
+
+		if (move_uploaded_file($file['tmp_name'], $save_path . '/' . $file_name)) {
+			@chmod($save_path . '/' . $file_name, 0666);
+		} else {
+			$this->error('File could not be saved.', 500);
+		}
+
+		wp_send_json_success(array('name' => $file_name));
 	}
 
-	function error($message)
+	function error($message, $status = 400)
 	{
-		@header("HTTP/1.1 500 Internal Server Error");
-		echo $message;
-		exit;
+		wp_send_json_error(array('message' => $message), $status);
 	}
 }

@@ -16,14 +16,14 @@ $albums = $wpdb->get_results("
 ?>
 <form id="select-images-form" action="" method="post" style="display:none;">
 <input type="hidden" name="action" value="addImages" />
-<input type="hidden" name="gallery_id" value="<?php echo $a['gallery_id']; ?>" />
-<input type="hidden" name="order" value="<?php echo $a['order']; ?>">
+<input type="hidden" name="gallery_id" value="<?php echo (int)($a['gallery_id'] ?? 0); ?>" />
+<input type="hidden" name="order" value="<?php echo ($a['order'] ?? '') == 'before' ? 'before' : 'after'; ?>">
 
 <div style="margin:1em 0 2em 0;"><a class="button" href="?page=flgallery/media&amp;action=addNewAlbum">+ New Album</a></div>
 
 <ul id="select-albums">
 <?php
-	foreach ($albums as $album)
+	foreach ((array)$albums as $album)
 	{
 		$imagesCount = (int)$wpdb->get_var("
 			SELECT COUNT(*)
@@ -79,16 +79,9 @@ jQuery(document).ready(function($) {
 				success: function(data) {
 					images.html(data);
 
-					images.find('.select-image input[type=checkbox]').click(function() {
+					images.find('.select-image input[type=checkbox]').on('click', function() {
 						updateImagesCount();
 					});
-
-					if ($.browser.msie && $.browser.version < 8) {
-						images.find('.select-image-preview img').click(function() {
-							$(this).parents('label').click();
-							updateImagesCount();
-						});
-					}
 
 					compl();
 				},
@@ -131,20 +124,16 @@ jQuery(document).ready(function($) {
 		updateImagesCount();
 	});
 
-	$('#select-albums a.select-album').toggle(
-		function() {
-			var images = loadImages(this);
-			images.css({ display:'block' });
+	$('#select-albums a.select-album').on('click', function() {
+		var link = $(this);
+		var opened = !link.data('opened');
+		link.data('opened', opened);
 
-			return false;
-		},
-		function() {
-			var images = loadImages(this);
-			images.css({ display:'none' });
+		var images = loadImages(this);
+		images.css({ display: opened ? 'block' : 'none' });
 
-			return false;
-		}
-	);
+		return false;
+	});
 
 });
 //]]></script>

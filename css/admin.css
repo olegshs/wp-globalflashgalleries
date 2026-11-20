@@ -272,8 +272,27 @@ body.wait * {
 }
 
 .flgallery #galleries-panel {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: 8px 16px;
 	margin: 2em 0;
 	padding: 0;
+}
+/* Top pagination (WordPress list table markup) on the same line as the "+ New Gallery" button */
+.flgallery #galleries-panel .tablenav.top {
+	clear: none;
+	height: auto;
+	margin: 0;
+	padding: 0;
+}
+.flgallery #galleries-panel .tablenav.top .tablenav-pages {
+	float: none;
+	margin: 0;
+}
+.flgallery #galleries-panel .tablenav.top br.clear {
+	display: none;
 }
 .flgallery #galleries-panel .button,
 .flgallery #galleries-panel .button-primary {
@@ -346,10 +365,37 @@ body.wait * {
 .flgallery .galleries-list .gallery {
 	margin: 0.5em 0 3em 0;
 }
+/* Panel header (WordPress .postbox-header markup): title on the left, collapse button on the right */
+.flgallery .postbox .postbox-header .handlediv {
+	width: 36px;
+	height: 36px;
+	color: #50575e;
+}
+.flgallery .postbox .postbox-header .handlediv:hover {
+	color: #1d2327;
+}
+.flgallery .postbox .postbox-header .handlediv:focus:not(:focus-visible) {
+	box-shadow: none;
+	outline: none;
+}
+.flgallery .postbox .postbox-header .handlediv .toggle-indicator::before {
+	content: "\f142"; /* dashicons-arrow-up-alt2 */
+	display: inline-block;
+	font: normal 20px/1 dashicons;
+	-webkit-font-smoothing: antialiased;
+	vertical-align: middle;
+}
+.flgallery .postbox.closed .postbox-header .handlediv .toggle-indicator::before {
+	content: "\f140"; /* dashicons-arrow-down-alt2 */
+}
+
+.flgallery .galleries-list .gallery .postbox-header {
+	background-color: #ddd;
+}
 .flgallery .galleries-list .gallery .hndle {
 	margin: 0;
 	padding: 0.7em 1.5em;
-	background-color: #ddd;
+	background: transparent;
 }
 .flgallery .galleries-list .gallery .hndle span {
 }
@@ -357,19 +403,36 @@ body.wait * {
 	margin: 0;
 	padding: 0;
 }
-.flgallery .galleries-list .gallery .toggle {
+/* "Show/Hide Pictures" bar at the bottom of a gallery panel.
+   It has the .button class, so WordPress button styles are overridden here. */
+.flgallery .galleries-list .gallery .toggle,
+.flgallery .galleries-list .gallery .toggle:focus,
+.flgallery .galleries-list .gallery .toggle:active {
 	display: block;
+	box-sizing: content-box;
 	height: 18px;
+	min-height: 0;
 	margin: -8px -1px -8px;
 	padding: 0;
-	-moz-border-radius: 9px;
-	-webkit-border-radius: 9px;
-	-khtml-border-radius: 9px;
+	line-height: 18px;
+	border: 1px solid #c3c4c7;
 	border-radius: 9px;
+	background: #f6f7f7;
+	box-shadow: none;
+	outline: none;
+}
+.flgallery .galleries-list .gallery .toggle:hover {
+	border-color: #8c8f94;
+	background: #f0f0f1;
+	box-shadow: none;
+}
+.flgallery .galleries-list .gallery .toggle:focus-visible {
+	box-shadow: 0 0 0 var(--wp-admin-border-width-focus, 1.5px) var(--wp-admin-theme-color, #2271b1);
 }
 .flgallery .galleries-list .gallery .toggle span {
 	display: block;
 	height: 16px;
+	margin-top: 1px;
 	background: url(../img/arrows.gif) no-repeat center bottom;
 }
 .flgallery .galleries-list .gallery .brief {
@@ -404,6 +467,12 @@ body.wait * {
 	border-bottom: 1px dotted;
 	padding: 0 0.2em 0 0.3em;
 }
+/* No WordPress focus ring after a mouse click; keyboard focus (:focus-visible) keeps it */
+.flgallery .galleries-list .gallery .show-pictures a:focus:not(:focus-visible),
+.flgallery .galleries-list .gallery .show-pictures a:active {
+	box-shadow: none;
+	outline: none;
+}
 .flgallery .galleries-list .gallery .controls {
 	float: right;
 	text-align: center;
@@ -412,7 +481,11 @@ body.wait * {
 .flgallery .galleries-list .gallery .controls .button {
 	margin: 0.2em 0;
 	height: 25px;
+	min-height: 0; /* newer WordPress admin buttons are taller by default */
+	padding-top: 0;
+	padding-bottom: 0;
 	line-height: 22px;
+	box-sizing: border-box;
 }
 .flgallery .galleries-list .gallery .publish {
 }
@@ -628,6 +701,7 @@ body.wait * {
 }
 .flgallery #gallery-options #flash-preview .hndle {
 	text-align: center;
+	justify-content: center;
 	cursor: move !important;
 }
 .flgallery #gallery-options #flash-preview .inside {
@@ -660,9 +734,10 @@ body.wait * {
 .flgallery #gallery-options .gallery {
 	position: relative;
 	z-index: 20;
-	width: 370px;
+	box-sizing: border-box;
+	width: 386px; /* same outer width as the settings panel below */
 	margin: 0 0 -2em;
-	padding: 0.33em 0.5em 0 0.5em;
+	padding: 0.33em 10px 0 0.5em;
 	border: 2px solid #e7e7e7;
 	background: #f9f9f9;
 	-moz-border-radius: 1em;
@@ -671,6 +746,11 @@ body.wait * {
 	border-radius: 1em;
 }
 .flgallery #gallery-options .gallery table {
+	width: 100%;
+}
+.flgallery #gallery-options .gallery input[name="gallery[width]"],
+.flgallery #gallery-options .gallery input[name="gallery[height]"] {
+	width: 64px;
 }
 .flgallery #gallery-options .gallery-name input {
 	font-size: 133%;
@@ -681,6 +761,32 @@ body.wait * {
 }
 .flgallery #gallery-options .gallery-type .button {
 	width: 95%;
+}
+/* Newer WordPress admin form controls are 40px tall with 12px side padding,
+   which doesn't fit this compact form */
+.flgallery #gallery-options input[type="text"],
+.flgallery #gallery-options select,
+.flgallery #gallery-options textarea {
+	min-height: 30px;
+	padding-left: 6px;
+	padding-right: 6px;
+}
+.flgallery #gallery-options select {
+	padding-right: 22px;
+	line-height: 28px;
+	background-position: right 4px top 55%;
+}
+.flgallery #gallery-options textarea {
+	padding-top: 4px;
+	padding-bottom: 4px;
+}
+/* Slider value: a single line of text above the slider handle */
+.flgallery #gallery-options .slider .value input {
+	top: -1px;
+	height: 14px;
+	min-height: 0;
+	padding: 0;
+	line-height: 14px;
 }
 .flgallery #gallery-options .settings {
 	position: relative;
@@ -1135,78 +1241,71 @@ body.wait * {
 	font-size: 11px;
 }
 
-.flgallery .addmedia-swfupload {
+.flgallery .addmedia-html5upload {
 	min-height: 5em;
+	padding: 1em;
+	border: 2px dashed transparent;
+	border-radius: 4px;
 }
-.flgallery .addmedia-swfupload #uploadQueue td,
-.flgallery .addmedia-swfupload #uploadQueue th {
+.flgallery .addmedia-html5upload.dragover {
+	border-color: #2271b1;
+	background: #f0f6fc;
+}
+.flgallery .addmedia-html5upload #uploadQueue td,
+.flgallery .addmedia-html5upload #uploadQueue th {
 	padding: 0.5em 1em;
 	border-bottom: 1px solid #ddd;
 }
-.flgallery .addmedia-swfupload #uploadQueue tr:hover td {
+.flgallery .addmedia-html5upload #uploadQueue tr:hover td {
 	background: #f0f7ff;
 }
-.flgallery .addmedia-swfupload #uploadQueue tr.completed td {
+.flgallery .addmedia-html5upload #uploadQueue tr.completed td {
 	background: #fff;
+	color: #008a20;
 }
-.flgallery .addmedia-swfupload #uploadQueue .name {
+.flgallery .addmedia-html5upload #uploadQueue tr.error td {
+	color: #d63638;
+}
+.flgallery .addmedia-html5upload #uploadQueue .name {
 	width: 300px;
 }
-.flgallery .addmedia-swfupload #uploadQueue td.name {
+.flgallery .addmedia-html5upload #uploadQueue td.name {
 	font-size: 12px;
+	color: inherit;
 }
-.flgallery .addmedia-swfupload #uploadQueue .size {
+.flgallery .addmedia-html5upload #uploadQueue .size {
 	text-align: right;
 }
-.flgallery .addmedia-swfupload #uploadQueue th.size {
+.flgallery .addmedia-html5upload #uploadQueue th.size {
 	padding-right: 2em;
 }
-.flgallery .addmedia-swfupload #uploadQueue .cancel {
+.flgallery .addmedia-html5upload #uploadQueue .progress {
+	min-width: 6em;
+}
+.flgallery .addmedia-html5upload #uploadQueue .cancel {
 	padding-left: 2em;
 	width: 2em;
 }
-.flgallery .addmedia-swfupload #uploadQueue .cancel a {
+.flgallery .addmedia-html5upload #uploadQueue .cancel a {
 	text-decoration: none;
 	font-size: 18px;
 	color: #d54e21;
 }
-.flgallery .addmedia-swfupload #uploadStatus {
+.flgallery .addmedia-html5upload #uploadStatus {
 	padding-left: 0.8em;
 	font-size: 125%;
 }
-.flgallery .addmedia-swfupload .select-files {
+.flgallery .addmedia-html5upload .select-files {
 	margin-bottom: 30px;
+	display: flex;
+	align-items: center;
+	gap: 20px;
 }
-.flgallery .addmedia-swfupload .select-files .select {
-	position: relative;
-	margin: 0 0 1em -2px;
-}
-.flgallery .addmedia-swfupload .select-files .select .button {
-	position: absolute;
-	left: 0;
-	top: 0;
-	font-size: 16px;
-	line-height: 20px;
-	width: 150px;
-	height: auto;
-	padding: 9px 0;
-	box-sizing: border-box;
-	text-align: center;
-}
-.flgallery .addmedia-swfupload .select-files .select .swfupload {
-	position: absolute;
-	left: 0;
-	top: 0;
-	margin: 0;
-	cursor: pointer;
-}
-.flgallery .addmedia-swfupload .select-files .tip {
+.flgallery .addmedia-html5upload .select-files .tip {
 	font-size: 11px;
-	width: 30em;
-	margin: 0 0 0 170px;
-	padding: 2px 0 0 0;
+	max-width: 30em;
 }
-.flgallery .addmedia-swfupload #uploadQueue {
+.flgallery .addmedia-html5upload #uploadQueue {
 	clear: left;
 }
 .flgallery .addmedia-wpmedia .addmedia-label {

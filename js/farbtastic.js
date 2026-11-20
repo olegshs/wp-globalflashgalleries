@@ -60,7 +60,7 @@ jQuery._farbtastic = function (container, callback) {
   fb.linkTo = function (callback) {
     // Unbind previous nodes
     if (typeof fb.callback == 'object') {
-      jQuery(fb.callback).unbind('keyup', fb.updateValue);
+      jQuery(fb.callback).off('keyup', fb.updateValue);
     }
 
     // Reset color
@@ -72,7 +72,7 @@ jQuery._farbtastic = function (container, callback) {
     }
     else if (typeof callback == 'object' || typeof callback == 'string') {
       fb.callback = jQuery(callback);
-      fb.callback.bind('keyup', fb.updateValue);
+      fb.callback.on('keyup', fb.updateValue);
       if (fb.callback.get(0).value) {
         fb.setColor(fb.callback.get(0).value);
       }
@@ -173,7 +173,7 @@ jQuery._farbtastic = function (container, callback) {
   fb.mousedown = function (event) {
     // Capture mouse
     if (!document.dragging) {
-      jQuery(document).bind('mousemove', fb.mousemove).bind('mouseup', fb.mouseup);
+      jQuery(document).on('mousemove', fb.mousemove).on('mouseup', fb.mouseup);
       document.dragging = true;
     }
 
@@ -212,8 +212,8 @@ jQuery._farbtastic = function (container, callback) {
    */
   fb.mouseup = function () {
     // Uncapture mouse
-    jQuery(document).unbind('mousemove', fb.mousemove);
-    jQuery(document).unbind('mouseup', fb.mouseup);
+    jQuery(document).off('mousemove', fb.mousemove);
+    jQuery(document).off('mouseup', fb.mouseup);
     document.dragging = false;
   }
 

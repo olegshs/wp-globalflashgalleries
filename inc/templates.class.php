@@ -4,7 +4,7 @@ class flgalleryTemplates extends flgalleryBaseClass
 {
 	var
 		$dir,
-		$vars,
+		$vars = array(),
 		$tags,
 		$templates = array(),
 		$tplCache = array();
@@ -57,7 +57,7 @@ class flgalleryTemplates extends flgalleryBaseClass
 			}
 
 			if (is_array($a)) {
-				if (count($this->vars)) {
+				if (!empty($this->vars)) {
 					$a = array_merge($this->vars, $a);
 				}
 
@@ -196,6 +196,9 @@ class flgalleryTemplates extends flgalleryBaseClass
 			$keys = array_unique($m[1]);
 			foreach ($keys as $key) {
 				if (($value = array_key_exists($key, $a) ? $a[$key] : false) !== false || (($value = $this->getElement($key, $a)) !== false)) {
+					if (is_array($value) || (is_object($value) && !method_exists($value, '__toString'))) {
+						continue;
+					}
 					$text = str_replace($tags[0] . $key . $tags[1], (string)$value, $text);
 				}
 			}

@@ -6,12 +6,16 @@ class flgalleryGalleryPopup
 	{
 		global $flgalleryPlugin, $flgalleryProducts;
 
-		$gallery_id = (int)$_REQUEST['gallery_id'];
+		$gallery_id = (int)($_REQUEST['gallery_id'] ?? 0);
 		if (empty($gallery_id)) {
 			exit;
 		}
 
 		$gallery = new flgalleryGallery($gallery_id);
+		if (!$gallery->id || !$flgalleryPlugin->isGalleryType($gallery->type)) {
+			status_header(404);
+			exit;
+		}
 
 		if (!file_exists($gallery->xmlFilePath)) {
 			$gallery->getXml();
@@ -20,7 +24,7 @@ class flgalleryGalleryPopup
 		$gallery->width = '100%';
 		$gallery->height = '100%';
 
-		if (empty($_REQUEST['frontend']) && empty($flgalleryProducts[$gallery->getSignature()])) {
+		if (empty($_REQUEST['frontend']) && empty($flgalleryProducts[$gallery->getSignature()]) && isset($flgalleryPlugin->limitations[$gallery->type])) {
 			$trialNotice = sprintf(
 				__('Order the full version of %s to make it possible to display more than %d&nbsp;pictures.', 'flgallery'),
 				'<a href="http://flash-gallery.com/wordpress-plugin/order/" target="_blank">' .
@@ -32,18 +36,21 @@ class flgalleryGalleryPopup
 			$trialNotice = '';
 		}
 
-		remove_action('wp_head', 'wp_admin_bar_header');
-		remove_action('wp_head', '_admin_bar_bump_cb');
-		remove_action('wp_footer', 'wp_admin_bar_render', 1000);
+		// A minimal standalone page: no theme header/footer, only the gallery and its scripts
 		add_filter('show_admin_bar', '__return_false');
 ?>
+<!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title><?php echo esc_html($gallery->name); ?></title>
 <style type="text/css">
 body, * html body {
 	margin: 0 !important;
+}
+html, body {
+	height: 100%;
 }
 html {
 	margin: 0 !important;
@@ -53,6 +60,7 @@ html {
 }
 <?php if (!empty($trialNotice)): ?>
 .trial {
+	flex: none;
 	font-family: Tahoma, sans-serif;
 	font-size: 11px;
 	height: 25px;
@@ -70,27 +78,32 @@ html {
 	color: #03c;
 }
 <?php endif; ?>
+.flgallery-popup {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+}
+.flgallery-popup-gallery {
+	flex: 1;
+	min-height: 0;
+}
 .flgallery-embed {
 	height: 100%;
 }
 </style>
-<script type="text/javascript" src="<?php echo includes_url('js/jquery/jquery.js'); ?>"></script>
-<script type="text/javascript" src="<?php echo includes_url('js/swfobject.js'); ?>"></script>
-<script type="text/javascript" src="<?php echo $flgalleryPlugin->getJsGalleryUrl(); ?>"></script>
+<?php
+		$flgalleryPlugin->registerScripts();
+		wp_print_scripts(array('altgallery'));
+?>
 </head>
 
 <body>
-<table width="100%" height="100%" cellpadding="0" cellspacing="0" border="0">
+<div class="flgallery-popup">
 <?php if (!empty($trialNotice)): ?>
-<tr>
-	<td class="trial"><div><?php echo $trialNotice; ?></div></td>
-</tr>
+	<div class="trial"><div><?php echo $trialNotice; ?></div></div>
 <?php endif; ?>
-<tr>
-	<td><?php echo $gallery->getHtml(); ?></td>
-</tr>
-</table>
-<?php wp_footer(); ?>
+	<div class="flgallery-popup-gallery"><?php echo $gallery->getHtml(); ?></div>
+</div>
 </body>
 </html>
 <?php

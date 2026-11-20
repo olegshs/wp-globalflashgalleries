@@ -1,5 +1,7 @@
 <?php
 
+global $flgalleryErrors, $flgalleryErrorN, $flgalleryWarnings, $flgalleryWarningN, $flgalleryDebug, $flgalleryDebugN;
+
 $flgalleryErrors = array();
 $flgalleryErrorN = 0;
 
@@ -9,6 +11,17 @@ $flgalleryWarningN = 0;
 $flgalleryDebug = array();
 $flgalleryDebugN = 0;
 
+/**
+ * Base class of all plugin classes.
+ *
+ * The constructor passes its arguments to the subclass's init() method, so subclasses
+ * implement init() instead of a constructor. init() is intentionally not declared here:
+ * subclasses use different signatures, which PHP 8 would reject as incompatible.
+ *
+ * Plugin code (and the external commercial add-on) attaches ad-hoc properties to these
+ * objects, hence #[AllowDynamicProperties] (inherited by subclasses).
+ */
+#[\AllowDynamicProperties]
 class flgalleryBaseClass
 {
 	var $className = 'flgalleryBaseClass';
@@ -23,17 +36,12 @@ class flgalleryBaseClass
 		$this->className = get_class($this);
 	}
 
-	function init($a = NULL)
-	{
-	}
-
-	function flgalleryBaseClass($a = NULL)
+	function __construct(...$args)
 	{
 		$this->preInit();
 
 		if (method_exists($this, 'init')) {
-			$args = func_get_args();
-			return call_user_func_array(array(&$this, 'init'), $args);
+			$this->init(...$args);
 		}
 	}
 

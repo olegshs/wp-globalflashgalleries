@@ -36,7 +36,7 @@ jQuery(document).ready(function ($) {
 
 
 	$('#album_pictures thead .check-column input, #album_pictures tfoot .check-column input').click(function () {
-		$('#album_pictures .check-column input').attr('checked', this.checked);
+		$('#album_pictures .check-column input').prop('checked', this.checked);
 	});
 
 	$('#album_pictures .picture .picture-delete a').click(function () {

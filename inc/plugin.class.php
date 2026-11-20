@@ -9,13 +9,19 @@ class flgalleryPlugin extends flgalleryBaseClass
 		$shortTitle = 'Flash Galleries',
 		$version = FLGALLERY_VERSION,
 		// Gallery info from galleries.xml
-		$galleryInfo,
+		$galleryInfo = array(),
+		// Maximum number of pictures in the free version of each gallery type
+		$limitations = array(),
 		// Plugin directory
 		$dir = FLGALLERY_PLUGIN_DIR,
 		$url = FLGALLERY_PLUGIN_URL,
 		// JavaScript
 		$jsDir,
 		$jsURL,
+		// Helpers
+		$func,
+		$admin,
+		$media,
 		// Templates
 		$tpl,
 		$tplDir = FLGALLERY_TPL_DIR,
@@ -39,7 +45,10 @@ class flgalleryPlugin extends flgalleryBaseClass
 		// Site info
 		$site,
 		$blogID,
+		$dateFormat,
+		$timeFormat,
 		// User
+		$userInfo,
 		$userID = 0,
 		$userLevel = 0,
 		$userLogin,
@@ -49,10 +58,11 @@ class flgalleryPlugin extends flgalleryBaseClass
 		$dbPrefix,
 		$dbAlbums,
 		$dbGalleries,
+		$dbGal,
 		$dbImages,
+		$dbImg,
 		$dbSettings,
-		// Cookie
-		$cookie = false,
+		// Cookie (base64-encoded JSON with per-user admin UI preferences)
 		$userCookie = false,
 		// Error messages, debug info
 		$printDebug = FLGALLERY_DEBUG,
@@ -73,8 +83,7 @@ class flgalleryPlugin extends flgalleryBaseClass
 		require_once FLGALLERY_INCLUDE . '/site.class.php';
 		$this->site = new flgallerySite();
 
-		global $blog_id;
-		$this->blogID = (int)$blog_id;
+		$this->blogID = (int)get_current_blog_id();
 
 		require_once FLGALLERY_INCLUDE . '/templates.class.php';
 		$this->tpl = new flgalleryTemplates($this->tplDir, array('plugin' => &$this));
@@ -97,8 +106,6 @@ class flgalleryPlugin extends flgalleryBaseClass
 		$this->dbGalleries = $this->dbGal = $this->dbPrefix . FLGALLERY_DB_GALLERIES;
 		$this->dbImages = $this->dbImg = $this->dbPrefix . FLGALLERY_DB_IMAGES;
 		$this->dbSettings = $this->dbPrefix . FLGALLERY_DB_SETTINGS;
-
-		$this->cookie =& $_COOKIE[$this->name];
 
 		$this->jsURL = $this->url . '/js';
 		$this->jsDir = str_replace(str_replace('\\', '/', ABSPATH), '/', str_replace('\\', '/', FLGALLERY_PLUGIN_DIR)) . '/js';
@@ -132,31 +139,31 @@ class flgalleryPlugin extends flgalleryBaseClass
 
 		$this->initGalleryInfo();
 
-		add_action('init', array(&$this, 'getUserInfo'));
-		add_action('wp_print_scripts', array(&$this, 'scripts'));
+		add_action('init', array($this, 'getUserInfo'));
+		add_action('wp_enqueue_scripts', array($this, 'registerScripts'));
+		add_action('admin_enqueue_scripts', array($this, 'registerScripts'));
 
-		if (class_exists('WP_Widget')) // WordPress 2.8 and newer
-		{
-			require_once FLGALLERY_INCLUDE . '/widget.class.php';
-			add_action('widgets_init', create_function('', 'return register_widget("flgalleryWidget");'));
-		}
+		require_once FLGALLERY_INCLUDE . '/widget.class.php';
+		add_action('widgets_init', function () {
+			register_widget('flgalleryWidget');
+		});
 
-		add_shortcode($this->name, array(&$this, 'flashGallery'));
+		add_shortcode($this->name, array($this, 'flashGallery'));
 
 		require_once FLGALLERY_INCLUDE . '/galleryXml.class.php';
 		$galleryXml = new flgalleryGalleryXml();
-		add_action('wp_ajax_flgalleryXml', array(&$galleryXml, 'getXml'));
-		add_action('wp_ajax_nopriv_flgalleryXml', array(&$galleryXml, 'getXml'));
+		add_action('wp_ajax_flgalleryXml', array($galleryXml, 'getXml'));
+		add_action('wp_ajax_nopriv_flgalleryXml', array($galleryXml, 'getXml'));
 
 		require_once FLGALLERY_INCLUDE . '/galleryPopup.class.php';
 		$galleryPopup = new flgalleryGalleryPopup();
-		add_action('wp_ajax_flgalleryPopup', array(&$galleryPopup, 'render'));
-		add_action('wp_ajax_nopriv_flgalleryPopup', array(&$galleryPopup, 'render'));
+		add_action('wp_ajax_flgalleryPopup', array($galleryPopup, 'render'));
+		add_action('wp_ajax_nopriv_flgalleryPopup', array($galleryPopup, 'render'));
 
+		// Multi-file uploader (logged-in users only)
 		require_once FLGALLERY_INCLUDE . '/ajaxUpload.class.php';
 		$ajaxUpload = new flgalleryAjaxUpload();
-		add_action('wp_ajax_flgalleryUpload', array(&$ajaxUpload, 'upload'));
-		add_action('wp_ajax_nopriv_flgalleryUpload', array(&$ajaxUpload, 'upload'));
+		add_action('wp_ajax_flgalleryUpload', array($ajaxUpload, 'upload'));
 	}
 
 	function initGalleryInfo()
@@ -169,7 +176,6 @@ class flgalleryPlugin extends flgalleryBaseClass
 			$galleryDemoAtt = $gallery->demo->attributes();
 
 			$this->galleryInfo[(string)$galleryAtt->name] = array(
-				'src' => esc_html((string)$galleryAtt->src),
 				'title' => esc_html((string)$gallery->title),
 				'description' => esc_html((string)$gallery->description),
 				'preview' => esc_html((string)$galleryPreviewAtt->src),
@@ -178,14 +184,12 @@ class flgalleryPlugin extends flgalleryBaseClass
 		}
 
 		$this->limitations = array(
-			'3dSlideshow' => 15,
 			'3dWall' => 30,
 			'Art' => 15,
 			'Aura' => 15,
 			'Box' => 20,
 			'Cubic' => 20,
 			'Line' => 15,
-			'Page' => 15,
 			'PhotoFlow' => 15,
 			'Promo' => 15,
 			'StackPhoto' => 15,
@@ -193,39 +197,67 @@ class flgalleryPlugin extends flgalleryBaseClass
 		);
 	}
 
+	/**
+	 * Is $type one of the gallery types defined in galleries.xml?
+	 */
+	function isGalleryType($type)
+	{
+		return is_string($type) && $type !== '' && isset($this->galleryInfo[$type]);
+	}
+
+	/**
+	 * [flgallery id="N" popup="1" preview="URL" text="..."] shortcode handler.
+	 * The name is kept for backward compatibility with themes and add-ons calling it directly.
+	 */
 	function flashGallery($a, $content = NULL)
 	{
-		include FLGALLERY_GLOBALS;
+		$a = shortcode_atts(
+			array(
+				'id' => 0,
+				'popup' => '',
+				'preview' => '',
+				'text' => '',
+			),
+			$a,
+			$this->name
+		);
 
-		$gallery = new flgalleryGallery($a['id']);
+		$gallery_id = (int)$a['id'];
+		if (!$gallery_id) {
+			return '';
+		}
 
-		if (!empty($this->galleryInfo[$gallery->type])) {
-			if (!empty($a['popup'])) {
-				$title = $gallery->name;
+		$gallery = new flgalleryGallery($gallery_id);
 
-				if (!empty($a['preview'])) {
-					if (preg_match('#(http[s]{0,1}://.*\.)(gif|jpg|jpeg|png)#', $a['preview'], $m)) {
-						$previewURL = $m[1] . $m[2];
-					} else {
-						$previewURL = $a['preview'];
-					}
+		if (!$gallery->id || !$this->isGalleryType($gallery->type)) {
+			return '';
+		}
 
-					$previewURL = esc_html($previewURL);
+		if (!empty($a['popup'])) {
+			$title = esc_attr($gallery->name);
 
-					$text = "<img src='{$previewURL}' alt='{$title}' title='{$title}' />";
+			if (!empty($a['preview'])) {
+				if (preg_match('#(https?://.*\.)(gif|jpg|jpeg|png|webp)#i', $a['preview'], $m)) {
+					$previewURL = $m[1] . $m[2];
 				} else {
-					if (!empty($a['text'])) {
-						$text = $a['text'];
-					} else {
-						$text = esc_html($title);
-					}
+					$previewURL = $a['preview'];
 				}
 
-				return $gallery->getPopupLink($text);
+				$previewURL = esc_url($previewURL);
+
+				$text = "<img src='{$previewURL}' alt='{$title}' title='{$title}' />";
 			} else {
-				return $gallery->getHtml();
+				if (!empty($a['text'])) {
+					$text = wp_kses_post($a['text']);
+				} else {
+					$text = esc_html($gallery->name);
+				}
 			}
+
+			return $gallery->getPopupLink($text);
 		}
+
+		return $gallery->getHtml();
 	}
 
 	function checkDir($path)
@@ -242,11 +274,7 @@ class flgalleryPlugin extends flgalleryBaseClass
 				}
 			}
 		} else {
-			$this->warning(sprintf(__('Directory <strong>%s</strong> does not exists.'), $path));
-
-			if (@mkdir($path, 0777)) {
-				@chmod($path, 0777);
-				/*file_put_contents($path.'/index.php', "<?php\n// Silence is golden.\n?>");*/
+			if (wp_mkdir_p($path)) {
 				return true;
 			} else {
 				$this->error(sprintf(__('Unable to create directory <strong>%s</strong>. Please create directory with permissions 777 manually.'), $path));
@@ -258,32 +286,18 @@ class flgalleryPlugin extends flgalleryBaseClass
 	function getUserInfo()
 	{
 		if (empty($this->userInfo)) {
-			global $user_ID;
-			get_currentuserinfo();
+			$user = wp_get_current_user();
 
-			if ($user = get_userdata($user_ID)) {
-				$this->userID = $user->ID;
+			if ($user && $user->exists()) {
+				$this->userID = (int)$user->ID;
 
-				if (!empty($user->user_level)) {
-					$this->userLevel = $user->user_level;
-				} else {
-					$caps &= $user->{$wpdb->prefix . 'capabilities'};
-					if (!empty($caps['administrator'])) {
-						$this->userLevel = 10;
-					} else {
-						if (!empty($caps['editor'])) {
-							$this->userLevel = 7;
-						} else {
-							if (!empty($caps['author'])) {
-								$this->userLevel = 4;
-							} else {
-								if (!empty($caps['contributor'])) {
-									$this->userLevel = 1;
-								} else {
-									$this->userLevel = 0;
-								}
-							}
-						}
+				// Legacy numeric user level (10 = administrator, 7 = editor, 2 = author, 1 = contributor),
+				// derived from the level_N capabilities that WordPress still grants to every role.
+				$this->userLevel = 0;
+				for ($level = 10; $level > 0; $level--) {
+					if ($user->has_cap("level_{$level}")) {
+						$this->userLevel = $level;
+						break;
 					}
 				}
 
@@ -291,7 +305,7 @@ class flgalleryPlugin extends flgalleryBaseClass
 				$this->userName = $user->display_name;
 
 				$this->userDomain = $this->name . '_user-' . $this->userID;
-				$this->userCookie =& $_COOKIE[$this->userDomain];
+				$this->userCookie = isset($_COOKIE[$this->userDomain]) ? (string)$_COOKIE[$this->userDomain] : false;
 
 				$this->userInfo = array(
 					'id' => $this->userID,
@@ -306,11 +320,66 @@ class flgalleryPlugin extends flgalleryBaseClass
 		return $this->userInfo;
 	}
 
+	/**
+	 * Per-user admin UI preferences stored in a cookie.
+	 */
+	function getUserCookie()
+	{
+		if (!empty($this->userCookie)) {
+			$data = json_decode(base64_decode((string)$this->userCookie, true) ?: '', true);
+			if (is_array($data)) {
+				return $data;
+			}
+		}
+		return array();
+	}
+
+	function setUserCookie($data)
+	{
+		if (empty($this->userDomain)) {
+			return false;
+		}
+
+		$this->userCookie = base64_encode(wp_json_encode($data));
+
+		if (!headers_sent()) {
+			return setcookie($this->userDomain, $this->userCookie, time() + 86400 * 24, '/', '', is_ssl(), true);
+		}
+		return false;
+	}
+
+	/**
+	 * Registers the JavaScript gallery engine. It is enqueued only when a gallery is rendered.
+	 */
+	function registerScripts()
+	{
+		if (!wp_script_is('altgallery', 'registered')) {
+			wp_register_script('altgallery', $this->getJsGalleryUrl(), array('jquery'), null, true);
+
+			// altgallery.js uses jQuery methods removed in jQuery 3.0. WordPress restores them with
+			// jQuery Migrate, but sites often disable it, so provide them if they are missing.
+			wp_add_inline_script('altgallery',
+				'(function($){' .
+					'if(!$.fn.size){$.fn.size=function(){return this.length;};}' .
+					'if(!$.fn.andSelf){$.fn.andSelf=$.fn.addBack;}' .
+				'})(jQuery);',
+				'before'
+			);
+		}
+	}
+
+	function enqueueScripts()
+	{
+		$this->registerScripts();
+		wp_enqueue_script('altgallery');
+	}
+
+	/**
+	 * Kept for backward compatibility.
+	 */
 	function scripts()
 	{
-		wp_enqueue_script('jquery');
-		wp_enqueue_script('swfobject');
-		wp_enqueue_script('altgallery', $this->getJsGalleryUrl(), array('jquery', 'swfobject'), null, true);
+		$this->enqueueScripts();
 	}
 
 	function getJsGalleryUrl()
@@ -335,16 +404,14 @@ class flgalleryPlugin extends flgalleryBaseClass
 
 	function deactivate()
 	{
-		if ($this->userLevel >= 10) {
-			return deactivate_plugins(FLGALLERY_FILE, true);
+		if (current_user_can('activate_plugins')) {
+			return deactivate_plugins(plugin_basename(FLGALLERY_FILE), true);
 		}
 		return false;
 	}
 
 	function upgrade()
 	{
-		include FLGALLERY_GLOBALS;
-
 		$prevVersion = get_option(FLGALLERY_NAME . '_version', 0);
 		$prevVersionValue = flgallery_versionValue($prevVersion);
 		$currentVersionValue = flgallery_versionValue(FLGALLERY_VERSION);
@@ -363,28 +430,52 @@ class flgalleryPlugin extends flgalleryBaseClass
 				{
 					$this->dbStripSlashes();
 				}
+				if ($prevVersionValue < 160000) // 0.16.0: Flash support removed
+				{
+					$this->migrateRemovedGalleryTypes();
+					flgallery_clearXmlCache();
+				}
 
 				$this->log("Upgraded from {$prevVersion} to " . FLGALLERY_VERSION);
 			}
 
-			if (!update_option(FLGALLERY_NAME . '_version', FLGALLERY_VERSION)) {
-				add_option(FLGALLERY_NAME . '_version', FLGALLERY_VERSION);
-			}
+			update_option(FLGALLERY_NAME . '_version', FLGALLERY_VERSION);
+		}
+	}
+
+	/**
+	 * 3D Slideshow existed only as a Flash movie. Without Flash the JavaScript engine has always
+	 * displayed such galleries as Box galleries, so they are converted to the Box type.
+	 * Their old settings stay in the settings table (they are stored per gallery type).
+	 */
+	function migrateRemovedGalleryTypes()
+	{
+		global $wpdb;
+
+		$res = $wpdb->query("UPDATE `{$this->dbGalleries}` SET `type` = 'Box' WHERE `type` = '3dSlideshow'");
+		if ($res) {
+			$this->log("Converted {$res} 3D Slideshow galleries to Box galleries");
+		}
+	}
+
+	/**
+	 * CREATE TABLE statements from inc/db.*.php, keyed by table name.
+	 */
+	function getTableSchemas()
+	{
+		global $wpdb;
+
+		$charset_collate = ' ' . $wpdb->get_charset_collate();
+
+		$schemas = array();
+		foreach (array(FLGALLERY_DB_ALBUMS, FLGALLERY_DB_GALLERIES, FLGALLERY_DB_IMAGES, FLGALLERY_DB_SETTINGS) as $table) {
+			$table_name = $wpdb->prefix . FLGALLERY_DB_PREFIX . $table;
+			$query = '';
+			include FLGALLERY_INCLUDE . "/db.{$table}.php";
+			$schemas[$table_name] = $query;
 		}
 
-		$this->points = array(
-			'b9033361548598c115a7d27a01e94fe7' => 'c9f1cf686cb6078eb4b0c983d1682590',
-			'5d78e83fbe2763d037af00793cd175d2' => '7d1dff07b1d3fe8174a43588f9528ea4',
-			'702992952378ff59898111d0b02feec5' => 'bc40641b0194aa707baed2a2d5116656',
-			'eea2f8f7263fb75fbd10dd930dc310a0' => 'd395294d0a48ec6b7a8f0ac142bed046',
-			'e737c6925b1b5a67fd0151a7700df058' => '8deddf03f08b1252c7983c2c650c0410',
-			'ed1c9043a107fa898d1c3178b4340514' => '1a19e53ab2fabaceb0011eae83473f3e',
-			'bf5b10c9b3643b627c0c44a1a913b230' => 'b1650b43e72f1af74c31d61bc621ecec',
-			'800f268da8c48174ff7c530a4bcdbf90' => '65fb784a1862c1e0c5f21170ef6b7181',
-			'f9aefc55616dec6f5e21edbae694e3cf' => '791639557d24d84520d015b4ee32be00',
-			'f8ecc0e0d099d8bf14409ddf3c96bb78' => 'dea5d272a1e4e2026195731060dbd887',
-			'89ef23e4f1f74a328df21949b3322bf2' => '04ad6a64a29a1ea3822cf6376d938b70',
-		);
+		return $schemas;
 	}
 
 	function createTables()
@@ -392,81 +483,20 @@ class flgalleryPlugin extends flgalleryBaseClass
 		global $wpdb;
 		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 
-		$charset_collate = '';
-		if ($wpdb->supports_collation()) {
-			if (!empty($wpdb->charset)) {
-				$charset_collate = " DEFAULT CHARACTER SET {$wpdb->charset}";
+		foreach ($this->getTableSchemas() as $table_name => $query) {
+			if ($wpdb->get_var($wpdb->prepare('SHOW TABLES LIKE %s', $wpdb->esc_like($table_name))) != $table_name) {
+				dbDelta($query);
 			}
-
-			if (!empty($wpdb->collate)) {
-				$charset_collate .= " COLLATE {$wpdb->collate}";
-			}
-		}
-
-		// Albums
-		$table_name = $wpdb->prefix . FLGALLERY_DB_PREFIX . FLGALLERY_DB_ALBUMS;
-		if ($wpdb->get_var("SHOW TABLES LIKE '{$table_name}'") != $table_name) {
-			require_once FLGALLERY_INCLUDE . '/db.albums.php';
-			dbDelta($query);
-		}
-
-		// Galleries
-		$table_name = $wpdb->prefix . FLGALLERY_DB_PREFIX . FLGALLERY_DB_GALLERIES;
-		if ($wpdb->get_var("SHOW TABLES LIKE '{$table_name}'") != $table_name) {
-			require_once FLGALLERY_INCLUDE . '/db.galleries.php';
-			dbDelta($query);
-		}
-
-		// Images
-		$table_name = $wpdb->prefix . FLGALLERY_DB_PREFIX . FLGALLERY_DB_IMAGES;
-		if ($wpdb->get_var("SHOW TABLES LIKE '{$table_name}'") != $table_name) {
-			require_once FLGALLERY_INCLUDE . '/db.images.php';
-			dbDelta($query);
-		}
-
-		// Settings
-		$table_name = $wpdb->prefix . FLGALLERY_DB_PREFIX . FLGALLERY_DB_SETTINGS;
-		if ($wpdb->get_var("SHOW TABLES LIKE '{$table_name}'") != $table_name) {
-			require_once FLGALLERY_INCLUDE . '/db.settings.php';
-			dbDelta($query);
 		}
 	}
 
 	function upgradeTables()
 	{
-		global $wpdb;
 		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 
-		$charset_collate = '';
-		if ($wpdb->supports_collation()) {
-			if (!empty($wpdb->charset)) {
-				$charset_collate = " DEFAULT CHARACTER SET {$wpdb->charset}";
-			}
-
-			if (!empty($wpdb->collate)) {
-				$charset_collate .= " COLLATE {$wpdb->collate}";
-			}
+		foreach ($this->getTableSchemas() as $query) {
+			dbDelta($query);
 		}
-
-		// Albums
-		$table_name = $wpdb->prefix . FLGALLERY_DB_PREFIX . FLGALLERY_DB_ALBUMS;
-		require_once FLGALLERY_INCLUDE . '/db.albums.php';
-		dbDelta($query);
-
-		// Galleries
-		$table_name = $wpdb->prefix . FLGALLERY_DB_PREFIX . FLGALLERY_DB_GALLERIES;
-		require_once FLGALLERY_INCLUDE . '/db.galleries.php';
-		dbDelta($query);
-
-		// Images
-		$table_name = $wpdb->prefix . FLGALLERY_DB_PREFIX . FLGALLERY_DB_IMAGES;
-		require_once FLGALLERY_INCLUDE . '/db.images.php';
-		dbDelta($query);
-
-		// Settings
-		$table_name = $wpdb->prefix . FLGALLERY_DB_PREFIX . FLGALLERY_DB_SETTINGS;
-		require_once FLGALLERY_INCLUDE . '/db.settings.php';
-		dbDelta($query);
 	}
 
 	function dbStripSlashes()
@@ -490,19 +520,19 @@ class flgalleryPlugin extends flgalleryBaseClass
 
 	function dropTables()
 	{
-		if ($this->userLevel >= 10) {
+		if (current_user_can('delete_plugins')) {
 			global $wpdb;
 
-			$wpdb->query("DROP TABLE `{$this->dbAlbums}`");
-			$wpdb->query("DROP TABLE `{$this->dbGalleries}`");
-			$wpdb->query("DROP TABLE `{$this->dbImages}`");
-			$wpdb->query("DROP TABLE `{$this->dbSettings}`");
+			$wpdb->query("DROP TABLE IF EXISTS `{$this->dbAlbums}`");
+			$wpdb->query("DROP TABLE IF EXISTS `{$this->dbGalleries}`");
+			$wpdb->query("DROP TABLE IF EXISTS `{$this->dbImages}`");
+			$wpdb->query("DROP TABLE IF EXISTS `{$this->dbSettings}`");
 		}
 	}
 
 	function uninstall()
 	{
-		if ($this->userLevel >= 10) {
+		if (current_user_can('delete_plugins')) {
 			include FLGALLERY_GLOBALS;
 
 			$this->dropTables();
@@ -513,19 +543,16 @@ class flgalleryPlugin extends flgalleryBaseClass
 
 			$this->deactivate();
 
-			//$func->unlinkRecurse($this->dir);
-
-			//$menuId = str_replace('.', '\.', str_replace('/', '-', get_plugin_page_hookname(plugin_basename(FLGALLERY_FILE), '') ));
 			$menuId = 'toplevel_page_flgallery';
 ?>
 			<h1 style='font-size:24px; line-height:50px; text-align:center; margin:5em 0;'>
-				<?php echo $this->title; ?><br>
+				<?php echo esc_html($this->title); ?><br>
 				<big style='color:#900; font-size:30px;'>Uninstalled.</big>
 			</h1>
 			<script type="text/javascript">//<![CDATA[
 				var menu = document.getElementById('<?php echo $menuId; ?>');
 				if (menu != null) menu.style.display = 'none';
-				setTimeout('location.href="./plugins.php"', 3000);
+				setTimeout(function () { location.href = './plugins.php'; }, 3000);
 			//]]></script>
 <?php
 			return true;

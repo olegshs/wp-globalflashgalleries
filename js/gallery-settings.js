@@ -1,48 +1,6 @@
 (function ($) {
 	document.getElementById('gallery-options').reset();
 
-	function flashAPI(swf, callback, timeout) {
-		if (swf.parentNode.parentNode.style.display != 'none') {
-			if (timeout == undefined || --timeout) {
-				if (swf.setParameterValue == undefined) {
-					setTimeout(function () {
-						flashAPI(swf, callback, timeout);
-					}, 1000);
-				} else {
-					//try {
-					callback(swf);
-					//} catch (e) {
-					//	alert(e);
-					//}
-				}
-			}
-		}
-	}
-
-	function getValue(e) {
-		if (e.type == 'checkbox') {
-			return e.value = e.checked ? true : false;
-		} else if (e.className.match(/\bcolor\b/)) {
-			return '0x' + e.value.match(/[0-9A-Fa-f]+/);
-		} else {
-			return e.value;
-		}
-	}
-
-	function getValuesByTagName(tagName, e) {
-		var result = [];
-		if (e) {
-			var elements = e.getElementsByTagName(tagName);
-			var m;
-			for (var i = 0; i < elements.length; i++) {
-				if (m = elements[i].id.match(/(.+)\.(.+)/)) {
-					result.push(m[2] + ': "' + getValue(elements[i]) + '"');
-				}
-			}
-		}
-		return result;
-	}
-
 	function setBackground() {
 		var style = {
 			backgroundRepeat: 'no-repeat',
@@ -51,57 +9,25 @@
 		style.backgroundColor = '#' + $('#background\\.color').val();
 		style.backgroundImage = 'url("' + $('#background\\.image').val() + '")';
 
-		if ($('#background\\.transparent').attr('checked')) {
+		if ($('#background\\.transparent').prop('checked')) {
 			style.background = 'none';
 			$('#flashSettings .background').css({ opacity: 0.4 });
-			$('#flashSettings .background input').attr('disabled', 'disabled');
+			$('#flashSettings .background input').prop('disabled', true);
 		}
 		else {
 			$('#flashSettings .background').css({ opacity: 1 });
-			$('#flashSettings .background input').removeAttr('disabled');
+			$('#flashSettings .background input').prop('disabled', false);
 		}
 		$('#flash-preview .flgallery-embed').css(style);
 	}
 
+	// Background is previewed immediately; other settings are applied by the "Update" button
 	function applyChanges(e) {
-		var m;
-		if (m = e.id.match(/(.+)\.(.+)/)) {
-			if (m[1] != 'lightbox') {
-				if (m[1] == 'background') {
-					setBackground();
-				} else {
-					var obj = document.getElementById(m[1]);
-					var elements = [];
-
-					elements = elements.concat(getValuesByTagName('input', obj));
-					elements = elements.concat(getValuesByTagName('select', obj));
-					elements = elements.concat(getValuesByTagName('textarea', obj));
-
-					var objValues = '';
-					for (var i = 0; i < elements.length; i++) {
-						objValues += elements[i] + ', ';
-					}
-					objValues = objValues.substring(0, objValues.length - 2);
-
-					flashAPI(flgallery.swf,
-						function ($) {
-							document.getElementById('debug').innerHTML = '$.setParameterValue( "' + m[1] + '", { ' + objValues + ' } );';
-							eval('$.setParameterValue( "' + m[1] + '", { ' + objValues + ' } );');
-						},
-						30
-					);
-				}
-			}
-		} else {
-			flashAPI(flgallery.swf,
-				function ($) {
-					document.getElementById('debug').innerHTML = '$.setParameterValue( "' + e.id + '", "' + getValue(e) + '" );';
-					$.setParameterValue(e.id, getValue(e));
-				},
-				30
-			);
+		var m = e.id.match(/(.+)\.(.+)/);
+		if (m && m[1] == 'background') {
+			setBackground();
 		}
-	};
+	}
 
 	jQuery(document).ready(function ($) {
 		$('#flashSettings .objectProperties').each(function () {
@@ -131,17 +57,17 @@
 			}
 		);
 
-		$('#flashSettings .objectName label').toggle(
-			function () {
-				$('#flashSettings .objectName .opened').click();
-				$(this).addClass('opened');
-				$('#' + this.htmlFor).parent().slideDown();
-			},
-			function () {
+		$('#flashSettings .objectName label').on('click', function () {
+			if ($(this).hasClass('opened')) {
 				$(this).removeClass('opened');
 				$('#' + this.htmlFor).parent().slideUp();
+			} else {
+				$('#flashSettings .objectName .opened').not(this).trigger('click');
+				$(this).addClass('opened');
+				$('#' + this.htmlFor).parent().slideDown();
 			}
-		);
+			return false;
+		});
 
 		setBackground();
 
@@ -168,7 +94,6 @@
 				},
 				resize: function (event, ui) {
 					var w = ui.size.width - resizeDeltaX, h = ui.size.height - resizeDeltaY;
-					$('#flash-preview object').css({ width: w, height: h });
 					$('#gallery\\.width').val(w);
 					$('#gallery\\.height').val(h);
 				},
@@ -182,16 +107,22 @@
 
 		flashPreviewResizable();
 
-		$('#flash-preview .handlediv').toggle(
-			function () {
-				$('#flash-preview').resizable('destroy');
-				$('#flash-preview').height('auto');
-				$('#flash-preview .inside').slideUp(250);
-			},
-			function () {
-				$('#flash-preview .inside').slideDown(500);
+		$('#flash-preview .postbox-header .handlediv').on('click', function () {
+			var preview = $('#flash-preview');
+			var button = $(this);
+			if (!preview.hasClass('closed')) {
+				button.attr('aria-expanded', 'false');
+				preview.resizable('destroy');
+				preview.height('auto');
+				$('#flash-preview .inside').slideUp(250, function () {
+					preview.addClass('closed');
+				});
+			} else {
+				preview.removeClass('closed');
+				button.attr('aria-expanded', 'true');
+				$('#flash-preview .inside').hide().slideDown(500);
 				flashPreviewResizable();
 			}
-		);
+		});
 	});
 })(jQuery);

@@ -16,9 +16,16 @@ class flgalleryGallery extends flgalleryBaseClass
 		$settings = NULL,
 		$settingsInfo = NULL,
 		$settingsForm = NULL,
-		$swfURL,
+		$items = NULL,
+		$itemsCount = 0,
+		$auth,
+		$signature,
+		$typeTitle,
 		$xmlFilePath,
 		$xmlFileURL;
+
+	// Number of galleries rendered on the current page (to keep DOM ids unique)
+	static $renderCount = array();
 
 	function init($a)
 	{
@@ -57,7 +64,7 @@ class flgalleryGallery extends flgalleryBaseClass
 		include FLGALLERY_GLOBALS;
 
 		$this->id = 0;
-		$this->type = empty($a['type']) ? 'default' : $a['type'];
+		$this->type = !empty($a['type']) && $plugin->isGalleryType($a['type']) ? $a['type'] : 'Art';
 		$this->name = empty($a['name']) ? __('New Gallery', $plugin->name) : $a['name'];
 		$this->author = $plugin->userID;
 		$this->modified = $this->created = date('Y-m-d H:i:s');
@@ -83,8 +90,8 @@ class flgalleryGallery extends flgalleryBaseClass
 						$this->$key = $val;
 					}
 				}
-				$author = get_userdata($this->author);
-				$this->authorName = $author->display_name;
+				$author = get_userdata((int)$this->author);
+				$this->authorName = $author ? $author->display_name : '';
 			}
 		} else {
 			return false;
@@ -289,11 +296,15 @@ class flgalleryGallery extends flgalleryBaseClass
 	{
 		include FLGALLERY_GLOBALS;
 
+		if (!$plugin->isGalleryType($this->type)) {
+			return false;
+		}
+
 		if (empty($plugin->galleryInfo[$this->type]['settings'])) {
 			$settingsDir = $this->isLegacy() ? 'settings.legacy' : 'settings';
+			$settingsFile = FLGALLERY_PLUGIN_DIR . "/{$settingsDir}/{$this->type}.xml";
 
-			$settings = simplexml_load_file(FLGALLERY_PLUGIN_DIR . "/{$settingsDir}/{$this->type}.xml");
-			$plugin->galleryInfo[$this->type]['settings'] = $settings;
+			$plugin->galleryInfo[$this->type]['settings'] = file_exists($settingsFile) ? simplexml_load_file($settingsFile) : false;
 		}
 
 		return $plugin->galleryInfo[$this->type]['settings'];
@@ -304,13 +315,14 @@ class flgalleryGallery extends flgalleryBaseClass
 		include FLGALLERY_GLOBALS;
 
 		if ($reload || empty($this->settings)) {
-			$results = $wpdb->get_results("
+			$results = $wpdb->get_results($wpdb->prepare("
 				SELECT `name`, `value`
 				FROM `{$plugin->dbSettings}`
-				WHERE `{$plugin->dbSettings}`.`gallery_id` = '{$this->id}'
-				AND `{$plugin->dbSettings}`.`gallery_type` = '{$this->type}'
-			");
-			if ($results !== false) {
+				WHERE `gallery_id` = %d
+				AND `gallery_type` = %s
+			", $this->id, $this->type));
+			if (is_array($results)) {
+				$this->settings = array();
 				foreach ($results as $res) {
 					$this->settings[$res->name] = esc_html($res->value);
 				}
@@ -318,7 +330,7 @@ class flgalleryGallery extends flgalleryBaseClass
 				$settingsXml = $this->getSettingsXml();
 
 				if (!empty($settingsXml->group)) {
-					$groups =& $settingsXml->group;
+					$groups = $settingsXml->group;
 
 					foreach ($groups as $group) {
 						$groupAtt = $group->attributes();
@@ -349,7 +361,7 @@ class flgalleryGallery extends flgalleryBaseClass
 				}
 
 				if (!empty($settingsXml->param)) {
-					$params =& $settingsXml->param;
+					$params = $settingsXml->param;
 
 					foreach ($params as $param) {
 						if (is_object($param)) {
@@ -389,12 +401,13 @@ class flgalleryGallery extends flgalleryBaseClass
 		if ($this->getSettings(false)) {
 			include FLGALLERY_GLOBALS;
 
-			$results = $wpdb->get_results("
+			$keys = array();
+			$results = $wpdb->get_results($wpdb->prepare("
 				SELECT `id`, `name`
 				FROM `{$plugin->dbSettings}`
-				WHERE `gallery_id` = '{$this->id}'
-				AND `gallery_type` = '{$this->type}'
-			");
+				WHERE `gallery_id` = %d
+				AND `gallery_type` = %s
+			", $this->id, $this->type));
 			if ($results) {
 				foreach ($results as $res) {
 					$keys[$res->name] = $res->id;
@@ -437,11 +450,13 @@ class flgalleryGallery extends flgalleryBaseClass
 
 			$this->clearXmlCache();
 
-			return $wpdb->query("
+			$this->settings = NULL;
+
+			return $wpdb->query($wpdb->prepare("
 				DELETE FROM `{$plugin->dbSettings}`
-				WHERE `gallery_id` = '{$this->id}'
-				AND `gallery_type` = '{$this->type}'
-			");
+				WHERE `gallery_id` = %d
+				AND `gallery_type` = %s
+			", $this->id, $this->type));
 		}
 	}
 
@@ -474,31 +489,6 @@ class flgalleryGallery extends flgalleryBaseClass
 		return $this->itemsCount;
 	}
 
-	function getSwf()
-	{
-		if (empty($this->swfURL)) {
-			include FLGALLERY_GLOBALS;
-
-			$src = $plugin->galleryInfo[$this->type]['src'];
-
-			if (function_exists('flgallery_commercial_getSWF')) {
-				return $this->swfURL = flgallery_commercial_getSWF($src);
-			}
-
-			$c = $this->getSignature();
-			if (!empty($plugin->points[$c])) {
-				$path = '/swf/' . $src;
-				$stat = stat(FLGALLERY_PLUGIN_DIR . $path);
-				if (md5((string)$stat[7]) != $plugin->points[$c]) {
-					return '';
-				}
-
-				return $this->swfURL = FLGALLERY_PLUGIN_URL . $path;
-			}
-		}
-		return $this->swfURL;
-	}
-
 	function getPopupUrl()
 	{
 		return admin_url('admin-ajax.php') . "?action=flgalleryPopup&gallery_id={$this->id}";
@@ -510,15 +500,18 @@ class flgalleryGallery extends flgalleryBaseClass
 
 		$url = $this->getPopupUrl();
 
-		$height = $this->height;
+		$width = (int)$this->width;
+		$height = (int)$this->height;
 
-		if (!defined('WP_ADMIN')) {
+		if (!is_admin()) {
 			$url .= '&frontend=1';
 		} else {
 			$height += 25;
 		}
 
-		return "window.open('{$url}', '{$plugin->name}', 'location=no,menubar=no,resizable=no,scrollbars=no,status=no,toolbar=no,left='+(screen.availWidth-{$this->width})/2+',top='+(screen.availHeight-{$height})/2+',width={$this->width},height={$height}'); return false;";
+		$url = esc_js($url);
+
+		return "window.open('{$url}', '{$plugin->name}', 'location=no,menubar=no,resizable=no,scrollbars=no,status=no,toolbar=no,left='+(screen.availWidth-{$width})/2+',top='+(screen.availHeight-{$height})/2+',width={$width},height={$height}'); return false;";
 	}
 
 	function getPopupLink($text)
@@ -535,69 +528,108 @@ class flgalleryGallery extends flgalleryBaseClass
 			$text_after = '';
 		}
 
+		$onclick = esc_attr($onclick);
+
 		return "{$text_before}<a href=\"{$url}\" onclick=\"{$onclick}\">{$text}</a>{$text_after}";
 	}
 
+	/**
+	 * URL of a picture stored in the images table (path is either relative to the plugin's
+	 * images directory or, for pictures imported from elsewhere, absolute from the site root).
+	 */
+	function getImageUrl($path)
+	{
+		include FLGALLERY_GLOBALS;
+
+		if (strpos($path, '/') === 0) {
+			return FLGALLERY_SITE_URL . $path;
+		}
+		return $plugin->imgURL . '/' . $path;
+	}
+
+	/**
+	 * Gallery dimension for CSS/JS: a number of pixels, or a percentage such as "100%".
+	 */
+	function cssSize($value, $default)
+	{
+		if (is_string($value) && preg_match('/^\d+(\.\d+)?%$/', trim($value))) {
+			return trim($value);
+		}
+		$value = (int)$value;
+		return ($value > 0 ? $value : $default) . 'px';
+	}
+
+	/**
+	 * HTML code of the gallery: a container that the JavaScript gallery engine (js/altgallery.js)
+	 * renders the gallery into, using the gallery's XML file as configuration.
+	 */
 	function getHtml()
 	{
 		include FLGALLERY_GLOBALS;
 
-		$items = $this->getItems();
-		if ($items !== false) {
-			$altContent = "\n";
-			foreach ($items as $item) {
-				$image = new flgalleryImage($item);
-				$thumbnail = $image->resized(array('height' => 120), true);
-
-				$item->title = esc_html($item->title);
-				$item->description = esc_html($item->description);
-
-				$altContent .= "\t\t<li style=\"display:inline;\"><a href=\"{$plugin->imgURL}/{$item->path}\"><img src=\"{$thumbnail}\" alt=\"{$item->title}\" /></a>{$item->description}</li>\n";
-			}
-			$altContent = '<div class="flgallery-altcontent"><ol style="list-style:none;">' . $altContent . "\t</ol></div>";
-		} else {
-			$altContent = '<a class="flgallery-altcontent" href="http://www.adobe.com/go/getflashplayer" rel="nofollow"><img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash player" /></a>';
+		if (!$this->id || !$plugin->isGalleryType($this->type)) {
+			return '';
 		}
 
 		if (!file_exists($this->xmlFilePath)) {
 			$this->getXml();
 		}
 
-		$flash = $func->flash(
-			$plugin->name . '-' . $this->id, // id
-			$this->getSwf(), // url
-			$this->width, // dimensions
-			$this->height,
-			array(
-				'flashVars' => 'XMLFile=' . rawurlencode($this->xmlFileURL),
-				'allowFullScreen' => 'true',
-				'allowScriptAccess' => 'always',
-				'quality' => 'high',
-				'wmode' => 'transparent',
-				'swfversion' => '9.0.45.0',
-			),
-			$altContent,
-			false
+		$plugin->enqueueScripts();
+
+		// Unique DOM id, even if the same gallery is shown more than once on a page
+		$n = isset(self::$renderCount[$this->id]) ? ++self::$renderCount[$this->id] : (self::$renderCount[$this->id] = 1);
+		$domId = $plugin->name . '-' . $this->id . ($n > 1 ? '-' . $n : '');
+
+		// Plain list of pictures for visitors without JavaScript and for search engines
+		$noscript = '';
+		$items = $this->getItems();
+		if (!empty($items)) {
+			foreach ($items as $item) {
+				$image = new flgalleryImage($item);
+				$thumbnail = $image->resized(array('height' => 120), true);
+
+				$noscript .=
+					'<li style="display:inline;">' .
+						'<a href="' . esc_url($this->getImageUrl($item->path)) . '">' .
+							'<img src="' . esc_url($thumbnail) . '" alt="' . esc_attr($item->title) . '" />' .
+						'</a>' .
+						esc_html($item->description) .
+					'</li>';
+			}
+			$noscript = '<noscript><ol style="list-style:none;">' . $noscript . '</ol></noscript>';
+		}
+
+		$width = $this->cssSize($this->width, 550);
+		$height = $this->cssSize($this->height, 400);
+
+		$options = array(
+			'type' => $this->type,
+			'width' => $width,
+			'height' => $height,
+			'images' => array('folder' => $plugin->url . '/img/'),
+			'config' => $this->xmlFileURL,
+			'configType' => 'xml',
+			'fullscreen' => 'never',
 		);
 
-		$altgallery = $tpl->parse('altgallery', array_merge(get_object_vars($this), array(
-			'pluginURL' => $plugin->url,
-			'xmlFile' => $this->xmlFileURL
-		)));
+		$altgallery = $tpl->parse('altgallery', array(
+			'options' => wp_json_encode($options),
+			'selector' => wp_json_encode('#' . $domId . ' .flgallery-altcontent'),
+		));
 
-		$style = "width: {$this->width}px; height: {$this->height}px; overflow: hidden;";
-		$style = str_replace('%px', '%', $style);
+		$style = "width: {$width}; height: {$height}; overflow: hidden;";
 
 		$this->getSettings();
 		if (isset($this->settings['background.transparent']) && $this->settings['background.transparent'] == 'false') {
 			$background = '';
 
-			if (!empty($this->settings['background.color'])) {
-				$background .= " #{$this->settings['background.color']}";
+			if (!empty($this->settings['background.color']) && preg_match('/^#?([0-9a-f]{3}|[0-9a-f]{6})$/i', $this->settings['background.color'], $m)) {
+				$background .= " #{$m[1]}";
 			}
 
 			if (!empty($this->settings['background.image'])) {
-				$background .= " url({$this->settings['background.image']}) no-repeat center";
+				$background .= ' url(' . esc_url(html_entity_decode($this->settings['background.image'], ENT_QUOTES)) . ') no-repeat center';
 			}
 
 			if (!empty($background)) {
@@ -605,8 +637,15 @@ class flgalleryGallery extends flgalleryBaseClass
 			}
 		}
 
-		$html = '<div class="flgallery-' . $this->id . ' flgallery-' . strtolower($this->type) . ' flgallery-embed" style="' . $style . '">' . $flash . $altgallery . '</div>';
+		$html =
+			'<div class="flgallery-' . $this->id . ' flgallery-' . esc_attr(strtolower($this->type)) . ' flgallery-embed" style="' . esc_attr($style) . '">' .
+				'<div id="' . esc_attr($domId) . '" class="flgallery-container" style="width:100%; height:100%;">' .
+					'<div class="flgallery-altcontent" style="width:100%; height:100%;">' . $noscript . '</div>' .
+				'</div>' .
+				$altgallery .
+			'</div>';
 
+		// Keep the markup on one line, so that wpautop() and similar filters don't break it
 		$html = preg_replace('/[\r\n\s\t]+/', ' ', $html);
 		$html = preg_replace('/\s*([<>])\s*/', '$1', $html);
 
@@ -617,8 +656,6 @@ class flgalleryGallery extends flgalleryBaseClass
 	{
 		if ($this->id) {
 			include FLGALLERY_GLOBALS;
-
-			$plugin->lastGalleryType = $this->type;
 
 			$xmlDir = $this->isLegacy() ? 'xml.legacy' : 'xml';
 
@@ -637,11 +674,12 @@ class flgalleryGallery extends flgalleryBaseClass
 				$a['loader'] = 'true';
 				$a['items'] = '';
 
-				if ($this->type == 'PhotoFlow' && $a['colorScheme'] == 'custom') {
+				if ($this->type == 'PhotoFlow' && isset($a['colorScheme']) && $a['colorScheme'] == 'custom') {
 					$a['custom'] = 'true';
 				}
 
-				if ($this->type == 'Zen' && $a['initialState'] == 'Show Albums') {
+				$albumItems = array();
+				if ($this->type == 'Zen' && isset($a['initialState']) && $a['initialState'] == 'Show Albums') {
 					$a['multipleAlbums'] = true;
 				}
 
@@ -659,16 +697,15 @@ class flgalleryGallery extends flgalleryBaseClass
 				$thumbSize['width'] *= 2;
 				$thumbSize['height'] *= 2;
 
+				$galleryWidth = (int)$this->width;
+				$galleryHeight = (int)$this->height;
+
 				foreach ($images as $img) {
-					if (strpos($img->path, '/') === 0) {
-						$img->source = FLGALLERY_SITE_URL . $img->path;
-					} else {
-						$img->source = $plugin->imgURL . '/' . $img->path;
-					}
+					$img->source = $this->getImageUrl($img->path);
 
 					$img->thumbnail = $img->source;
 
-					if (!$plugin->stats->deadline()) {
+					if (!$plugin->stats->deadline() && $img->width > 0 && $img->height > 0 && $galleryWidth > 0 && $galleryHeight > 0) {
 						$image = new flgalleryImage($img);
 
 						$size = $image->scale('fill',
@@ -677,8 +714,8 @@ class flgalleryGallery extends flgalleryBaseClass
 								'height' => $img->height
 							),
 							array(
-								'width' => ($w = $this->width * 2) > $maxImageWidth ? $maxImageWidth : $w,
-								'height' => ($h = $this->height * 2) > $maxImageHeight ? $maxImageHeight : $h
+								'width' => min($galleryWidth * 2, $maxImageWidth),
+								'height' => min($galleryHeight * 2, $maxImageHeight)
 							)
 						);
 
@@ -719,6 +756,9 @@ class flgalleryGallery extends flgalleryBaseClass
 					);
 
 					if (!empty($a['multipleAlbums'])) {
+						if (!isset($albumItems[$img->album_id])) {
+							$albumItems[$img->album_id] = '';
+						}
 						$albumItems[$img->album_id] .= $plugin->tpl->parse($itemTemplate, $item);
 					} else {
 						$a['items'] .= $plugin->tpl->parse($itemTemplate, $item);
@@ -728,11 +768,11 @@ class flgalleryGallery extends flgalleryBaseClass
 				if (!empty($a['multipleAlbums'])) {
 					$a['albums'] = '';
 					foreach ($albumItems as $album_id => $items) {
-						$description = $wpdb->get_var("
+						$description = (string)$wpdb->get_var($wpdb->prepare("
 							SELECT `title`
 							FROM `{$plugin->dbAlbums}`
-							WHERE `id` = '{$album_id}'
-						");
+							WHERE `id` = %d
+						", $album_id));
 
 						$a['albums'] .= $plugin->tpl->parse($albumTemplate, array(
 							'icon' => '',
@@ -760,46 +800,55 @@ class flgalleryGallery extends flgalleryBaseClass
 
 	function getThumbSize()
 	{
+		$s = is_array($this->settings) ? $this->settings : array();
+		$get = function ($name) use ($s) {
+			return isset($s[$name]) ? (int)$s[$name] : 0;
+		};
+
 		switch ($this->type) {
 			case 'Art':
-				if ($this->settings['preview.usePreview'] == 'true') {
-					$width = $this->settings['preview.width'];
-					$height = $this->settings['preview.height'];
+				if (isset($s['preview.usePreview']) && $s['preview.usePreview'] == 'true') {
+					$width = $get('preview.width');
+					$height = $get('preview.height');
 				} else {
-					$width = $this->settings['thumbnail.width'];
-					$height = $this->settings['thumbnail.height'];
+					$width = $get('thumbnail.width');
+					$height = $get('thumbnail.height');
 				}
 				break;
 
 			case 'Cubic':
-				$width = $this->width / 3.5;
-				$height = $this->height / 3.0;
+				$width = (int)$this->width / 3.5;
+				$height = (int)$this->height / 3.0;
 				break;
 
 			case 'PhotoFlow':
-				$width = $this->settings['maxImageWidth'];
+				$width = $get('maxImageWidth');
 				$height = 0;
 				break;
 
 			case 'StackPhoto':
-				$width = $this->settings['image.width'];
-				$height = $this->settings['image.height'];
+				$width = $get('image.width');
+				$height = $get('image.height');
 				break;
 
 			case 'Zen':
-				$width = $this->settings['iconWidth'];
-				$height = $this->settings['iconHeight'];
+				$width = $get('iconWidth');
+				$height = $get('iconHeight');
 				break;
 
 			default:
-				$width = isset($this->settings['thumbnail.width']) ? $this->settings['thumbnail.width'] : 0;
-				$height = isset($this->settings['thumbnail.height']) ? $this->settings['thumbnail.height'] : 0;
+				$width = $get('thumbnail.width');
+				$height = $get('thumbnail.height');
 				break;
 		}
 
 		return array('width' => (int)$width, 'height' => (int)$height);
 	}
 
+	/**
+	 * Key of the gallery type in $flgalleryProducts (defined by the commercial add-on).
+	 * It is based on the name of the former Flash movie and must not be changed.
+	 */
 	function getSignature()
 	{
 		if (empty($this->signature)) {
@@ -821,7 +870,7 @@ class flgalleryGallery extends flgalleryBaseClass
 		if ($this->id) {
 			$xmlDir = dirname($this->xmlFilePath);
 			if (!file_exists($xmlDir)) {
-				mkdir($xmlDir, 0777, true);
+				wp_mkdir_p($xmlDir);
 			}
 
 			if ($fp = fopen($this->xmlFilePath, 'w')) {

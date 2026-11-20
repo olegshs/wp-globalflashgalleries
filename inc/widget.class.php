@@ -2,9 +2,11 @@
 
 class flgalleryWidget extends WP_Widget
 {
-	function flgalleryWidget()
+	function __construct()
 	{
-		$this->WP_Widget(
+		// id_base false = derived from the class name ("flgallery"), as in previous versions,
+		// so that existing widget instances are kept.
+		parent::__construct(
 			false,
 			'Flash Gallery',
 			array(
@@ -18,12 +20,27 @@ class flgalleryWidget extends WP_Widget
 	{
 		include FLGALLERY_GLOBALS;
 
-		extract($args);
-		$title = apply_filters('widget_title', $instance['title']);
+		$args = wp_parse_args($args, array(
+			'before_widget' => '',
+			'after_widget' => '',
+			'before_title' => '',
+			'after_title' => '',
+		));
+		$instance = wp_parse_args((array)$instance, array(
+			'title' => '',
+			'gallery' => 0,
+			'show' => 'text',
+			'text' => '',
+			'preview' => '',
+		));
+
+		$title = apply_filters('widget_title', $instance['title'], $instance, $this->id_base);
 		$gallery_id = (int)$instance['gallery'];
 
+		echo $args['before_widget'];
+
 		if (!empty($title)) {
-			echo esc_html($title);
+			echo $args['before_title'] . esc_html($title) . $args['after_title'];
 		}
 
 		if (!empty($gallery_id)) {
@@ -43,15 +60,25 @@ class flgalleryWidget extends WP_Widget
 					$plugin->flashGallery($a) .
 				'</div>';
 		}
+
+		echo $args['after_widget'];
 	}
 
 	function update($new_instance, $old_instance)
 	{
-		if (!strlen($new_instance['text'])) {
-			$new_instance['text'] = __('To view the gallery in a popup window, #click here#.');
+		$instance = array(
+			'title' => isset($new_instance['title']) ? sanitize_text_field($new_instance['title']) : '',
+			'gallery' => isset($new_instance['gallery']) ? (int)$new_instance['gallery'] : 0,
+			'show' => isset($new_instance['show']) && $new_instance['show'] == 'preview' ? 'preview' : 'text',
+			'text' => isset($new_instance['text']) ? wp_kses_post($new_instance['text']) : '',
+			'preview' => isset($new_instance['preview']) ? esc_url_raw($new_instance['preview']) : '',
+		);
+
+		if (!strlen($instance['text'])) {
+			$instance['text'] = __('To view the gallery in a popup window, #click here#.');
 		}
 
-		return $new_instance;
+		return $instance;
 	}
 
 	function form($instance)
@@ -76,7 +103,7 @@ class flgalleryWidget extends WP_Widget
 					SELECT `id`, `name`
 					FROM `{$plugin->dbGalleries}`
 				");
-				foreach ($galleries as $gallery) {
+				foreach ((array)$galleries as $gallery) {
 ?>
 					<option value="<?php echo $gallery->id; ?>"<?php if ($gallery->id == $selectedGallery) echo ' selected="selected"' ?>><?php echo esc_html($gallery->name); ?></option>
 <?php

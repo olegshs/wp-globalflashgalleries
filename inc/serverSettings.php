@@ -4,6 +4,10 @@ if (!defined('WP_ADMIN')) { header('HTTP/1.0 403 Forbidden'); exit('Access denie
 if (!function_exists('mToBytes')) :
 function mToBytes($size)
 {
+	if (trim((string)$size) === '-1') {
+		return PHP_INT_MAX;
+	}
+
 	$k = array(
 		'' => 1,
 		'B' => 1,
@@ -12,7 +16,7 @@ function mToBytes($size)
 		'G' => 1073741824,
 		'T' => 1099511627776
 	);
-	if ( preg_match('/([\d\.]+)\s*([BKMGT]|)\w*/i', $size, $m) )
+	if ( preg_match('/([\d\.]+)\s*([BKMGT]|)\w*/i', (string)$size, $m) )
 		return (float)$m[1] * $k[strtoupper($m[2])];
 	else
 		return $size;
@@ -30,7 +34,10 @@ function bytesToM($size, $units = 'M', $precision = 0)
 		'G' => 1073741824,
 		'T' => 1099511627776
 	);
-	$units = strtoupper($units[0]);
+	$units = strtoupper(substr((string)$units, 0, 1));
+	if (!isset($k[$units])) {
+		$units = '';
+	}
 	return round($size / $k[$units], $precision) . $units;
 }
 endif;
@@ -44,25 +51,22 @@ endif;
 
 
 // Get information about the operating system PHP is running on
-$php_os = php_uname();
+$php_os = esc_html(php_uname());
 
 // Get MYSQL Version
 $sqlversion = $wpdb->get_var("SELECT VERSION() AS version");
 
 // GET SQL Mode
+$sql_mode = '';
 $mysqlinfo = $wpdb->get_results("SHOW VARIABLES LIKE 'sql_mode'");
-if (is_array($mysqlinfo)) $sql_mode = str_replace(',', ', ', $mysqlinfo[0]->Value);
+if (!empty($mysqlinfo)) $sql_mode = str_replace(',', ', ', $mysqlinfo[0]->Value);
 if (empty($sql_mode)) $sql_mode = __('Not set', FLGALLERY_NAME);
 
 // Get PHP Version
-if ( version_compare(PHP_VERSION, '5.2', '<') )
+if ( version_compare(PHP_VERSION, '8.2', '<') )
 	$php_version = sprintf('<strong class="red">%s</strong>', PHP_VERSION);
 else
 	$php_version = PHP_VERSION;
-
-// Get PHP Safe Mode
-if(ini_get('safe_mode')) $safe_mode = '<strong class="red">'.__('On', FLGALLERY_NAME).'</strong>';
-else $safe_mode = __('Off', FLGALLERY_NAME);
 
 // Get PHP allow_url_fopen
 if(ini_get('allow_url_fopen')) $allow_url_fopen = __('On', FLGALLERY_NAME);
@@ -85,7 +89,10 @@ if(ini_get('max_execution_time')) $max_execute = ini_get('max_execution_time');
 else $max_execute = __('N/A', FLGALLERY_NAME);
 
 // Get PHP Memory Limit
-if(ini_get('memory_limit'))
+$mem_limit = PHP_INT_MAX;
+if (ini_get('memory_limit') == '-1')
+	$memory_limit = __('Unlimited', FLGALLERY_NAME);
+elseif(ini_get('memory_limit'))
 {
 	$mem_limit = mToBytes(ini_get('memory_limit'));
 	$memory_limit = bytesToM($mem_limit);

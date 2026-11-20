@@ -11,7 +11,7 @@ class flgalleryStats
 		$endQueries,
 		$maxExecutionTime;
 
-	function flgalleryStats()
+	function __construct()
 	{
 		$this->maxExecutionTime = (int)ini_get('max_execution_time');
 	}
@@ -44,11 +44,15 @@ class flgalleryStats
 	function remains()
 	{
 		global $timestart;
-		return $timestart + $this->maxExecutionTime - $this->microtime();
+		return (float)$timestart + $this->maxExecutionTime - $this->microtime();
 	}
 
 	function deadline()
 	{
+		// max_execution_time = 0 means "no limit" (e.g. CLI)
+		if ($this->maxExecutionTime <= 0) {
+			return false;
+		}
 		return $this->remains() < $this->maxExecutionTime / 3;
 	}
 

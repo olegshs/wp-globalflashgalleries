@@ -33,7 +33,7 @@ class flgalleryImage extends flgalleryBaseClass
 	{
 		include FLGALLERY_GLOBALS;
 
-		if (strpos($this->path, '/') === 0) {
+		if (strpos((string)$this->path, '/') === 0) {
 			$fullPath = ABSPATH . $this->path;
 		} else {
 			$fullPath = $plugin->imgDir . '/' . $this->path;
@@ -42,7 +42,7 @@ class flgalleryImage extends flgalleryBaseClass
 		if (file_exists($fullPath)) {
 			$save = false;
 			if (empty($this->type) || empty($this->width) || empty($this->height)) {
-				if ($imagesize = getimagesize($fullPath)) {
+				if ($imagesize = @getimagesize($fullPath)) {
 					list($this->width, $this->height) = $imagesize;
 					$this->type = $imagesize['mime'];
 
@@ -163,7 +163,7 @@ class flgalleryImage extends flgalleryBaseClass
 	{
 		include FLGALLERY_GLOBALS;
 
-		$blacklist = explode("\n", @file_get_contents($plugin->imgBlacklistPath));
+		$blacklist = explode("\n", (string)@file_get_contents($plugin->imgBlacklistPath));
 
 		$key = array_search($path, $blacklist);
 		if ($key === false) {
@@ -176,7 +176,7 @@ class flgalleryImage extends flgalleryBaseClass
 	{
 		include FLGALLERY_GLOBALS;
 
-		$blacklist = explode("\n", @file_get_contents($plugin->imgBlacklistPath));
+		$blacklist = explode("\n", (string)@file_get_contents($plugin->imgBlacklistPath));
 
 		$key = array_search($path, $blacklist);
 		if ($key !== false) {
@@ -189,13 +189,17 @@ class flgalleryImage extends flgalleryBaseClass
 	{
 		include FLGALLERY_GLOBALS;
 
-		$blacklist = explode("\n", @file_get_contents($plugin->imgBlacklistPath));
+		$blacklist = explode("\n", (string)@file_get_contents($plugin->imgBlacklistPath));
 
 		return array_search($path, $blacklist);
 	}
 
 	function scale($mode, $size, $area)
 	{
+		if (empty($size['width']) || empty($size['height'])) {
+			return array('left' => 0, 'top' => 0, 'width' => (int)$area['width'], 'height' => (int)$area['height']);
+		}
+
 		$k = $size['width'] / $size['height'];
 
 		switch ($mode) {
@@ -278,11 +282,21 @@ class flgalleryImage extends flgalleryBaseClass
 			return false;
 		}
 
-		$newWidth = round(empty($size['width']) ? $this->width * ($size['height'] / $this->height) : $size['width']);
-		$newHeight = round(empty($size['height']) ? $this->height * ($size['width'] / $this->width) : $size['height']);
+		if (empty($this->width) || empty($this->height)) {
+			return false;
+		}
 
-		preg_match('/(.*)(\..*)$/', $this->path, $fname);
-		if (strpos($this->path, '/') === 0) {
+		$newWidth = (int)round(empty($size['width']) ? $this->width * ($size['height'] / $this->height) : $size['width']);
+		$newHeight = (int)round(empty($size['height']) ? $this->height * ($size['width'] / $this->width) : $size['height']);
+
+		if ($newWidth < 1 || $newHeight < 1) {
+			return false;
+		}
+
+		if (!preg_match('/(.*)(\..*)$/', $this->path, $fname)) {
+			$fname = array($this->path, $this->path, '');
+		}
+		if (strpos((string)$this->path, '/') === 0) {
 			$fname[1] = md5($fname[1]);
 		}
 		$newPath = $plugin->tmpDir . "/img-{$fname[1]}.{$newWidth}x{$newHeight}{$fname[2]}";
@@ -296,7 +310,7 @@ class flgalleryImage extends flgalleryBaseClass
 				case 'image/gif':
 					$imagecreate = 'imagecreatefromgif';
 					$imageout = 'imagegif';
-					$quality = 100;
+					$quality = NULL; // imagegif() has no quality parameter
 					break;
 				case 'image/jpeg':
 					$imagecreate = 'imagecreatefromjpeg';
@@ -328,13 +342,16 @@ class flgalleryImage extends flgalleryBaseClass
 
 				$this->addToBlacklist($this->path);
 
-				if (strpos($this->path, '/') === 0) {
+				if (strpos((string)$this->path, '/') === 0) {
 					$fullPath = ABSPATH . $this->path;
 				} else {
 					$fullPath = $plugin->imgDir . '/' . $this->path;
 				}
 
-				$srcImage = $imagecreate($fullPath);
+				$srcImage = @$imagecreate($fullPath);
+				if (!$srcImage) {
+					return false;
+				}
 				$dstImage = imagecreatetruecolor($newWidth, $newHeight);
 
 				if ($this->type == 'image/png') {
@@ -347,14 +364,17 @@ class flgalleryImage extends flgalleryBaseClass
 				}
 
 				// Copy
-				imagecopyresampled($dstImage, $srcImage, 0, 0, 0, 0, $newWidth, $newHeight, $this->width, $this->height);
+				imagecopyresampled($dstImage, $srcImage, 0, 0, 0, 0, $newWidth, $newHeight, (int)$this->width, (int)$this->height);
 
-				imagedestroy($srcImage);
+				// GD images are objects since PHP 8 and are freed automatically (imagedestroy() is a no-op)
+				unset($srcImage);
 
-				$res = $imageout($dstImage, $newPath, $quality);
-				chmod($newPath, 0666);
+				$res = $quality === NULL ? $imageout($dstImage, $newPath) : $imageout($dstImage, $newPath, $quality);
+				if ($res) {
+					@chmod($newPath, 0666);
+				}
 
-				imagedestroy($dstImage);
+				unset($dstImage);
 
 				if (!$res) {
 					return false;

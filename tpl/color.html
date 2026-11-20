@@ -9,7 +9,7 @@
 				$('.colorPicker').hide();
 				$('.colorPicker').click( function() {return false;} );
 				$(document).click(function() {
-					$(document).unbind('click');
+					$(document).off('click');
 					$('#colorPicker-{id2}').fadeOut(1000);
 					var e = document.getElementById('{id}');
 					if (e.value != lastValue)

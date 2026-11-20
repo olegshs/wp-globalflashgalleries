@@ -2,21 +2,27 @@
 /*
 Plugin Name: Global Flash Gallery
 Plugin URI: http://flash-gallery.com/wordpress-plugin/
-Description: Global Flash Galleries plugin is designed for quick and easy creating and publishing flash galleries and slideshows. There are convenient tools for uploading and managing images. This plugin includes 11 different galleries. Each gallery can be customized according to your preferences.
-Version: 0.15.3
+Description: Global Flash Galleries plugin is designed for quick and easy creating and publishing galleries and slideshows. There are convenient tools for uploading and managing images. This plugin includes 10 different JavaScript galleries. Each gallery can be customized according to your preferences.
+Version: 0.16.0
+Requires at least: 6.0
+Requires PHP: 8.2
 Author: Flash Gallery Team
 Author URI: http://flash-gallery.com/
 */
 
-define( 'FLGALLERY_VERSION', '0.15.3' );
+if (!defined('ABSPATH')) {
+	exit;
+}
+
+define( 'FLGALLERY_VERSION', '0.16.0' );
 define( 'FLGALLERY_JS_VERSION', '0.12.1' );
 
 require_once dirname(__FILE__).'/config.php';
 
-define( 'FLGALLERY_URL_SCHEME', isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? 'https://' : 'http://'	);
+define( 'FLGALLERY_URL_SCHEME', is_ssl() ? 'https://' : 'http://' );
 
 define( 'FLGALLERY_FILE', __FILE__ );
-define( 'FLGALLERY_HREF', admin_url('admin.php').(empty($_REQUEST['page']) ? '' : '?page='.$_REQUEST['page']) );
+define( 'FLGALLERY_HREF', admin_url('admin.php').(empty($_REQUEST['page']) || !is_string($_REQUEST['page']) ? '' : '?page='.preg_replace('#[^\w/-]#', '', $_REQUEST['page'])) );
 
 // Site directory
 define( 'FLGALLERY_SITE_DIR', realpath(ABSPATH) );
@@ -40,8 +46,9 @@ require_once FLGALLERY_INCLUDE.'/functions.php';
 require_once FLGALLERY_INCLUDE.'/base.class.php';
 require_once FLGALLERY_INCLUDE.'/plugin.class.php';
 
+// Explicitly global: WP-CLI and some other loaders include plugin files from inside a function
+global $flgalleryPlugin;
 $flgalleryPlugin = new flgalleryPlugin();
 
 register_activation_hook( __FILE__, array(&$flgalleryPlugin, 'activate') );
 
-?>

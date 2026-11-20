@@ -139,7 +139,7 @@ jQuery(document).ready(function ($) {
 			}
 		}
 
-		if (!$('.flgallery #' + galleryID + ' .items *').size()) {
+		if (!$('.flgallery #' + galleryID + ' .items *').length) {
 			var gallery_id = galleryID.match(/\d+/)[0];
 			$(document.body).addClass('wait');
 			$.ajax({
@@ -179,14 +179,21 @@ jQuery(document).ready(function ($) {
 
 	$('.flgallery .show-pictures').css({ fontSize: '18px', paddingTop: '0px', borderWidth: '1px', letterSpacing: '1px' });
 
+	function scrollTo(galleryID, duration) {
+		var target = $('#' + galleryID);
+		if (target.length) {
+			$('html, body').animate({ scrollTop: Math.max(0, target.offset().top - 20 - ($('#wpadminbar').height() || 0)) }, duration);
+		}
+	}
+
 	function toggle(galleryID) {
 		if ($('#' + galleryID + ' .full').css('display') == 'none') {
 			showPictures(galleryID, function () {
-				$.scrollTo('#' + galleryID, 1000, { offset: { top: -20 } });
+				scrollTo(galleryID, 1000);
 			});
 		} else {
 			hidePictures(galleryID);
-			$.scrollTo('#' + galleryID, 500, { offset: { top: -20 } });
+			scrollTo(galleryID, 500);
 		}
 	}
 
@@ -204,16 +211,29 @@ jQuery(document).ready(function ($) {
 		}
 	);
 
-	$(".flgallery .gallery .handlediv").click(
-		function () {
-			$('#' + this.parentNode.id + ' .inside').slideToggle(500);
+	// Collapse/expand a gallery panel (the "closed" class switches the header arrow)
+	function togglePanel(box, duration) {
+		var inside = box.children('.inside');
+		var button = box.find('.postbox-header .handlediv');
+
+		if (box.hasClass('closed')) {
+			box.removeClass('closed');
+			button.attr('aria-expanded', 'true');
+			inside.hide().slideDown(duration);
+		} else {
+			button.attr('aria-expanded', 'false');
+			inside.slideUp(duration, function () {
+				box.addClass('closed');
+			});
 		}
-	);
-	$(".flgallery .gallery .hndle").click(
-		function () {
-			$('#' + this.parentNode.id + ' .inside').toggle();
-		}
-	);
+	}
+
+	$('.flgallery .gallery .postbox-header .handlediv').on('click', function () {
+		togglePanel($(this).closest('.postbox'), 500);
+	});
+	$('.flgallery .gallery .postbox-header .hndle').on('click', function () {
+		togglePanel($(this).closest('.postbox'), 0);
+	});
 
 	$('.flgallery .publishDialog').dialog({
 		dialogClass: 'flgallery-dialog',
