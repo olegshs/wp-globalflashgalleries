@@ -516,10 +516,14 @@ class flgalleryGallery extends flgalleryBaseClass
 
 	function getPopupLink($text)
 	{
-		$url = esc_html($this->getPopupUrl());
-		$onclick = $this->getPopupJs();
+		$url = esc_url($this->getPopupUrl());
+		$onclick = esc_attr($this->getPopupJs());
 
-		if (preg_match('/(.*?)#(.*?)#(.*)/s', html_entity_decode($text, ENT_QUOTES), $m)) {
+		// $text is already escaped/sanitized by the caller (esc_html, wp_kses_post or a safe <img>).
+		// The optional #...# markers pick the clickable part; split on the escaped text as-is.
+		// Do NOT html_entity_decode here: that would turn an escaped value back into live markup
+		// (e.g. a gallery name "#<img onerror=...>#") and re-introduce XSS.
+		if (preg_match('/(.*?)#(.*?)#(.*)/s', $text, $m)) {
 			$text_before = $m[1];
 			$text = $m[2];
 			$text_after = $m[3];
@@ -527,8 +531,6 @@ class flgalleryGallery extends flgalleryBaseClass
 			$text_before = '';
 			$text_after = '';
 		}
-
-		$onclick = esc_attr($onclick);
 
 		return "{$text_before}<a href=\"{$url}\" onclick=\"{$onclick}\">{$text}</a>{$text_after}";
 	}

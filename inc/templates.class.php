@@ -83,6 +83,18 @@ class flgalleryTemplates extends flgalleryBaseClass
 
 	function _fast($text, &$a, &$tags, &$cache)
 	{
+		/*
+			SECURITY: the order below is deliberate. Control tags ({TRUE}/{FALSE}/{IF}) and
+			includes ({@template}) are processed first, and plain {var} substitution happens
+			LAST. A substituted {var} value is never scanned again, so if a value contains
+			template syntax (e.g. user data with "{...}") it is inserted literally and not
+			interpreted as a directive. Do not reorder these blocks or re-run substitution over
+			already-substituted output, or values could be treated as template code.
+
+			This engine does NOT escape output (values are inserted as-is). Callers must escape
+			for the target context (esc_html / esc_attr / esc_js / wp_json_encode) before passing
+			data in, especially for values placed into <script> or on* attributes in templates.
+		*/
 		$qtags = array(preg_quote($tags[0], '#'), preg_quote($tags[1], '#'));
 
 		/*

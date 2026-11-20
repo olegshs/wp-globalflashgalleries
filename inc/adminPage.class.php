@@ -73,11 +73,21 @@ class flgalleryAdminPage extends flgalleryBaseClass
 			}
 		}
 
+		$confirmAttr = '';
+		if (!empty($confirm)) {
+			// The message holds user data (e.g. a gallery name), so build the JS string with
+			// wp_json_encode (JS-string escaping) and esc_attr (HTML-attribute escaping) instead
+			// of concatenation, so it can't break out of either context.
+			// Literal "\n" from the (single-quoted) message strings become real line breaks.
+			$confirmJs = wp_json_encode(str_replace('\n', "\n", $confirm));
+			$confirmAttr = " onclick='return confirm(" . esc_attr($confirmJs) . ");'";
+		}
+
 		$out .=
-			"\t<input type='submit' class='button{$primary}' id='button-{$action}' value='{$title}'" .
-			(!empty($description) ? " title='{$description}'" : '') .
+			"\t<input type='submit' class='button{$primary}' id='button-{$action}' value='" . esc_attr($title) . "'" .
+			(!empty($description) ? " title='" . esc_attr($description) . "'" : '') .
 			$atts .
-			(!empty($confirm) ? " onclick='return confirm(\"" . str_replace('"', '\"', $confirm) . "\");'" : '') .
+			$confirmAttr .
 			" />\n" .
 			"</form>\n";
 
@@ -440,7 +450,7 @@ class flgalleryAdminPage extends flgalleryBaseClass
 								array('Delete', 'Delete Gallery'),
 								'deleteGallery',
 								array('gallery_id' => $gallery->id),
-								sprintf(__('Delete Gallery? \n\n%s. "%s" by %s', $plugin->name), $gallery->id, esc_html($gallery->name), esc_html($gallery->authorName))
+								sprintf(__('Delete Gallery? \n\n%s. "%s" by %s', $plugin->name), $gallery->id, $gallery->name, $gallery->authorName)
 							),
 						'options' => $admpage->actionButton(
 								array('Options', 'Customize Gallery'),

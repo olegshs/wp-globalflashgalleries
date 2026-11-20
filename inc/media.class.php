@@ -359,6 +359,7 @@ class flgalleryMedia extends flgalleryBaseClass
 				"<tbody>\n";
 
 			foreach ($albums as $album) {
+				$albumRawTitle = $album->title; // plain title for the JS confirm message (see delete button below)
 				$album->title = esc_html($album->title);
 				$album->description = esc_html($album->description);
 
@@ -398,7 +399,7 @@ class flgalleryMedia extends flgalleryBaseClass
 
 				$album->addPictures = $admpage->actionButton('Add Pictures', 'addMediaPage', array('album_id' => $album->id));
 				$album->createGallery = $admpage->actionButton('Create Gallery', 'albumToGallery', array('album_id' => $album->id), NULL, $createAtts);
-				$album->delete = $admpage->actionButton('Delete Album', 'deleteAlbum', array('album_id' => $album->id), 'Delete Album?\n\n"' . esc_html($album->title) . '"\n');
+				$album->delete = $admpage->actionButton('Delete Album', 'deleteAlbum', array('album_id' => $album->id), 'Delete Album?\n\n"' . $albumRawTitle . '"\n');
 
 				$album->created =
 					mysql2date($plugin->dateFormat, get_date_from_gmt($album->created)) . "<br />" .

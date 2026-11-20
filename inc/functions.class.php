@@ -152,16 +152,18 @@ class flgalleryFunctions extends flgalleryBaseClass
 					);
 
 			case 'slider':
+				// slider.html injects these straight into inline JS as numeric literals, so they
+				// must be numbers. $value is stored gallery data; casting it blocks script injection.
 				return $tpl->parse(
 					'slider',
 					array(
 						'id' => $id,
 						'id2' => str_replace('.', '\\\\.', $id),
 						'name' => $name,
-						'value' => $value,
-						'min' => $input['min'],
-						'max' => $input['max'],
-						'step' => isset($input['step']) ? $input['step'] : 1,
+						'value' => (float)$value,
+						'min' => (float)$input['min'],
+						'max' => (float)$input['max'],
+						'step' => isset($input['step']) ? (float)$input['step'] : 1,
 						'width' => 150
 					)
 				);
