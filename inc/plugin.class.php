@@ -10,8 +10,6 @@ class flgalleryPlugin extends flgalleryBaseClass
 		$version = FLGALLERY_VERSION,
 		// Gallery info from galleries.xml
 		$galleryInfo = array(),
-		// Maximum number of pictures in the free version of each gallery type
-		$limitations = array(),
 		// Plugin directory
 		$dir = FLGALLERY_PLUGIN_DIR,
 		$url = FLGALLERY_PLUGIN_URL,
@@ -183,18 +181,6 @@ class flgalleryPlugin extends flgalleryBaseClass
 			);
 		}
 
-		$this->limitations = array(
-			'3dWall' => 30,
-			'Art' => 15,
-			'Aura' => 15,
-			'Box' => 20,
-			'Cubic' => 20,
-			'Line' => 15,
-			'PhotoFlow' => 15,
-			'Promo' => 15,
-			'StackPhoto' => 15,
-			'Zen' => 15
-		);
 	}
 
 	/**

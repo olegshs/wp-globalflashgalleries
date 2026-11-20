@@ -4,7 +4,7 @@ class flgalleryGalleryPopup
 {
 	function render()
 	{
-		global $flgalleryPlugin, $flgalleryProducts;
+		global $flgalleryPlugin;
 
 		$gallery_id = (int)($_REQUEST['gallery_id'] ?? 0);
 		if (empty($gallery_id)) {
@@ -24,17 +24,6 @@ class flgalleryGalleryPopup
 		$gallery->width = '100%';
 		$gallery->height = '100%';
 
-		if (empty($_REQUEST['frontend']) && empty($flgalleryProducts[$gallery->getSignature()]) && isset($flgalleryPlugin->limitations[$gallery->type])) {
-			$trialNotice = sprintf(
-				__('Order the full version of %s to make it possible to display more than %d&nbsp;pictures.', 'flgallery'),
-				'<a href="http://flash-gallery.com/wordpress-plugin/order/" target="_blank">' .
-				$flgalleryPlugin->galleryInfo[$gallery->type]['title'] .
-				'</a>',
-				$flgalleryPlugin->limitations[$gallery->type]
-			);
-		} else {
-			$trialNotice = '';
-		}
 
 		// A minimal standalone page: no theme header/footer, only the gallery and its scripts
 		add_filter('show_admin_bar', '__return_false');
@@ -58,26 +47,6 @@ html {
 #wpadminbar {
 	display: none !important;
 }
-<?php if (!empty($trialNotice)): ?>
-.trial {
-	flex: none;
-	font-family: Tahoma, sans-serif;
-	font-size: 11px;
-	height: 25px;
-	padding: 0;
-	border: none;
-	overflow: hidden;
-	white-space: nowrap;
-	background: #ffc;
-	color: #000;
-}
-.trial div {
-	padding: 5px 8px;
-}
-.trial a {
-	color: #03c;
-}
-<?php endif; ?>
 .flgallery-popup {
 	display: flex;
 	flex-direction: column;
@@ -99,9 +68,6 @@ html {
 
 <body>
 <div class="flgallery-popup">
-<?php if (!empty($trialNotice)): ?>
-	<div class="trial"><div><?php echo $trialNotice; ?></div></div>
-<?php endif; ?>
 	<div class="flgallery-popup-gallery"><?php echo $gallery->getHtml(); ?></div>
 </div>
 </body>

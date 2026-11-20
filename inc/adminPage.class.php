@@ -505,7 +505,6 @@ class flgalleryAdminPage extends flgalleryBaseClass
 	function galleryOptions($gallery, $options = array())
 	{
 		include FLGALLERY_GLOBALS;
-		global $flgalleryProducts;
 
 		if ($gallery->getSettings()) {
 			$types = '';
@@ -516,17 +515,6 @@ class flgalleryAdminPage extends flgalleryBaseClass
 
 			$preview = $gallery->getHtml();
 
-			if (empty($flgalleryProducts[$gallery->getSignature()]) && isset($plugin->limitations[$gallery->type])) {
-				$trialNotice = sprintf(
-					__('Order the full version of %s to remove the copyright banner and make it possible to display more than %d&nbsp;pictures.', $plugin->name),
-					'<a href="http://flash-gallery.com/wordpress-plugin/order/" target="_blank">' .
-					$plugin->galleryInfo[$gallery->type]['title'] .
-					'</a>',
-					$plugin->limitations[$gallery->type]
-				);
-			} else {
-				$trialNotice = '';
-			}
 
 			$settingsTplDir = $gallery->isLegacy() ? 'settings.legacy' : 'settings';
 
@@ -543,7 +531,6 @@ class flgalleryAdminPage extends flgalleryBaseClass
 							"{$settingsTplDir}/{$gallery->type}",
 							(array)$gallery->settingsForm
 						),
-					'trialNotice' => $trialNotice,
 					'pluginURL' => esc_html($plugin->url)
 				),
 				$options

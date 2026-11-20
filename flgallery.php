@@ -15,7 +15,7 @@ if (!defined('ABSPATH')) {
 }
 
 define( 'FLGALLERY_VERSION', '0.16.0' );
-define( 'FLGALLERY_JS_VERSION', '0.12.1' );
+define( 'FLGALLERY_JS_VERSION', '0.13.0' );
 
 require_once dirname(__FILE__).'/config.php';
 
